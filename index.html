@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- DataTable CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"
+          crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+
+<div class="container">
+
+    <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="cover-tab" data-toggle="tab" href="#cover" role="tab" aria-controls="cover"
+               aria-selected="true">Cover</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="editor-tab" data-toggle="tab" href="#editor" role="tab" aria-controls="editor"
+               aria-selected="false">Gene Editor</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="export-tab" data-toggle="tab" href="#export" role="tab" aria-controls="export"
+               aria-selected="false">Export</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="cover" role="tabpanel" aria-labelledby="cover-tab">
+            <input type="file" name="inputgenfile" id="inputgenfile">
+            <br>
+            <input type="file" name="inputgnofile" id="inputgnofile">
+            <pre id="file_loading_output"></pre>
+        </div>
+        <div class="tab-pane fade" id="editor" role="tabpanel" aria-labelledby="editor-tab">
+            <pre id="output"></pre>
+            <table id="genes_table">
+                <tr>
+                    <th>#</th>
+                    <th>Gen</th>
+                    <th>G-ID</th>
+                    <th>Var</th>
+                    <th>Switch On</th>
+                    <th>Sex</th>
+                    <th>Mut</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                </tr>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="export" role="tabpanel" aria-labelledby="export-tab">
+            <button type="button" class="btn btn-primary" onclick="saveGENFile()">Save GEN</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="brainLobeModal" tabindex="-1" role="dialog" aria-labelledby="brainLobeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="brainLobeModalLabel">Brain Lobe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Gene Header</h5>
+                                <div class="form-row align-items-center">
+                                    <div class="col-auto">
+                                        <select class="form-control" id="brainLobeAge">
+                                            <option value="0">Embryo</option>
+                                            <option value="1">Child</option>
+                                            <option value="2">Adolescent</option>
+                                            <option value="3">Youth</option>
+                                            <option value="4">Adult</option>
+                                            <option value="5">Old</option>
+                                            <option value="6">Senile</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="brainLobeDup">
+                                            <label class="form-check-label" for="brainLobeDup">
+                                                Dup
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="brainLobeMut">
+                                            <label class="form-check-label" for="brainLobeMut">
+                                                Mut.
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col-auto pull-left">
+                                                <label class="control-label">Degree:</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input type="text" class="form-control" id="brainLobeDegree"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="brainLobeCut">
+                                            <label class="form-check-label" for="brainLobeCut">
+                                                Cut
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="brainLobeSex"
+                                                   id="brainLobeSexB" value="B">
+                                            <label class="form-check-label" for="brainLobeSexB">B</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="brainLobeSex"
+                                                   id="brainLobeSexM" value="M">
+                                            <label class="form-check-label" for="brainLobeSexM">M</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="brainLobeSex"
+                                                   id="brainLobeSexF" value="F">
+                                            <label class="form-check-label" for="brainLobeSexF">F</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="brainLobeNotExpressed">
+                                            <label class="form-check-label" for="brainLobeNotExpressed">
+                                                Do not express (carry)
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col-auto pull-left">
+                                                <label class="control-label">Variant</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input type="text" class="form-control" id="brainLobeVariant"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onClick="saveBrainLobeModal()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+
+<!-- GeneticKit JS Files -->
+<script src="GeneticKitClasses.js"></script>
+<script src="GeneticKitStrings.js"></script>
+
+<script type="text/javascript">
+    var genes = [];
+    var sv_notes = [];
+    var gene_notes = [];
+
+    (function (document) {
+        var inputgen = document.getElementById("inputgenfile"),
+            inputgno = document.getElementById("inputgnofile"),
+            output = document.getElementById('output');
+
+        // Eventhandler for GEN file input.
+        function openGENfile(evt) {
+            var files = inputgen.files;
+            // Pass the file to the blob, not the input[0].
+            fileData = new Blob([files[0]]);
+            // Pass getBuffer to promise.
+            var promise = new Promise(getBuffer(fileData));
+            // Wait for promise to be resolved, or log error.
+            promise.then(function (data) {
+                gene_number = 0;
+                var header = String.fromCharCode.apply(null, data.slice(0, 4));
+                if (header == 'dna3') {
+                    i = 4;
+                    while (i < data.length && String.fromCharCode.apply(null, data.slice(i, i + 4)) == 'gene') {
+                        //detect gene end
+                        var gene_start = i + 4;
+                        var gene_end = i + 4;
+                        while (i < data.length && gene_end == gene_start) {
+                            i++;
+                            if (String.fromCharCode.apply(null, data.slice(i, i + 4)) == 'gene' || String.fromCharCode.apply(null, data.slice(i, i + 4)) == 'gend') {
+                                gene_end = i;
+                                break;
+                            }
+                        }
+                        genes.push(new Gene(data.slice(gene_start, gene_end), gene_number));
+                        gene_number++;
+                    }
+                    buildDataTable(genes);
+                    $("#file_loading_output").html("GEN File loaded successfuly!");
+                } else {
+                    $("#file_loading_output").html("ERROR: Wrong header: " + header);
+                }
+
+            }).catch(function (err) {
+                console.log('Error: ', err);
+            });
+        }
+
+        function openGNOfile(evt) {
+            var files = inputgno.files;
+            // Pass the file to the blob, not the input[0].
+            fileData = new Blob([files[0]]);
+            // Pass getBuffer to promise.
+            var promise = new Promise(getBuffer(fileData));
+            // Wait for promise to be resolved, or log error.
+            promise.then(function (data) {
+                sv_notes_nb = intFromBytes(data.slice(2, 4));
+                var cursor = 4;
+                for (var i = 0; i < sv_notes_nb; i++) {
+                    start_cursor = cursor;
+                    cursor += 10;
+                    for (var j = 0; j < 16; j++) {
+                        str_size = intFromBytes(data.slice(cursor, cursor + 2));
+                        cursor += 2;
+                        cursor += str_size;
+                    }
+                    cursor += 2;
+                    str_size = intFromBytes(data.slice(cursor, cursor + 2));
+                    cursor += 2 + str_size;
+                    sv_notes.push(new SVNote(data.slice(start_cursor, cursor)));
+                }
+                cursor += 2;
+                var pad = 0;
+                while (pad == 0) {
+                    pad = intFromBytes(data.slice(cursor, cursor + 1));
+                    cursor += 2;
+                }
+                if (pad == 2) {
+                    gene_notes_nb = intFromBytes(data.slice(cursor, cursor + 2));
+                    cursor += 2;
+                    for (var i = 0; i < gene_notes_nb; i++) {
+                        var start_cursor = cursor;
+                        cursor += 8;
+                        str_size = intFromBytes(data.slice(cursor, cursor + 2));
+                        cursor += 2;
+                        cursor += str_size;
+                        str_size = intFromBytes(data.slice(cursor, cursor + 2));
+                        cursor += 2;
+                        cursor += str_size;
+                        gene_notes.push(new GeneNote(data.slice(start_cursor, cursor)));
+                    }
+                }
+                console.log("Red " + sv_notes.length + " SV Notes and " + gene_notes.length + " gene notes");
+                attachGNOtoGEN();
+                $("#file_loading_output").html("GNO File loaded successfuly!");
+            }).catch(function (err) {
+                $("#file_loading_output").html("ERROR loading GNO File");
+                console.log('Error: ', err);
+            });
+        }
+
+        /*
+          Create a function which will be passed to the promise
+          and resolve it when FileReader has finished loading the file.
+        */
+        function getBuffer(fileData) {
+            return function (resolve) {
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(fileData);
+                reader.onload = function () {
+                    var arrayBuffer = reader.result
+                    var bytes = new Uint8Array(arrayBuffer);
+                    resolve(bytes);
+                }
+            }
+        }
+
+        // Eventlistener for file input.
+        inputgen.addEventListener('change', openGENfile, false);
+        inputgno.addEventListener('change', openGNOfile, false);
+
+    }(document));
+
+    function intFromBytesO(x) {
+        var val = 0;
+        for (var i = 0; i < x.length; ++i) {
+            val += x[i];
+            if (i < x.length - 1) {
+                val = val << 8;
+            }
+        }
+        return val;
+    }
+
+    function intFromBytesOld(array) {
+        var value = 0;
+        for (var i = 0; i < array.length; i++) {
+            value = (value * 256) + array[i];
+        }
+        return value;
+    }
+
+    function intFromBytes(buf) {
+        return buf[0] | buf[1] << 8;
+    }
+
+    function intTo1Byte(long) {
+        return long;// & 0xff;
+    }
+
+    function intTo2Bytes(long) {
+        // we want to represent the input as a 2-bytes array
+        var byteArray = [0, 0];
+
+        for (var index = 0; index < byteArray.length; index++) {
+            var byte = long & 0xff;
+            byteArray [index] = byte;
+            long = (long - byte) / 256;
+        }
+
+        return byteArray;
+    }
+
+    function string2Bin(str) {
+        var enc = new TextEncoder();
+        return enc.encode(str);
+        /*var result = [];
+        for (var i = 0; i < str.length; i++) {
+          result.push(str.charCodeAt(i));
+        }
+        return new Uint8Array(result);*/
+    }
+
+    function mergeUint8Arrays(a, b) {
+        var c = new Uint8Array(a.length + b.length);
+        c.set(a);
+        c.set(b, a.length);
+
+        return c;
+    }
+
+    function updateBit(number, bitPosition, bitValue) {
+        const bitValueNormalized = bitValue ? 1 : 0;
+        const clearMask = ~(1 << bitPosition);
+        return (number & clearMask) | (bitValueNormalized << bitPosition);
+    }
+
+    function attachGNOtoGEN() {
+        for (var i = 0; i < gene_notes.length; i++) {
+            var gene = getGene(gene_notes[i].GeneType, gene_notes[i].GeneSubType, gene_notes[i].UniqueId);
+            if (gene) {
+                gene.setGeneNote(gene_notes[i]);
+            }
+        }
+        refreshDataTable();
+    }
+
+    function getGene(GeneType, GeneSubType, GeneId) {
+        for (var i = 0; i < genes.length; i++) {
+            if (genes[i].GeneType == GeneType && genes[i].GeneSubType == GeneSubType && genes[i].GeneId == GeneId) {
+                return genes[i];
+            }
+        }
+        return false;
+    }
+
+    var table;
+
+    function buildDataTable(data_table) {
+        table = $('#genes_table').DataTable({
+            data: data_table,
+            columns: [
+                {title: '#', data: 'EntryNumber'},
+                {title: 'Gen #', data: 'Generation'},
+                {title: 'G-ID', data: 'GeneId'},
+                {title: 'Variant', data: 'Variant'},
+                {title: 'Switch On', data: 'switchOnString'},
+                {title: 'Sex', data: 'sexString'},
+                {title: 'Mut.', data: 'MutabilityWeighting'},
+                {title: 'Description', data: 'descriptionString'},
+                {title: 'Type', data: 'typeString'}
+            ]
+        });
+    }
+
+    function refreshDataTable() {
+        if (table) {
+            // Clear table
+            table.clear();
+
+            // Add updated data
+            table.rows.add(genes);
+
+            // Redraw table
+            table.draw();
+        }
+    }
+
+    function saveGENFile() {
+        if (genes.length > 0) {
+            var array = new Uint8Array([]);
+            array = mergeUint8Arrays(array, string2Bin("dna3"));
+            for (var i = 0; i < genes.length; i++) {
+                array = mergeUint8Arrays(array, string2Bin("gene"));
+                array = mergeUint8Arrays(array, genes[i].getBytes());
+            }
+            array = mergeUint8Arrays(array, string2Bin("gend"));
+            saveByteArray(new Uint8Array(array), 'test.gen');
+        }
+    }
+
+    var saveByteArray = (function () {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, name) {
+            var blob = new Blob([data], {type: "application/octet-stream"}),
+                url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = name;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
+
+    function clearSelection() {
+        if (document.selection && document.selection.empty) {
+            document.selection.empty();
+        } else if (window.getSelection) {
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+        }
+    }
+
+    var edited_brain_lobe = null;
+
+    function startBrainLobeModal(brainlobe_obj) {
+        $('#brainLobeModalLabel').html("(# " + brainlobe_obj.EntryNumber + ") Lobe (Brain: Lobe)");
+        $('#brainLobeAge').val(brainlobe_obj.SwitchOnTime);
+        $('#brainLobeDup').val(brainlobe_obj.Duplicable);
+        $('#brainLobeMut').val(brainlobe_obj.Mutable);
+        $('#brainLobeDegree').val(brainlobe_obj.MutabilityWeighting);
+        $('#brainLobeCut').val(brainlobe_obj.Deletable);
+        if (brainlobe_obj.MaleOnly) {
+            $('input:radio[name=brainLobeSex]').filter('[value=B]').prop('checked', false);
+            $('input:radio[name=brainLobeSex]').filter('[value=M]').prop('checked', true);
+            $('input:radio[name=brainLobeSex]').filter('[value=F]').prop('checked', false);
+        } else if (brainlobe_obj.FemaleOnly) {
+            $('input:radio[name=brainLobeSex]').filter('[value=B]').prop('checked', false);
+            $('input:radio[name=brainLobeSex]').filter('[value=M]').prop('checked', false);
+            $('input:radio[name=brainLobeSex]').filter('[value=F]').prop('checked', true);
+        } else {
+            $('input:radio[name=brainLobeSex]').filter('[value=B]').prop('checked', true);
+            $('input:radio[name=brainLobeSex]').filter('[value=M]').prop('checked', false);
+            $('input:radio[name=brainLobeSex]').filter('[value=F]').prop('checked', false);
+        }
+        $('#brainLobeNotExpressed').val(brainlobe_obj.NotExpressed);
+        $('#brainLobeVariant').val(brainlobe_obj.ExpressionVariant);
+
+        edited_brain_lobe = brainlobe_obj;
+        $('#brainLobeModal').modal();
+    }
+
+    function saveBrainLobeModal() {
+        if (edited_brain_lobe) {
+            edited_brain_lobe.SwitchOnTime = $('#brainLobeAge').val();
+            edited_brain_lobe.Duplicable = $('#brainLobeDup').val();
+            edited_brain_lobe.Mutable = $('#brainLobeMut').val();
+            edited_brain_lobe.MutabilityWeighting = $('#brainLobeDegree').val();
+            edited_brain_lobe.Deletable = $('#brainLobeCut').val();
+            var sex = $("input:radio[name ='brainLobeSex']:checked").val();
+            if (sex == "M") {
+                edited_brain_lobe.MaleOnly = true;
+                edited_brain_lobe.FemaleOnly = false;
+            } else if (sex == "F") {
+                edited_brain_lobe.MaleOnly = false;
+                edited_brain_lobe.FemaleOnly = true;
+            } else {
+                edited_brain_lobe.MaleOnly = false;
+                edited_brain_lobe.FemaleOnly = false;
+            }
+            edited_brain_lobe.NotExpressed = $('#brainLobeNotExpressed').val();
+            edited_brain_lobe.ExpressionVariant = $('#brainLobeVariant').val();
+        }
+        refreshDataTable();
+        $('#brainLobeModal').modal('hide');
+    }
+
+    $(document).ready(function () {
+        //DataTable
+        $('#genes_table tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        $('#genes_table tbody').on('dblclick', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+            clearSelection();
+            startBrainLobeModal(table.row(this).data());
+        });
+    });
+</script>
+</body>
+</html>
