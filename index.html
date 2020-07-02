@@ -186,26 +186,179 @@
 
     <!-- Brain Lobe -->
     <div id="geneLobe">
-        <div class="form-row align-items-center">
-            <div class="col-auto">
-                <select class="form-control" id="lobeID" onChange="$('#lobeLabel').html(LobeId_str[$('#lobeID').val()])">
-                    <option value="verb">verb</option>
-                    <option value="noun">noun</option>
-                    <option value="smel">smel</option>
-                    <option value="visn">visn</option>
-                    <option value="driv">driv</option>
-                    <option value="detl">detl</option>
-                    <option value="situ">situ</option>
-                    <option value="forf">forf</option>
-                    <option value="attn">attn</option>
-                    <option value="decn">decn</option>
-                </select>
+        <div class="row">
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col-auto pull-left">
+                                <label class="control-label">Lobe ID</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" class="form-control" id="lobeID"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div id="lobeLabel">User Defined Lobe</div>
+                </div>
             </div>
-            <div class="col-auto">
-                <div id="lobeLabel">Undefined</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Lobe Position and Size</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4 pull-left">
+                                        <label class="control-label">X</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="lobeX"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-mdd-4 pull-left">
+                                        <label class="control-label">Width</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="lobeWidth"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4 pull-left">
+                                        <label class="control-label">Y</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="lobeY"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4 pull-left">
+                                        <label class="control-label">Height</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="lobeHeight"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Colour</h5>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label class="control-label">Red</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="range" class="custom-range" min="0" max="255" id="lobeColourR">
+                            </div>
+                        </div>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label class="control-label">Green</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="range" class="custom-range" min="0" max="255" id="lobeColourG">
+                            </div>
+                        </div>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto">
+                                <label class="control-label">Blue</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="range" class="custom-range" min="0" max="255" id="lobeColourB">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- SV Rule -->
+    <div id="SVRule">
+        <div class="row">
+            <div class="form-row align-items-center">
+                <div class="col-md-3">
+                    Line 1
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="opcode1">
+                        <option value="0">stop</option>
+                        <option value="1">blank</option>
+                        <option value="2">store in</option>
+                        <option value="3">load from</option>
+                        <option value="4">if =</option>
+                        <option value="5">if <></option>
+                        <option value="6">if ></option>
+                        <option value="7">if <</option>
+                        <option value="8">if >=</option>
+                        <option value="9">if <=</option>
+                        <option value="10">if zero</option>
+                        <option value="11">if non-zero</option>
+                        <option value="12">if positive</option>
+                        <option value="13">if negative</option>
+                        <option value="14">if non-negative</option>
+                        <option value="15">if non-positive</option>
+                        <option value="16">add</option>
+                        <option value="17">substract</option>
+                        <option value="18">substract from</option>
+                        <option value="19">multiply by</option>
+                        <option value="20">divide by</option>
+                        <option value="21">divide into</option>
+                        <option value="22">minimum width</option>
+                        <option value="23">maximum width</option>
+                        <option value="24">set tend rate</option>
+                        <option value="25">tend to</option>
+                        <option value="26">load negation of</option>
+                        <option value="27">load abs of</option>
+                        <option value="28">get distance to</option>
+                        <option value="29">flip around</option>
+                        <option value="30">no operation</option>
+                        <option value="31">register as spare</option>
+                        <option value="32">bound in [0,1]</option>
+                        <option value="33">bound in [-1,1]</option>
+                        <option value="34">add and store in</option>
+                        <option value="35">tend to, store in</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-control" id="operand1">
+                        <option value="0">accumulator</option>
+                        <option value="1">input neuron</option>
+                        <option value="2">dendrite</option>
+                        <option value="3">neuron</option>
+                        <option value="4">spare neuron</option>
+                        <option value="5">random</option>
+                        <option value="6">source chemical</option>
+                        <option value="7">chemical</option>
+                        <option value="8">destination chemical</option>
+                        <option value="9">zero</option>
+                        <option value="10">one</option>
+                        <option value="11">value</option>
+                        <option value="12">negative value</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Optional JavaScript -->
@@ -224,6 +377,7 @@
 <!-- GeneticKit JS Files -->
 <script src="GeneticKitClasses.js"></script>
 <script src="GeneticKitStrings.js"></script>
+<script src="utils.js"></script>
 
 <script type="text/javascript">
     var genes = [];
@@ -348,69 +502,6 @@
 
     }(document));
 
-    function intFromBytesO(x) {
-        var val = 0;
-        for (var i = 0; i < x.length; ++i) {
-            val += x[i];
-            if (i < x.length - 1) {
-                val = val << 8;
-            }
-        }
-        return val;
-    }
-
-    function intFromBytesOld(array) {
-        var value = 0;
-        for (var i = 0; i < array.length; i++) {
-            value = (value * 256) + array[i];
-        }
-        return value;
-    }
-
-    function intFromBytes(buf) {
-        return buf[0] | buf[1] << 8;
-    }
-
-    function intTo1Byte(long) {
-        return long;// & 0xff;
-    }
-
-    function intTo2Bytes(long) {
-        // we want to represent the input as a 2-bytes array
-        var byteArray = [0, 0];
-
-        for (var index = 0; index < byteArray.length; index++) {
-            var byte = long & 0xff;
-            byteArray [index] = byte;
-            long = (long - byte) / 256;
-        }
-
-        return byteArray;
-    }
-
-    function string2Bin(str) {
-        var enc = new TextEncoder();
-        return enc.encode(str);
-        /*var result = [];
-        for (var i = 0; i < str.length; i++) {
-          result.push(str.charCodeAt(i));
-        }
-        return new Uint8Array(result);*/
-    }
-
-    function mergeUint8Arrays(a, b) {
-        var c = new Uint8Array(a.length + b.length);
-        c.set(a);
-        c.set(b, a.length);
-
-        return c;
-    }
-
-    function updateBit(number, bitPosition, bitValue) {
-        const bitValueNormalized = bitValue ? 1 : 0;
-        const clearMask = ~(1 << bitPosition);
-        return (number & clearMask) | (bitValueNormalized << bitPosition);
-    }
 
     function attachGNOtoGEN() {
         for (var i = 0; i < gene_notes.length; i++) {
@@ -525,6 +616,14 @@
     //UI: Modal boxes
     var edited_gene = null;
 
+    function refreshLobeLabel() {
+        if (LobeId_str[$('#lobeID').val()]) {
+            $('#lobeLabel').html(LobeId_str[$('#lobeID').val()]);
+        } else {
+            $('#lobeLabel').html("User defined lobe");
+        }
+    }
+
     function startGeneModal(gene_obj) {
         //Init the header
         $('#geneModalGeneHeader').append($('#geneHeader'));
@@ -567,10 +666,18 @@
         }
         $('#headerVariant').val(gene_obj.ExpressionVariant);
 
-        if (gene_obj.GeneType == 0 && gene_obj.GeneSubType==0) {
+        if (gene_obj.GeneType == 0 && gene_obj.GeneSubType == 0) {
             //Brain Lobe
             $('#geneModalSpecialized').append($('#geneLobe'));
             $('#lobeID').val(gene_obj.SpecialiazedObj.LobeId);
+            refreshLobeLabel();
+            $('#lobeX').val(gene_obj.SpecialiazedObj.X);
+            $('#lobeY').val(gene_obj.SpecialiazedObj.Y);
+            $('#lobeWidth').val(gene_obj.SpecialiazedObj.Width);
+            $('#lobeHeight').val(gene_obj.SpecialiazedObj.Height);
+            $('#lobeColourR').val(gene_obj.SpecialiazedObj.Red);
+            $('#lobeColourG').val(gene_obj.SpecialiazedObj.Green);
+            $('#lobeColourB').val(gene_obj.SpecialiazedObj.Blue);
         }
 
         edited_gene = gene_obj;
@@ -598,6 +705,19 @@
             edited_gene.NotExpressed = $('#headerNotExpressed').val();
             edited_gene.ExpressionVariant = $('#headerVariant').val();
         }
+
+        if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 0) {
+            //Brain Lobe
+            edited_gene.SpecialiazedObj.LobeId= $('#lobeID').val();
+            edited_gene.SpecialiazedObj.X = $('#lobeX').val();
+            edited_gene.SpecialiazedObj.Y = $('#lobeY').val();
+            edited_gene.SpecialiazedObj.Width = $('#lobeWidth').val();
+            edited_gene.SpecialiazedObj.Height = $('#lobeHeight').val();
+            edited_gene.SpecialiazedObj.Red = $('#lobeColourR').val();
+            edited_gene.SpecialiazedObj.Green = $('#lobeColourG').val();
+            edited_gene.SpecialiazedObj.Blue = $('#lobeColourB').val();
+        }
+
         refreshDataTable();
         $('#geneModal').modal('hide');
     }
