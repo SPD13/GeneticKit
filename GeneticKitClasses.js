@@ -25,6 +25,9 @@ class Gene {
 
     GeneNoteObj = null;
 
+    //Specialization: Organ, Brain Lobe, etc...
+    SpecialiazedObj = null;
+
     Variant = 0; //Don't know where it's coming from...
 
     constructor(bytes, entry_number) {
@@ -43,6 +46,15 @@ class Gene {
         this.MutabilityWeighting = bytes[6];
         this.ExpressionVariant = bytes[7];
         this.Size = bytes.length;
+
+        //Specialized object
+        if (this.GeneType == 0) {
+            //Brain
+            if (this.GeneSubType == 0) {
+                //BrainLobe
+                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8,-1));
+            }
+        }
     }
 
     getBytes() {
@@ -131,7 +143,7 @@ class SVRule {
     readFromBytes(bytes) {
         var cursor = 0;
         for (var i = 0; i < 16; i++) {
-            Codes.push(new SVcode(bytes.slice(cursor, cursor + 3)));
+            this.Codes.push(new SVcode(bytes.slice(cursor, cursor + 3)));
             cursor += 3;
         }
     }
@@ -159,7 +171,7 @@ class GeneBrainLobe {
     }
 
     readFromBytes(bytes) {
-        this.LobeId = intFromBytes(bytes.slice(0, 4));
+        this.LobeId = String.fromCharCode.apply(null, bytes.slice(0, 4));
         this.UpdateTime = intFromBytes(bytes.slice(4, 6));
         this.X = intFromBytes(bytes.slice(6, 8));
         this.Y = intFromBytes(bytes.slice(8, 10));
