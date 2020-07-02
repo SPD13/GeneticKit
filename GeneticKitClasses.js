@@ -172,9 +172,9 @@ class GeneBrainLobe {
 
     readFromBytes(bytes) {
         this.LobeId = String.fromCharCode.apply(null, bytes.slice(0, 4));
-        this.UpdateTime = intFromBytes(bytes.slice(4, 6));
-        this.X = intFromBytes(bytes.slice(6, 8));
-        this.Y = intFromBytes(bytes.slice(8, 10));
+        this.UpdateTime = intFromBytesB(bytes.slice(4, 6));
+        this.X = intFromBytesB(bytes.slice(6, 8));
+        this.Y = intFromBytesB(bytes.slice(8, 10));
         this.Width = bytes[10];
         this.Height = bytes[11];
         this.Red = bytes[12];
