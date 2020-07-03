@@ -666,18 +666,20 @@
             //Init Lobe SVRule
             rulecode = $('#SVRuleCode').clone();
             rulecode.find('div[name=svrule_label]').html("Line "+(i+1));
-            rulecode.find('div[name=svrule_opcode]').attr("id", "lobe_input_svrule_opcode_"+i);
-            rulecode.find('div[name=svrule_operand]').attr("id", "lobe_input_svrule_operand_"+i);
-            rulecode.find('div[name=svrule_value]').attr("id", "lobe_input_svrule_value_"+i);
-            rulecode.find('div[name=svrule_comment]').attr("id", "lobe_input_svrule_comment_"+i);
+            rulecode.find('div[name=svrule_label]').attr("id", "lobe_input_svrule_label_"+i);
+            rulecode.find('select[name=svrule_opcode]').attr("id", "lobe_input_svrule_opcode_"+i);
+            rulecode.find('select[name=svrule_operand]').attr("id", "lobe_input_svrule_operand_"+i);
+            rulecode.find('select[name=svrule_value]').attr("id", "lobe_input_svrule_value_"+i);
+            rulecode.find('input[name=svrule_comment]').attr("id", "lobe_input_svrule_comment_"+i);
             $('#lobe-input-svrule').append(rulecode);
             //Update Lobe SVRule
             rulecode = $('#SVRuleCode').clone();
             rulecode.find('div[name=svrule_label]').html("Line "+(i+1));
-            rulecode.find('div[name=svrule_opcode]').attr("id", "lobe_update_svrule_opcode_"+i);
-            rulecode.find('div[name=svrule_operand]').attr("id", "lobe_update_svrule_operand_"+i);
-            rulecode.find('div[name=svrule_value]').attr("id", "lobe_update_svrule_value_"+i);
-            rulecode.find('div[name=svrule_comment]').attr("id", "lobe_update_svrule_comment_"+i);
+            rulecode.find('div[name=svrule_label]').attr("id", "lobe_update_svrule_label_"+i);
+            rulecode.find('select[name=svrule_opcode]').attr("id", "lobe_update_svrule_opcode_"+i);
+            rulecode.find('select[name=svrule_operand]').attr("id", "lobe_update_svrule_operand_"+i);
+            rulecode.find('select[name=svrule_value]').attr("id", "lobe_update_svrule_value_"+i);
+            rulecode.find('input[name=svrule_comment]').attr("id", "lobe_update_svrule_comment_"+i);
             $('#lobe-update-svrule').append(rulecode);
         }
     }
@@ -756,7 +758,6 @@
                 //Update SV Rule
                 if (i<gene_obj.SpecialiazedObj.UpdateSVRule.Codes.length) {
                     code = gene_obj.SpecialiazedObj.UpdateSVRule.Codes[i];
-                    console.log(code);
                     $('#lobe_update_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_update_svrule_operand_'+i).val(code.Operand);
                     $('#lobe_update_svrule_value_'+i).val(code.Value);
