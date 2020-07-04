@@ -385,13 +385,16 @@
                     <option value="10">one</option>
                     <option value="11">value</option>
                     <option value="12">negative value</option>
+                    <option value="13">Value x10</option>
+                    <option value="14">Value /10</option>
+                    <option value="15">Value Integer</option>
                 </select>
             </div>
             <div class="col-md-3">
-                <select class="form-control" name="svrule_value">
-                    <option value="0">Option1</option>
-                    <option value="1">Option2</option>
+                <select class="form-control" name="svrule_value_select">
                 </select>
+                <input type="range" class="custom-range" min="0" max="255" name="svrule_value_number">
+                <span name="svrule_value_number_label">0</span>
             </div>
             <div class="col-md-3">
                 <input type="text" class="form-control" name="svrule_comment"/>
@@ -677,7 +680,18 @@
             rulecode.find('div[name=svrule_label]').attr("id", "lobe_input_svrule_label_"+i);
             rulecode.find('select[name=svrule_opcode]').attr("id", "lobe_input_svrule_opcode_"+i);
             rulecode.find('select[name=svrule_operand]').attr("id", "lobe_input_svrule_operand_"+i);
-            rulecode.find('select[name=svrule_value]').attr("id", "lobe_input_svrule_value_"+i);
+            rulecode.find('select[name=svrule_operand]').attr("gk-index", i);
+            rulecode.find('select[name=svrule_operand]').change(function() {
+                updateSVCodeSelector($(this), "lobe_input_svrule_value");
+                updateSVCodeValueLabel($('#lobe_input_svrule_value_'+$(this).attr("gk-index")+"_number"), "lobe_input_svrule_value");
+            });
+            rulecode.find('select[name=svrule_value_select]').attr("id", "lobe_input_svrule_value_"+i+"_select");
+            rulecode.find('input[name=svrule_value_number]').attr("id", "lobe_input_svrule_value_"+i+"_number");
+            rulecode.find('input[name=svrule_value_number]').attr("gk-index", i);
+            rulecode.find('input[name=svrule_value_number]').change(function() {
+                updateSVCodeValueLabel($(this), "lobe_input_svrule_value");
+            });
+            rulecode.find('span[name=svrule_value_number_label]').attr("id", "lobe_input_svrule_value_"+i+"_number_label");
             rulecode.find('input[name=svrule_comment]').attr("id", "lobe_input_svrule_comment_"+i);
             $('#lobe-input-svrule').append(rulecode);
             //Update Lobe SVRule
@@ -686,9 +700,94 @@
             rulecode.find('div[name=svrule_label]').attr("id", "lobe_update_svrule_label_"+i);
             rulecode.find('select[name=svrule_opcode]').attr("id", "lobe_update_svrule_opcode_"+i);
             rulecode.find('select[name=svrule_operand]').attr("id", "lobe_update_svrule_operand_"+i);
-            rulecode.find('select[name=svrule_value]').attr("id", "lobe_update_svrule_value_"+i);
+            rulecode.find('select[name=svrule_operand]').attr("gk-index", i);
+            rulecode.find('select[name=svrule_operand]').change(function() {
+                updateSVCodeSelector($(this), "lobe_update_svrule_value");
+                updateSVCodeValueLabel($('#lobe_update_svrule_value_'+$(this).attr("gk-index")+"_number"), "lobe_update_svrule_value");
+            });
+            rulecode.find('select[name=svrule_value_select]').attr("id", "lobe_update_svrule_value_"+i+"_select");
+            rulecode.find('input[name=svrule_value_number]').attr("id", "lobe_update_svrule_value_"+i+"_number");
+            rulecode.find('input[name=svrule_value_number]').attr("gk-index", i);
+            rulecode.find('input[name=svrule_value_number]').change(function() {
+                updateSVCodeValueLabel($(this), "lobe_update_svrule_value");
+            });
+            rulecode.find('span[name=svrule_value_number_label]').attr("id", "lobe_update_svrule_value_"+i+"_number_label");
             rulecode.find('input[name=svrule_comment]').attr("id", "lobe_update_svrule_comment_"+i);
             $('#lobe-update-svrule').append(rulecode);
+        }
+    }
+
+    function fillSelectWithValues(select_obj, string_table) {
+        select_obj.empty();
+        for (var i=0; i< string_table.length; i++) {
+            select_obj.append("<option value=\""+i+"\">"+string_table[i]+"</option>");
+        }
+    }
+
+    function updateSVCodeValueLabel(number_input, prefix) {
+        var index = number_input.attr("gk-index");
+        prefix = prefix + "_" + index;
+        $("#"+prefix+"_number_label").html($("#"+prefix+"_number").val());
+    }
+
+    function updateSVCodeSelector(operand_select, prefix){
+        var operand = operand_select.val();
+        var index = operand_select.attr("gk-index");
+        prefix = prefix + "_" + index;
+        if (operand == 0 || operand == 5 || operand == 9 || operand == 10) {
+                //No Value
+            $("#"+prefix+"_select").hide();
+            $("#"+prefix+"_number").hide();
+            $("#"+prefix+"_number_label").hide();
+        } else if (operand == 1 || operand == 3 || operand == 4) {
+            //Neuron
+            fillSelectWithValues($("#"+prefix+"_select"), NeuronVariable_str);
+            $("#"+prefix+"_select").show();
+            $("#"+prefix+"_number").hide();
+            $("#"+prefix+"_number_label").hide();
+        } else if (operand == 2) {
+            //Dendrite
+            fillSelectWithValues($("#"+prefix+"_select"), DendriteVariable_str);
+            $("#"+prefix+"_select").show();
+            $("#"+prefix+"_number").hide();
+            $("#"+prefix+"_number_label").hide();
+        } else if (operand == 6 || operand == 7 || operand == 8) {
+            //Chemical
+            //TODO: Fill with chemicals list
+            $("#"+prefix+"_select").show();
+            $("#"+prefix+"_number").hide();
+            $("#"+prefix+"_number_label").hide();
+        } else if (operand >= 11) {
+            //Value
+            $("#"+prefix+"_select").hide();
+            $("#"+prefix+"_number").show();
+            $("#"+prefix+"_number_label").show();
+            if (operand == 11) {
+                //value
+                $("#"+prefix+"_number").attr('min', 0);
+                $("#"+prefix+"_number").attr('max', 1);
+                $("#"+prefix+"_number").attr('step', 0.004);
+            } else if (operand == 12) {
+                //negative value
+                $("#"+prefix+"_number").attr('min', -1);
+                $("#"+prefix+"_number").attr('max', 0);
+                $("#"+prefix+"_number").attr('step', -0.004);
+            } else if (operand == 13) {
+                //value x10
+                $("#"+prefix+"_number").attr('min', 0);
+                $("#"+prefix+"_number").attr('max', 10);
+                $("#"+prefix+"_number").attr('step', 0.0403);
+            } else if (operand == 14) {
+                //value /10
+                $("#"+prefix+"_number").attr('min', 0);
+                $("#"+prefix+"_number").attr('max', 0.1);
+                $("#"+prefix+"_number").attr('step', 0.0004);
+            } else if (operand == 15) {
+                //value integer
+                $("#"+prefix+"_number").attr('min', 0);
+                $("#"+prefix+"_number").attr('max', 248);
+                $("#"+prefix+"_number").attr('step', 1);
+            }
         }
     }
 
@@ -761,7 +860,9 @@
                     code = gene_obj.SpecialiazedObj.InitSVRule.Codes[i];
                     $('#lobe_input_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_input_svrule_operand_'+i).val(code.Operand);
+                    updateSVCodeSelector($('#lobe_input_svrule_operand_'+i), 'lobe_input_svrule_value');
                     $('#lobe_input_svrule_value_'+i).val(code.Value);
+                    updateSVCodeValueLabel($('#lobe_input_svrule_value_'+i+"_number"), "lobe_input_svrule_value");
                     if (gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj && i<gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.Annotations.length) {
                         $('#lobe_input_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.Annotations[i]);
                     }
@@ -771,7 +872,9 @@
                     code = gene_obj.SpecialiazedObj.UpdateSVRule.Codes[i];
                     $('#lobe_update_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_update_svrule_operand_'+i).val(code.Operand);
+                    updateSVCodeSelector($('#lobe_update_svrule_operand_'+i), 'lobe_update_svrule_value');
                     $('#lobe_update_svrule_value_'+i).val(code.Value);
+                    updateSVCodeValueLabel($('#lobe_update_svrule_value_'+i+"_number"), "lobe_update_svrule_value");
                     if (gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj && i<gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations.length) {
                         $('#lobe_update_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations[i]);
                     }

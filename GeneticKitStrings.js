@@ -34,3 +34,23 @@ LobeId_str = {
     attn: "Attention",
     decn: "Decision"
 };
+NeuronVariable_str = [
+    "State",
+    "Input",
+    "Output",
+    "Susceptibility",
+    "Susceptibility Input",
+    "Var 5",
+    "Var 6",
+    "Neural Growth Factor"
+];
+DendriteVariable_str = [
+    "Weight",
+    "Var 1",
+    "Var 2",
+    "Var 3",
+    "Last Signal",
+    "Var 5",
+    "Var 6",
+    "Strength"
+];
