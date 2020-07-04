@@ -131,10 +131,14 @@ class SVcode {
         this.Value = bytes[2];
     }
 
+    setSVNote(SVNoteObj) {
+        this.SVNoteObj = SVNoteObj;
+    }
 }
 
 class SVRule {
     Codes = [];
+    SVNoteObj = null;
 
     constructor(bytes) {
         this.readFromBytes(bytes);
@@ -146,6 +150,10 @@ class SVRule {
             this.Codes.push(new SVcode(bytes.slice(cursor, cursor + 3)));
             cursor += 3;
         }
+    }
+
+    setSVNote(SVNoteObj) {
+        this.SVNoteObj = SVNoteObj;
     }
 }
 
@@ -186,13 +194,23 @@ class GeneBrainLobe {
         this.InitSVRule = new SVRule(bytes.slice(26, 75));
         this.UpdateSVRule = new SVRule(bytes.slice(75, 124));
     }
+
+    setSVNote(SVNoteObj) {
+        if (SVNoteObj.RuleNumber == 0) {
+            //Init rule
+            this.InitSVRule.setSVNote(SVNoteObj);
+        } else if (SVNoteObj.RuleNumber == 1) {
+            //Update rule
+            this.UpdateSVRule.setSVNote(SVNoteObj);
+        }
+    }
 }
 
 class SVNote {
-    GeneType = -1;
-    GeneSubType = -1;
-    UniqueId = -1;
-    RuleNumber = -1;
+    GeneType = null;
+    GeneSubType = null;
+    UniqueId = null;
+    RuleNumber = null;
     Annotations = [];
     GeneralNotes = "";
 
@@ -247,9 +265,9 @@ class SVNote {
 }
 
 class GeneNote {
-    GeneType = -1;
-    GeneSubType = -1;
-    UniqueId = -1;
+    GeneType = null;
+    GeneSubType = null;
+    UniqueId = null;
     Caption = "";
     RichText = "";
 
