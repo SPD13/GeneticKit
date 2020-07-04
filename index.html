@@ -394,7 +394,7 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <input type="text" class="form-control" id="svrule_comment"/>
+                <input type="text" class="form-control" name="svrule_comment"/>
             </div>
         </div>
     </div>
@@ -544,10 +544,18 @@
 
 
     function attachGNOtoGEN() {
+        //Attach Gene notes
         for (var i = 0; i < gene_notes.length; i++) {
             var gene = getGene(gene_notes[i].GeneType, gene_notes[i].GeneSubType, gene_notes[i].UniqueId);
             if (gene) {
                 gene.setGeneNote(gene_notes[i]);
+            }
+        }
+        //Attach SV Notes
+        for (var i = 0; i < sv_notes.length; i++) {
+            var gene = getGene(sv_notes[i].GeneType, sv_notes[i].GeneSubType, sv_notes[i].UniqueId);
+            if (gene && gene.SpecialiazedObj) {
+                gene.SpecialiazedObj.setSVNote(sv_notes[i]);
             }
         }
         refreshDataTable();
@@ -754,6 +762,9 @@
                     $('#lobe_input_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_input_svrule_operand_'+i).val(code.Operand);
                     $('#lobe_input_svrule_value_'+i).val(code.Value);
+                    if (gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj && i<gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.Annotations.length) {
+                        $('#lobe_input_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.Annotations[i]);
+                    }
                 }
                 //Update SV Rule
                 if (i<gene_obj.SpecialiazedObj.UpdateSVRule.Codes.length) {
@@ -761,6 +772,9 @@
                     $('#lobe_update_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_update_svrule_operand_'+i).val(code.Operand);
                     $('#lobe_update_svrule_value_'+i).val(code.Value);
+                    if (gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj && i<gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations.length) {
+                        $('#lobe_update_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations[i]);
+                    }
                 }
             }
         }
