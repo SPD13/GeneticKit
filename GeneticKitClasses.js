@@ -190,9 +190,9 @@ class GeneBrainLobe {
         this.Blue = bytes[14];
         this.WTA = bytes[15];
         this.Tissue = bytes[16];
-        this.Spare = bytes.slice(17, 26);
-        this.InitSVRule = new SVRule(bytes.slice(26, 75));
-        this.UpdateSVRule = new SVRule(bytes.slice(75, 124));
+        this.Spare = bytes.slice(17, 25);
+        this.InitSVRule = new SVRule(bytes.slice(25, 73));
+        this.UpdateSVRule = new SVRule(bytes.slice(73, 121));
     }
 
     setSVNote(SVNoteObj) {
