@@ -323,14 +323,19 @@
 
     <!-- SV Rule Code-->
     <div id="SVRule">
+        <div name="sv_rule_code">
+        </div>
+        <div name="sv_rule_comments">
+
+        </div>
     </div>
 
     <div class="row" id="SVRuleCode">
         <div class="form-row align-items-center">
-            <div class="col-md-1" name="svrule_label">
+            <div class="col-md-2" name="svrule_label">
                 Line 1
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <select class="form-control" name="svrule_opcode">
                     <option value="0">stop</option>
                     <option value="1">blank</option>
@@ -370,7 +375,7 @@
                     <option value="35">tend to, store in</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <select class="form-control" name="svrule_operand">
                     <option value="0">accumulator</option>
                     <option value="1">input neuron</option>
@@ -390,7 +395,7 @@
                     <option value="15">Value Integer</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <select class="form-control" name="svrule_value_select">
                 </select>
                 <input type="range" class="custom-range" min="0" max="255" name="svrule_value_number">
@@ -679,10 +684,14 @@
             rulecode.find('div[name=svrule_label]').html("Line "+(i+1));
             rulecode.find('div[name=svrule_label]').attr("id", "lobe_input_svrule_label_"+i);
             rulecode.find('select[name=svrule_opcode]').attr("id", "lobe_input_svrule_opcode_"+i);
+            rulecode.find('select[name=svrule_opcode]').attr("gk-index", i);
+            rulecode.find('select[name=svrule_opcode]').change(function() {
+                updateSVCodeSelectorOp($(this), "lobe_input_svrule");
+            });
             rulecode.find('select[name=svrule_operand]').attr("id", "lobe_input_svrule_operand_"+i);
             rulecode.find('select[name=svrule_operand]').attr("gk-index", i);
             rulecode.find('select[name=svrule_operand]').change(function() {
-                updateSVCodeSelector($(this), "lobe_input_svrule_value");
+                updateSVCodeSelectorVal($(this), "lobe_input_svrule_value", false);
                 updateSVCodeValueLabel($('#lobe_input_svrule_value_'+$(this).attr("gk-index")+"_number"), "lobe_input_svrule_value");
             });
             rulecode.find('select[name=svrule_value_select]').attr("id", "lobe_input_svrule_value_"+i+"_select");
@@ -699,10 +708,14 @@
             rulecode.find('div[name=svrule_label]').html("Line "+(i+1));
             rulecode.find('div[name=svrule_label]').attr("id", "lobe_update_svrule_label_"+i);
             rulecode.find('select[name=svrule_opcode]').attr("id", "lobe_update_svrule_opcode_"+i);
+            rulecode.find('select[name=svrule_opcode]').attr("gk-index", i);
+            rulecode.find('select[name=svrule_opcode]').change(function() {
+                updateSVCodeSelectorOp($(this), "lobe_update_svrule");
+            });
             rulecode.find('select[name=svrule_operand]').attr("id", "lobe_update_svrule_operand_"+i);
             rulecode.find('select[name=svrule_operand]').attr("gk-index", i);
             rulecode.find('select[name=svrule_operand]').change(function() {
-                updateSVCodeSelector($(this), "lobe_update_svrule_value");
+                updateSVCodeSelectorVal($(this), "lobe_update_svrule_value", false);
                 updateSVCodeValueLabel($('#lobe_update_svrule_value_'+$(this).attr("gk-index")+"_number"), "lobe_update_svrule_value");
             });
             rulecode.find('select[name=svrule_value_select]').attr("id", "lobe_update_svrule_value_"+i+"_select");
@@ -724,13 +737,25 @@
         }
     }
 
+    function updateSVCodeSelectorOp(opcode_select, prefix){
+        var index = opcode_select.attr("gk-index");
+        if (opcode_select.val() == 0) {
+            //Stop: No other options
+            $("#" + prefix + "_operand_" + index).val(0);
+            $("#" + prefix + "_operand_" + index).change();
+            $("#" + prefix + "_operand_" + index).hide();
+        } else {
+            $("#" + prefix + "_operand_" + index).show();
+        }
+    }
+
     function updateSVCodeValueLabel(number_input, prefix) {
         var index = number_input.attr("gk-index");
         prefix = prefix + "_" + index;
         $("#"+prefix+"_number_label").html($("#"+prefix+"_number").val());
     }
 
-    function updateSVCodeSelector(operand_select, prefix){
+    function updateSVCodeSelectorVal(operand_select, prefix, value){
         var operand = operand_select.val();
         var index = operand_select.attr("gk-index");
         prefix = prefix + "_" + index;
@@ -745,18 +770,27 @@
             $("#"+prefix+"_select").show();
             $("#"+prefix+"_number").hide();
             $("#"+prefix+"_number_label").hide();
+            if (value) {
+                $("#"+prefix+"_select").val(value);
+            }
         } else if (operand == 2) {
             //Dendrite
             fillSelectWithValues($("#"+prefix+"_select"), DendriteVariable_str);
             $("#"+prefix+"_select").show();
             $("#"+prefix+"_number").hide();
             $("#"+prefix+"_number_label").hide();
+            if (value) {
+                $("#"+prefix+"_select").val(value);
+            }
         } else if (operand == 6 || operand == 7 || operand == 8) {
             //Chemical
             //TODO: Fill with chemicals list
             $("#"+prefix+"_select").show();
             $("#"+prefix+"_number").hide();
             $("#"+prefix+"_number_label").hide();
+            if (value) {
+                $("#"+prefix+"_select").val(value);
+            }
         } else if (operand >= 11) {
             //Value
             $("#"+prefix+"_select").hide();
@@ -787,6 +821,9 @@
                 $("#"+prefix+"_number").attr('min', 0);
                 $("#"+prefix+"_number").attr('max', 248);
                 $("#"+prefix+"_number").attr('step', 1);
+            }
+            if (value) {
+                $("#"+prefix+"_number").val(value);
             }
         }
     }
@@ -860,9 +897,9 @@
                     code = gene_obj.SpecialiazedObj.InitSVRule.Codes[i];
                     $('#lobe_input_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_input_svrule_operand_'+i).val(code.Operand);
-                    updateSVCodeSelector($('#lobe_input_svrule_operand_'+i), 'lobe_input_svrule_value');
-                    $('#lobe_input_svrule_value_'+i).val(code.Value);
+                    updateSVCodeSelectorVal($('#lobe_input_svrule_operand_'+i), 'lobe_input_svrule_value', code.Value);
                     updateSVCodeValueLabel($('#lobe_input_svrule_value_'+i+"_number"), "lobe_input_svrule_value");
+                    updateSVCodeSelectorOp($('#lobe_input_svrule_opcode_'+i), "lobe_input_svrule");
                     if (gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj && i<gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.Annotations.length) {
                         $('#lobe_input_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.Annotations[i]);
                     }
@@ -872,9 +909,9 @@
                     code = gene_obj.SpecialiazedObj.UpdateSVRule.Codes[i];
                     $('#lobe_update_svrule_opcode_'+i).val(code.Opcode);
                     $('#lobe_update_svrule_operand_'+i).val(code.Operand);
-                    updateSVCodeSelector($('#lobe_update_svrule_operand_'+i), 'lobe_update_svrule_value');
-                    $('#lobe_update_svrule_value_'+i).val(code.Value);
+                    updateSVCodeSelectorVal($('#lobe_update_svrule_operand_'+i), 'lobe_update_svrule_value', code.Value);
                     updateSVCodeValueLabel($('#lobe_update_svrule_value_'+i+"_number"), "lobe_update_svrule_value");
+                    updateSVCodeSelectorOp($('#lobe_update_svrule_opcode_'+i), "lobe_update_svrule");
                     if (gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj && i<gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations.length) {
                         $('#lobe_update_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations[i]);
                     }
