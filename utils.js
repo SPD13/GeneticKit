@@ -44,6 +44,15 @@ function dec2hex(n){
     return n ? [n%256].concat(dec2hex(~~(n/256))) : [];
 }
 
+function toBigEndian(bytes){
+    const dv = new DataView(new Uint8Array(bytes).buffer);
+    const uint = dv.getUint16(0, /* little endian data */ false);
+    return intTo2Bytes(uint);
+    //var hexar = dec2hex(n);
+    //return hexar.map(h => (h < 16 ? "0x0" : "0x") + h.toString(16))
+     //   .concat(Array(4-hexar.length).fill("0x00"));
+}
+
 function string2Bin(str) {
     var enc = new TextEncoder();
     return enc.encode(str);
