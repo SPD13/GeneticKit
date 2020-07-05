@@ -60,8 +60,11 @@ class Gene {
     getBytes() {
         //Update flag fields
         this.writeFlags();
-        var byteArray = [intTo1Byte(this.GeneType), intTo1Byte(this.GeneSubType), intTo1Byte(this.GeneId), intTo1Byte(this.Generation), intTo1Byte(this.SwitchOnTime), intTo1Byte(this.Flags), intTo1Byte(this.MutabilityWeighting), intTo1Byte(this.Expression)];
-        return byteArray;
+        var bytes = [intTo1Byte(this.GeneType), intTo1Byte(this.GeneSubType), intTo1Byte(this.GeneId), intTo1Byte(this.Generation), intTo1Byte(this.SwitchOnTime), intTo1Byte(this.Flags), intTo1Byte(this.MutabilityWeighting), intTo1Byte(this.Expression)];
+        if (this.SpecialiazedObj) {
+            bytes = bytes.concat(this.SpecialiazedObj.getBytes());
+        }
+        return bytes;
     }
 
     //Read flags based on the bits values
@@ -131,6 +134,11 @@ class SVcode {
         this.Value = bytes[2];
     }
 
+    getBytes() {
+        var bytes = [intTo1Byte(this.Opcode), intTo1Byte(this.Operand), intTo1Byte(this.Value)];
+        return bytes;
+    }
+
     setSVNote(SVNoteObj) {
         this.SVNoteObj = SVNoteObj;
     }
@@ -150,6 +158,14 @@ class SVRule {
             this.Codes.push(new SVcode(bytes.slice(cursor, cursor + 3)));
             cursor += 3;
         }
+    }
+
+    getBytes() {
+        var bytes = [];
+        for (var i = 0; i < 16; i++) {
+            bytes = bytes.concat(this.Codes[i].getBytes());
+        }
+        return bytes;
     }
 
     setSVNote(SVNoteObj) {
@@ -195,6 +211,19 @@ class GeneBrainLobe {
         this.UpdateSVRule = new SVRule(bytes.slice(73, 121));
     }
 
+    getBytes() {
+       var bytes = [];
+       bytes = bytes.concat(string2Bin(this.LobeId));
+       bytes = bytes.concat(dec2hex(this.UpdateTime));
+       bytes = bytes.concat(dec2hex(this.X));
+       bytes = bytes.concat(dec2hex(this.Y));
+       bytes = bytes.concat([intTo1Byte(this.Width), intTo1Byte(this.Height), intTo1Byte(this.Red), intTo1Byte(this.Green), intTo1Byte(this.Blue), intTo1Byte(this.WTA), intTo1Byte(this.Tissue)]);
+       bytes = bytes.concat(this.Spare);
+       bytes = bytes.concat(this.InitSVRule.getBytes());
+       bytes = bytes.concat(this.UpdateSVRule.getBytes());
+       return bytes;
+    }
+
     setSVNote(SVNoteObj) {
         if (SVNoteObj.RuleNumber == 0) {
             //Init rule
@@ -211,11 +240,13 @@ class SVNote {
     GeneSubType = null;
     UniqueId = null;
     RuleNumber = null;
-    Annotations = [];
+    Annotations = [16];
     GeneralNotes = "";
 
     constructor(bytes) {
-        this.readFromBytes(bytes);
+        if (bytes) {
+            this.readFromBytes(bytes);
+        }
     }
 
     readFromBytes(bytes) {

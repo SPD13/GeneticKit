@@ -40,6 +40,10 @@ function intTo2Bytes(long) {
     return byteArray;
 }
 
+function dec2hex(n){
+    return n ? [n%256].concat(dec2hex(~~(n/256))) : [];
+}
+
 function string2Bin(str) {
     var enc = new TextEncoder();
     return enc.encode(str);
