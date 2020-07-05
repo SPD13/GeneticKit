@@ -323,10 +323,11 @@
 
     <!-- SV Rule Code-->
     <div id="SVRule">
-        <div name="sv_rule_code">
+        <div name="svrule_code">
         </div>
-        <div name="sv_rule_comments">
-
+        <div name="svrule_comments">
+            <textarea class="form-control" name="svrule_comment">
+            </textarea>
         </div>
     </div>
 
@@ -678,6 +679,10 @@
 
     function initUI() {
         //Programmatically replicate SVRules controls
+        rule_input = $('#SVRule').clone();
+        rule_update = $('#SVRule').clone();
+        rule_input.find('textarea[name=svrule_comment]').attr("id", "lobe_input_svrule_general_comment");
+        rule_update.find('textarea[name=svrule_comment]').attr("id", "lobe_update_svrule_general_comment");
         for (var i=0; i<16; i++) {
             //Init Lobe SVRule
             rulecode = $('#SVRuleCode').clone();
@@ -702,8 +707,9 @@
             });
             rulecode.find('span[name=svrule_value_number_label]').attr("id", "lobe_input_svrule_value_"+i+"_number_label");
             rulecode.find('input[name=svrule_comment]').attr("id", "lobe_input_svrule_comment_"+i);
-            $('#lobe-input-svrule').append(rulecode);
+            rule_input.find('div[name=svrule_code]').append(rulecode);
             //Update Lobe SVRule
+            rule = $('#SVRule').clone();
             rulecode = $('#SVRuleCode').clone();
             rulecode.find('div[name=svrule_label]').html("Line "+(i+1));
             rulecode.find('div[name=svrule_label]').attr("id", "lobe_update_svrule_label_"+i);
@@ -726,8 +732,10 @@
             });
             rulecode.find('span[name=svrule_value_number_label]').attr("id", "lobe_update_svrule_value_"+i+"_number_label");
             rulecode.find('input[name=svrule_comment]').attr("id", "lobe_update_svrule_comment_"+i);
-            $('#lobe-update-svrule').append(rulecode);
+            rule_update.find('div[name=svrule_code]').append(rulecode);
         }
+        $('#lobe-input-svrule').append(rule_input);
+        $('#lobe-update-svrule').append(rule_update);
     }
 
     function fillSelectWithValues(select_obj, string_table) {
@@ -890,7 +898,7 @@
             $('#lobeColourR').val(gene_obj.SpecialiazedObj.Red);
             $('#lobeColourG').val(gene_obj.SpecialiazedObj.Green);
             $('#lobeColourB').val(gene_obj.SpecialiazedObj.Blue);
-            //Input SVRule
+            //SVRules
             for (var i=0; i<16; i++) {
                 //Init SV Rule
                 if (i<gene_obj.SpecialiazedObj.InitSVRule.Codes.length) {
@@ -916,6 +924,13 @@
                         $('#lobe_update_svrule_comment_' + i).val(gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.Annotations[i]);
                     }
                 }
+            }
+            //SVRules General notes
+            if (gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj && gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.GeneralNotes) {
+               $('#lobe_init_svrule_general_comment').val(gene_obj.SpecialiazedObj.InitSVRule.SVNoteObj.GeneralNotes);
+            }
+            if (gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj && gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.GeneralNotes) {
+                $('#lobe_update_svrule_general_comment').val(gene_obj.SpecialiazedObj.UpdateSVRule.SVNoteObj.GeneralNotes);
             }
         }
 
