@@ -62,7 +62,7 @@ class Gene {
         this.writeFlags();
         var bytes = [intTo1Byte(this.GeneType), intTo1Byte(this.GeneSubType), intTo1Byte(this.GeneId), intTo1Byte(this.Generation), intTo1Byte(this.SwitchOnTime), intTo1Byte(this.Flags), intTo1Byte(this.MutabilityWeighting), intTo1Byte(this.Expression)];
         if (this.SpecialiazedObj) {
-            bytes = bytes.concat(this.SpecialiazedObj.getBytes());
+            bytes = mergeUint8Arrays(bytes, this.SpecialiazedObj.getBytes());
         }
         return bytes;
     }
@@ -135,7 +135,7 @@ class SVcode {
     }
 
     getBytes() {
-        var bytes = [intTo1Byte(this.Opcode), intTo1Byte(this.Operand), intTo1Byte(this.Value)];
+        var bytes = new Uint8Array([intTo1Byte(this.Opcode), intTo1Byte(this.Operand), intTo1Byte(this.Value)]);
         return bytes;
     }
 
@@ -161,9 +161,9 @@ class SVRule {
     }
 
     getBytes() {
-        var bytes = [];
+        var bytes = new Uint8Array([]);
         for (var i = 0; i < 16; i++) {
-            bytes = bytes.concat(this.Codes[i].getBytes());
+            bytes = mergeUint8Arrays(bytes, this.Codes[i].getBytes());
         }
         return bytes;
     }
@@ -212,15 +212,24 @@ class GeneBrainLobe {
     }
 
     getBytes() {
-       var bytes = [];
-       bytes = bytes.concat(string2Bin(this.LobeId));
-       bytes = bytes.concat(dec2hex(this.UpdateTime));
-       bytes = bytes.concat(dec2hex(this.X));
-       bytes = bytes.concat(dec2hex(this.Y));
-       bytes = bytes.concat([intTo1Byte(this.Width), intTo1Byte(this.Height), intTo1Byte(this.Red), intTo1Byte(this.Green), intTo1Byte(this.Blue), intTo1Byte(this.WTA), intTo1Byte(this.Tissue)]);
-       bytes = bytes.concat(this.Spare);
-       bytes = bytes.concat(this.InitSVRule.getBytes());
-       bytes = bytes.concat(this.UpdateSVRule.getBytes());
+       var bytes = new Uint8Array([]);
+       bytes = mergeUint8Arrays(bytes, string2Bin(this.LobeId));
+       bytes = mergeUint8Arrays(bytes, intTo2Bytes(this.UpdateTime));
+       bytes = mergeUint8Arrays(bytes,intTo2Bytes(this.X));
+       bytes = mergeUint8Arrays(bytes, intTo2Bytes(this.Y));
+       bytes = mergeUint8Arrays(bytes, [intTo1Byte(this.Width), intTo1Byte(this.Height), intTo1Byte(this.Red), intTo1Byte(this.Green), intTo1Byte(this.Blue), intTo1Byte(this.WTA), intTo1Byte(this.Tissue)]);
+       bytes = mergeUint8Arrays(bytes, this.Spare);
+       bytes = mergeUint8Arrays(bytes, this.InitSVRule.getBytes());
+       bytes = mergeUint8Arrays(bytes, this.UpdateSVRule.getBytes());
+        /*bytes = bytes.concat(string2Bin(this.LobeId));
+        console.log(string2Bin(this.LobeId));
+        bytes = bytes.concat(intTo2Bytes(this.UpdateTime));
+        bytes = bytes.concat(intTo2Bytes(this.X));
+        bytes = bytes.concat(intTo2Bytes(this.Y));
+        bytes = bytes.concat([intTo1Byte(this.Width), intTo1Byte(this.Height), intTo1Byte(this.Red), intTo1Byte(this.Green), intTo1Byte(this.Blue), intTo1Byte(this.WTA), intTo1Byte(this.Tissue)]);
+        bytes = bytes.concat(this.Spare);
+        bytes = bytes.concat(this.InitSVRule.getBytes());
+        bytes = bytes.concat(this.UpdateSVRule.getBytes());*/
        return bytes;
     }
 
