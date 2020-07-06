@@ -181,6 +181,10 @@
                     </div>
                 </div>
             </div>
+            <div class="form-row align-items-center">
+                <textarea class="form-control" name="geneNotes">
+                </textarea>
+            </div>
         </div>
     </div>
 
@@ -924,6 +928,10 @@
             $('#headerNotExpressed').prop('checked', false);
         }
         $('#headerVariant').val(gene_obj.ExpressionVariant);
+        //Gene notes
+        if (gene_obj.GeneNoteObj) {
+            $('#geneNotes').val(gene_obj.GeneNoteObj.RichText);
+        }
 
         if (gene_obj.GeneType == 0 && gene_obj.GeneSubType == 0) {
             //Brain Lobe
@@ -1021,69 +1029,76 @@
                 edited_gene.NotExpressed = false;
             }
             edited_gene.ExpressionVariant = $('#headerVariant').val();
-        }
-
-        if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 0) {
-            //Brain Lobe
-            edited_gene.SpecialiazedObj.LobeId = $('#lobeID').val();
-            edited_gene.SpecialiazedObj.X = $('#lobeX').val();
-            edited_gene.SpecialiazedObj.Y = $('#lobeY').val();
-            edited_gene.SpecialiazedObj.Width = $('#lobeWidth').val();
-            edited_gene.SpecialiazedObj.Height = $('#lobeHeight').val();
-            edited_gene.SpecialiazedObj.Red = $('#lobeColourR').val();
-            edited_gene.SpecialiazedObj.Green = $('#lobeColourG').val();
-            edited_gene.SpecialiazedObj.Blue = $('#lobeColourB').val();
-            edited_gene.SpecialiazedObj.Tissue = $('#lobeTissueID').val();
-            edited_gene.SpecialiazedObj.UpdateTime = $('#lobeUpdateTime').val();
-            edited_gene.SpecialiazedObj.WTA = $('#lobeWTA').val();
-            if ($('#lobeInitRuleRunsAlways').prop('checked')) {
-                edited_gene.SpecialiazedObj.Spare[0] = 1;
-            } else {
-                edited_gene.SpecialiazedObj.Spare[0] = 0;
+            //Gene note
+            note_obj = edited_gene.GeneNoteObj;
+            if (!note_obj) {
+                note_obj = new GeneNote(null);
+                edited_gene.GeneNoteObj = note_obj;
             }
-            //SVRules
-            for (var i=0; i<16; i++) {
-                //Init rule
-                var code = edited_gene.SpecialiazedObj.InitSVRule.Codes[i];
-                code.Opcode = $('#lobe_input_svrule_opcode_'+i).val();
-                code.Operand = $('#lobe_input_svrule_operand_'+i).val();
-                if (code.Operand == 0 || code.Operand == 5 || code.Operand == 9 || code.Operand == 10) {
-                    code.Value = 0;
-                } else if (code.Operand < 11 ){
-                    code.Value = $('#lobe_input_svrule_value_'+i+"_select").val();
-                } else {
-                    code.Value = $('#lobe_input_svrule_value_'+i+"_number").val();
-                }
-                //SVNote
-                note_obj = edited_gene.SpecialiazedObj.InitSVRule.SVNoteObj;
-                if (!note_obj) {
-                    note_obj = new SVNote(null);
-                    edited_gene.SpecialiazedObj.InitSVRule.SVNoteObj = note_obj;
-                }
-                note_obj.Annotations[i] = $('#lobe_input_svrule_comment_' + i).val();
+            note_obj.RichText = $('#geneNotes').val();
 
-                //Update rule
-                code = edited_gene.SpecialiazedObj.UpdateSVRule.Codes[i];
-                code.Opcode = $('#lobe_update_svrule_opcode_'+i).val();
-                code.Operand = $('#lobe_update_svrule_operand_'+i).val();
-                if (code.Operand == 0 || code.Operand == 5 || code.Operand == 9 || code.Operand == 10) {
-                    code.Value = 0;
-                } else if (code.Operand < 11 ){
-                    code.Value = $('#lobe_update_svrule_value_'+i+"_select").val();
+            if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 0) {
+                //Brain Lobe
+                edited_gene.SpecialiazedObj.LobeId = $('#lobeID').val();
+                edited_gene.SpecialiazedObj.X = $('#lobeX').val();
+                edited_gene.SpecialiazedObj.Y = $('#lobeY').val();
+                edited_gene.SpecialiazedObj.Width = $('#lobeWidth').val();
+                edited_gene.SpecialiazedObj.Height = $('#lobeHeight').val();
+                edited_gene.SpecialiazedObj.Red = $('#lobeColourR').val();
+                edited_gene.SpecialiazedObj.Green = $('#lobeColourG').val();
+                edited_gene.SpecialiazedObj.Blue = $('#lobeColourB').val();
+                edited_gene.SpecialiazedObj.Tissue = $('#lobeTissueID').val();
+                edited_gene.SpecialiazedObj.UpdateTime = $('#lobeUpdateTime').val();
+                edited_gene.SpecialiazedObj.WTA = $('#lobeWTA').val();
+                if ($('#lobeInitRuleRunsAlways').prop('checked')) {
+                    edited_gene.SpecialiazedObj.Spare[0] = 1;
                 } else {
-                    code.Value = $('#lobe_update_svrule_value_'+i+"_number").val();
+                    edited_gene.SpecialiazedObj.Spare[0] = 0;
                 }
-                //SVNote
-                note_obj = edited_gene.SpecialiazedObj.UpdateSVRule.SVNoteObj;
-                if (!note_obj) {
-                    note_obj = new SVNote(null);
-                    edited_gene.SpecialiazedObj.UpdateSVRule.SVNoteObj = note_obj;
+                //SVRules
+                for (var i = 0; i < 16; i++) {
+                    //Init rule
+                    var code = edited_gene.SpecialiazedObj.InitSVRule.Codes[i];
+                    code.Opcode = $('#lobe_input_svrule_opcode_' + i).val();
+                    code.Operand = $('#lobe_input_svrule_operand_' + i).val();
+                    if (code.Operand == 0 || code.Operand == 5 || code.Operand == 9 || code.Operand == 10) {
+                        code.Value = 0;
+                    } else if (code.Operand < 11) {
+                        code.Value = $('#lobe_input_svrule_value_' + i + "_select").val();
+                    } else {
+                        code.Value = $('#lobe_input_svrule_value_' + i + "_number").val();
+                    }
+                    //SVNote
+                    note_obj = edited_gene.SpecialiazedObj.InitSVRule.SVNoteObj;
+                    if (!note_obj) {
+                        note_obj = new SVNote(null);
+                        edited_gene.SpecialiazedObj.InitSVRule.SVNoteObj = note_obj;
+                    }
+                    note_obj.Annotations[i] = $('#lobe_input_svrule_comment_' + i).val();
+
+                    //Update rule
+                    code = edited_gene.SpecialiazedObj.UpdateSVRule.Codes[i];
+                    code.Opcode = $('#lobe_update_svrule_opcode_' + i).val();
+                    code.Operand = $('#lobe_update_svrule_operand_' + i).val();
+                    if (code.Operand == 0 || code.Operand == 5 || code.Operand == 9 || code.Operand == 10) {
+                        code.Value = 0;
+                    } else if (code.Operand < 11) {
+                        code.Value = $('#lobe_update_svrule_value_' + i + "_select").val();
+                    } else {
+                        code.Value = $('#lobe_update_svrule_value_' + i + "_number").val();
+                    }
+                    //SVNote
+                    note_obj = edited_gene.SpecialiazedObj.UpdateSVRule.SVNoteObj;
+                    if (!note_obj) {
+                        note_obj = new SVNote(null);
+                        edited_gene.SpecialiazedObj.UpdateSVRule.SVNoteObj = note_obj;
+                    }
+                    note_obj.Annotations[i] = $('#lobe_update_svrule_comment_' + i).val();
                 }
-                note_obj.Annotations[i] = $('#lobe_update_svrule_comment_' + i).val();
+                //SVRules General notes
+                edited_gene.SpecialiazedObj.InitSVRule.SVNoteObj.GeneralNotes = $('#lobe_init_svrule_general_comment').val();
+                edited_gene.SpecialiazedObj.UpdateSVRule.SVNoteObj.GeneralNotes = $('#lobe_update_svrule_general_comment').val();
             }
-            //SVRules General notes
-            edited_gene.SpecialiazedObj.InitSVRule.SVNoteObj.GeneralNotes = $('#lobe_init_svrule_general_comment').val();
-            edited_gene.SpecialiazedObj.UpdateSVRule.SVNoteObj.GeneralNotes = $('#lobe_update_svrule_general_comment').val();
         }
 
         refreshDataTable();
