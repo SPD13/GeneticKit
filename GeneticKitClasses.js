@@ -51,8 +51,11 @@ class Gene {
         if (this.GeneType == 0) {
             //Brain
             if (this.GeneSubType == 0) {
-                //BrainLobe
+                //Brain Lobe
                 this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8,-1), this);
+            } else if (this.GeneSubType == 2) {
+                //Brain Tract
+                this.SpecialiazedObj = new GeneBrainTract(bytes.slice(8,-1), this);
             }
         }
     }
