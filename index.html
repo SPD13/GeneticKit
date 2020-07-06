@@ -193,6 +193,11 @@
                    aria-selected="true">General</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" id="lobeprocessing-tab" data-toggle="tab" href="#lobeprocessing" role="tab"
+                   aria-controls="lobeprocessing"
+                   aria-selected="false">Processing</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" id="lobe-svrule-input-tab" data-toggle="tab" href="#lobe-svrule-input" role="tab"
                    aria-controls="lobe-svrule-input"
                    aria-selected="false">SV Rule Input</a>
@@ -307,6 +312,40 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="lobeprocessing" role="tabpanel" aria-labelledby="lobeprocessing-tab">
+                <div class="row">
+                    <div class="col-md-4 pull-left">
+                        <label class="control-label">Tissue ID</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="lobeTissueID"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="lobeInitRuleRunsAlways">
+                        <label class="form-check-label" for="lobeInitRuleRunsAlways">
+                            Initialization Rule runs always
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 pull-left">
+                        <label class="control-label">UpdateTime (0 = No Update)</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="lobeUpdateTime"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 pull-left">
+                        <label class="control-label">WTA (Winner Takes All) - Not Used?</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="lobeWTA"/>
                     </div>
                 </div>
             </div>
@@ -898,6 +937,14 @@
             $('#lobeColourR').val(gene_obj.SpecialiazedObj.Red);
             $('#lobeColourG').val(gene_obj.SpecialiazedObj.Green);
             $('#lobeColourB').val(gene_obj.SpecialiazedObj.Blue);
+            $('#lobeTissueID').val(gene_obj.SpecialiazedObj.Tissue);
+            $('#lobeWTA').val(gene_obj.SpecialiazedObj.WTA);
+            $('#lobeUpdateTime').val(gene_obj.SpecialiazedObj.UpdateTime);
+            if (gene_obj.SpecialiazedObj.Spare[0]) {
+                $('#lobeInitRuleRunsAlways').prop('checked', true);
+            } else {
+                $('#lobeInitRuleRunsAlways').prop('checked', false);
+            }
             //SVRules
             for (var i=0; i<16; i++) {
                 //Init SV Rule
@@ -941,10 +988,22 @@
     function saveGeneModal() {
         if (edited_gene) {
             edited_gene.SwitchOnTime = $('#headerAge').val();
-            edited_gene.Duplicable = $('#headerDup').val();
-            edited_gene.Mutable = $('#headerMut').val();
+            if ($('#headerDup').prop('checked')) {
+                edited_gene.Duplicable = true;
+            } else {
+                edited_gene.Duplicable = false;
+            }
+            if ($('#headerMut').prop('checked')) {
+                edited_gene.Mutable = true;
+            } else {
+                edited_gene.Mutable = false;
+            }
             edited_gene.MutabilityWeighting = $('#headerDegree').val();
-            edited_gene.Deletable = $('#headerCut').val();
+            if ($('#headerCut').prop('checked')) {
+                edited_gene.Deletable = true;
+            } else {
+                edited_gene.Deletable = false;
+            }
             var sex = $("input:radio[name ='headerSex']:checked").val();
             if (sex == "M") {
                 edited_gene.MaleOnly = true;
@@ -956,7 +1015,11 @@
                 edited_gene.MaleOnly = false;
                 edited_gene.FemaleOnly = false;
             }
-            edited_gene.NotExpressed = $('#headerNotExpressed').val();
+            if ($('#headerNotExpressed').prop('checked')) {
+                edited_gene.NotExpressed = true;
+            } else {
+                edited_gene.NotExpressed = false;
+            }
             edited_gene.ExpressionVariant = $('#headerVariant').val();
         }
 
@@ -970,6 +1033,14 @@
             edited_gene.SpecialiazedObj.Red = $('#lobeColourR').val();
             edited_gene.SpecialiazedObj.Green = $('#lobeColourG').val();
             edited_gene.SpecialiazedObj.Blue = $('#lobeColourB').val();
+            edited_gene.SpecialiazedObj.Tissue = $('#lobeTissueID').val();
+            edited_gene.SpecialiazedObj.UpdateTime = $('#lobeUpdateTime').val();
+            edited_gene.SpecialiazedObj.WTA = $('#lobeWTA').val();
+            if ($('#lobeInitRuleRunsAlways').prop('checked')) {
+                edited_gene.SpecialiazedObj.Spare[0] = 1;
+            } else {
+                edited_gene.SpecialiazedObj.Spare[0] = 0;
+            }
             //SVRules
             for (var i=0; i<16; i++) {
                 //Init rule
