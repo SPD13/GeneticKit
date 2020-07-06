@@ -52,7 +52,7 @@ class Gene {
             //Brain
             if (this.GeneSubType == 0) {
                 //BrainLobe
-                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8,-1));
+                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8,-1), this);
             }
         }
     }
@@ -78,12 +78,12 @@ class Gene {
     }
 
     writeFlags() {
-        updateBit(this.Flags, 0, this.Mutable);
-        updateBit(this.Flags, 1, this.Duplicable);
-        updateBit(this.Flags, 2, this.Deletable);
-        updateBit(this.Flags, 3, this.MaleOnly);
-        updateBit(this.Flags, 4, this.FemaleOnly);
-        updateBit(this.Flags, 5, this.NotExpressed);
+        this.Flags = updateBit(this.Flags, 0, this.Mutable);
+        this.Flags = updateBit(this.Flags, 1, this.Duplicable);
+        this.Flags = updateBit(this.Flags, 2, this.Deletable);
+        this.Flags = updateBit(this.Flags, 3, this.MaleOnly);
+        this.Flags = updateBit(this.Flags, 4, this.FemaleOnly);
+        this.Flags = updateBit(this.Flags, 5, this.NotExpressed);
     }
 
     typeString() {
@@ -189,14 +189,16 @@ class GeneBrainLobe {
     InitSVRule = null;
     UpdateSVRule = null;
 
-    constructor(bytes, entry_number) {
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
         this.readFromBytes(bytes);
-        this.EntryNumber = entry_number;
     }
 
     readFromBytes(bytes) {
         this.LobeId = String.fromCharCode.apply(null, bytes.slice(0, 4));
-        this.UpdateTime = intFromBytesB(bytes.slice(4, 6));
+        this.UpdateTime = intFromBytesB(bytes.slice(4, 6));//Number in the update sequence
         this.X = intFromBytesB(bytes.slice(6, 8));
         this.Y = intFromBytesB(bytes.slice(8, 10));
         this.Width = bytes[10];
@@ -204,9 +206,9 @@ class GeneBrainLobe {
         this.Red = bytes[12];
         this.Green = bytes[13];
         this.Blue = bytes[14];
-        this.WTA = bytes[15];
+        this.WTA = bytes[15]; //Winner take all?
         this.Tissue = bytes[16];
-        this.Spare = bytes.slice(17, 25);
+        this.Spare = bytes.slice(17, 25); //0: Initialization rule runs always
         this.InitSVRule = new SVRule(bytes.slice(25, 73));
         this.UpdateSVRule = new SVRule(bytes.slice(73, 121));
     }
