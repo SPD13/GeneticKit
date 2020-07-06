@@ -237,6 +237,65 @@ class GeneBrainLobe {
     }
 }
 
+class GeneBrainTract {
+    UpdateTime = null;
+    SourceLobeId = null;
+    SourceLobeLowerBound = null;
+    SourceLobeUpperBound = null;
+    SourceNBConnections = 0;
+    DestinationLobeId = null;
+    DestinationLobeLowerBound = null;
+    DestinationLobeUpperBound = null;
+    DestinationNBConnections = 0;
+    UseRandom = false;
+    NoConnectionsIsRandom = false;
+    Spare = [];
+    InitSVRule = null;
+    UpdateSVRule = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.UpdateTime = intFromBytesB(bytes.slice(0, 2));//Number in the update sequence
+        this.SourceLobeId = String.fromCharCode.apply(null, bytes.slice(2, 6));
+        this.SourceLobeLowerBound = intFromBytesB(bytes.slice(6, 8));
+        this.SourceLobeUpperBound = intFromBytesB(bytes.slice(8, 10));
+        this.SourceNBConnections = intFromBytesB(bytes.slice(10, 12));
+        this.DestinationLobeId = String.fromCharCode.apply(null, bytes.slice(12, 16));
+        this.DestinationLobeLowerBound = intFromBytesB(bytes.slice(16, 18));
+        this.DestinationLobeUpperBound = intFromBytesB(bytes.slice(18, 20));
+        this.DestinationNBConnections = intFromBytesB(bytes.slice(20, 22));
+        this.UseRandom = bytes[22];
+        this.NoConnectionsIsRandom = bytes[23];
+        this.Spare = bytes.slice(24, 32);
+        this.InitSVRule = new SVRule(bytes.slice(32, 80));
+        this.UpdateSVRule = new SVRule(bytes.slice(80, 128));
+    }
+
+    getBytes() {
+        var bytes = new Uint8Array([]);
+        bytes = mergeUint8Arrays(bytes, toBigEndian(intTo2Bytes(this.UpdateTime)));
+        bytes = mergeUint8Arrays(bytes, string2Bin(this.SourceLobeId));
+        bytes = mergeUint8Arrays(bytes,toBigEndian(intTo2Bytes(this.SourceLobeLowerBound)));
+        bytes = mergeUint8Arrays(bytes, toBigEndian(intTo2Bytes(this.SourceLobeUpperBound)));
+        bytes = mergeUint8Arrays(bytes, toBigEndian(intTo2Bytes(this.SourceNBConnections)));
+        bytes = mergeUint8Arrays(bytes, string2Bin(this.DestinationLobeId));
+        bytes = mergeUint8Arrays(bytes,toBigEndian(intTo2Bytes(this.DestinationLobeLowerBound)));
+        bytes = mergeUint8Arrays(bytes, toBigEndian(intTo2Bytes(this.DestinationLobeUpperBound)));
+        bytes = mergeUint8Arrays(bytes, toBigEndian(intTo2Bytes(this.DestinationNBConnections)));
+        bytes = mergeUint8Arrays(bytes, [intTo1Byte(this.UseRandom), intTo1Byte(this.NoConnectionsIsRandom)]);
+        bytes = mergeUint8Arrays(bytes, this.Spare);
+        bytes = mergeUint8Arrays(bytes, this.InitSVRule.getBytes());
+        bytes = mergeUint8Arrays(bytes, this.UpdateSVRule.getBytes());
+        return bytes;
+    }
+}
+
 class SVNote {
     GeneType = null;
     GeneSubType = null;
