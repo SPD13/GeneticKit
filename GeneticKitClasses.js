@@ -305,7 +305,9 @@ class GeneNote {
     RichText = "";
 
     constructor(bytes) {
-        this.readFromBytes(bytes);
+        if (bytes) {
+            this.readFromBytes(bytes);
+        }
     }
 
     readFromBytes(bytes) {
