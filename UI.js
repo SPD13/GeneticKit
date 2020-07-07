@@ -311,6 +311,22 @@ function startGeneModal(gene_obj) {
         $('#lobetract_connection_end_endneuron').val(gene_obj.SpecialiazedObj.DestinationLobeUpperBound);
         $('#lobetract_connection_end_endneuron').change();
         $('#lobetract_connection_end_nbconnections').val(gene_obj.SpecialiazedObj.DestinationNBConnections);
+
+        if (gene_obj.SpecialiazedObj.UseRandom) {
+            $('input:radio[name=lobetract-migration]').filter('[value=0]').prop('checked', true);
+            $('input:radio[name=lobetract-migration]').filter('[value=1]').prop('checked', false);
+        } else {
+            $('input:radio[name=lobetract-migration]').filter('[value=0]').prop('checked', false);
+            $('input:radio[name=lobetract-migration]').filter('[value=1]').prop('checked', true);
+        }
+        if (gene_obj.SpecialiazedObj.NoConnectionsIsRandom) {
+            $('input:radio[name=lobetract-connections]').filter('[value=0]').prop('checked', true);
+            $('input:radio[name=lobetract-connections]').filter('[value=1]').prop('checked', false);
+        } else {
+            $('input:radio[name=lobetract-connections]').filter('[value=0]').prop('checked', false);
+            $('input:radio[name=lobetract-connections]').filter('[value=1]').prop('checked', true);
+        }
+
         //SVRules
         loadSVRuleIntoUI("lobetract_input", gene_obj.SpecialiazedObj.InitSVRule);
         loadSVRuleIntoUI("lobetract_update", gene_obj.SpecialiazedObj.UpdateSVRule);
@@ -440,6 +456,18 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.DestinationLobeLowerBound = $('#lobetract_connection_end_startneuron').val();
             edited_gene.SpecialiazedObj.DestinationLobeUpperBound = $('#lobetract_connection_end_endneuron').val();
             edited_gene.SpecialiazedObj.DestinationNBConnections = $('#lobetract_connection_end_nbconnections').val();
+            var chk = $("input:radio[name ='lobetract-migration']:checked").val();
+            if (chk == 1) {
+                edited_gene.SpecialiazedObj.UseRandom = false;
+            } else {
+                edited_gene.SpecialiazedObj.UseRandom = true;
+            }
+            chk = $("input:radio[name ='lobetract-connections']:checked").val();
+            if (chk == 1) {
+                edited_gene.SpecialiazedObj.NoConnectionsIsRandom = false;
+            } else {
+                edited_gene.SpecialiazedObj.NoConnectionsIsRandom = true;
+            }
             saveSVRuleFromUI("lobetract_input", edited_gene.SpecialiazedObj.InitSVRule);
             saveSVRuleFromUI("lobetract_update", edited_gene.SpecialiazedObj.UpdateSVRule);
         }
