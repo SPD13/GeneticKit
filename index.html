@@ -593,6 +593,71 @@
         </div>
     </div>
 
+    <!-- Brain Organ -->
+    <div id="geneBrainOrgan">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="brainOrganTitle">Brain organ details</h5>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Clockrate</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganClockRate" gk-label="brainOrganClockRate_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="brainOrganClockRate_label">0</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Organ Vulnerability</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganRepairRate" gk-label="brainOrganRepairRate_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="brainOrganRepairRate_label">0</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Lifeforce start value</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganLifeForce" gk-label="brainOrganLifeForce_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="brainOrganLifeForce_label">0</span>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Biotick start</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganBioTickStart" gk-label="brainOrganBioTickStart_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="brainOrganBioTickStart_label">0</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">ATP Damage coeff</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganATPDamageCoeff" gk-label="brainOrganATPDamageCoeff_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="brainOrganATPDamageCoeff_label">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Optional JavaScript -->
