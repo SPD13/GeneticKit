@@ -17,6 +17,8 @@ function initUI() {
     $('#lobetract-connectivity').append(initUITractConnection("lobetract_connection_end", "Destination Lobe"));
     $('#lobetract-input-svrule').append(initUISVRule("lobetract_input"));
     $('#lobetract-update-svrule').append(initUISVRule("lobetract_update"));
+    //Chemical Receptor
+    fillSelectWithChemicals($('#biochemistryReceptorChemical'));
 }
 
 function initUISVRule(prefix) {
@@ -100,6 +102,19 @@ function fillSelectWithArray(select_obj, array) {
     for (var i=0; i< array.length; i++) {
         var o = new Option(array[i], array[i]);
         $(o).html(array[i]);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
+}
+
+function fillSelectWithChemicals(select_obj) {
+    select_obj.empty();
+    for (var i=0; i< Chemicals_str.length; i++) {
+        var str = Chemicals_str[i];
+        if (str == "") {
+            str = "Unused Chemical "+i;
+        }
+        var o = new Option(str, i);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
         select_obj.append(o);
     }
 }
@@ -301,19 +316,19 @@ function startGeneModal(gene_obj) {
         //SVRules
         loadSVRuleIntoUI("lobe_input", gene_obj.SpecialiazedObj.InitSVRule);
         loadSVRuleIntoUI("lobe_update", gene_obj.SpecialiazedObj.UpdateSVRule);
-    } else if (gene_obj.GeneType == 0 && gene_obj.GeneSubType == 1) {
-        //Brain organ
-        $('#geneModalSpecialized').append($('#geneBrainOrgan'));
-        $('#brainOrganClockRate').val(gene_obj.SpecialiazedObj.ClockRate);
-        $('#brainOrganClockRate').change();
-        $('#brainOrganRepairRate').val(gene_obj.SpecialiazedObj.RepairRate);
-        $('#brainOrganRepairRate').change();
-        $('#brainOrganLifeForce').val(gene_obj.SpecialiazedObj.LifeForce);
-        $('#brainOrganLifeForce').change();
-        $('#brainOrganBioTickStart').val(gene_obj.SpecialiazedObj.BioTickStart);
-        $('#brainOrganBioTickStart').change();
-        $('#brainOrganATPDamageCoeff').val(gene_obj.SpecialiazedObj.ATPDamageCoEff);
-        $('#brainOrganATPDamageCoeff').change();
+    } else if ((gene_obj.GeneType == 0 && gene_obj.GeneSubType == 1) || (gene_obj.GeneType == 3 && gene_obj.GeneSubType == 0)) {
+        //Brain organ or Organ
+        $('#geneModalSpecialized').append($('#geneOrgan'));
+        $('#organClockRate').val(gene_obj.SpecialiazedObj.ClockRate);
+        $('#organClockRate').change();
+        $('#organRepairRate').val(gene_obj.SpecialiazedObj.RepairRate);
+        $('#organRepairRate').change();
+        $('#organLifeForce').val(gene_obj.SpecialiazedObj.LifeForce);
+        $('#organLifeForce').change();
+        $('#organBioTickStart').val(gene_obj.SpecialiazedObj.BioTickStart);
+        $('#organBioTickStart').change();
+        $('#organATPDamageCoeff').val(gene_obj.SpecialiazedObj.ATPDamageCoEff);
+        $('#organATPDamageCoeff').change();
     } else if (gene_obj.GeneType == 0 && gene_obj.GeneSubType == 2) {
         //Brain tract
         $('#geneModalSpecialized').append($('#geneLobeTract'));
@@ -351,6 +366,29 @@ function startGeneModal(gene_obj) {
         //SVRules
         loadSVRuleIntoUI("lobetract_input", gene_obj.SpecialiazedObj.InitSVRule);
         loadSVRuleIntoUI("lobetract_update", gene_obj.SpecialiazedObj.UpdateSVRule);
+    } else if (gene_obj.GeneType == 1 && gene_obj.GeneSubType == 0) {
+        //Biochemistry Receptor
+        $('#geneModalSpecialized').append($('#geneBiochemistryReceptor'));
+        $('#biochemistryReceptorOrgan').val(gene_obj.SpecialiazedObj.Organ);
+        $('#biochemistryReceptorTissue').val(gene_obj.SpecialiazedObj.Tissue);
+        $('#biochemistryReceptorLocus').val(gene_obj.SpecialiazedObj.Locus);
+        $('#biochemistryReceptorChemical').val(gene_obj.SpecialiazedObj.Chemical);
+        $('#biochemistryReceptorThreshold').val(gene_obj.SpecialiazedObj.Threshold);
+        $('#biochemistryReceptorThreshold').change();
+        $('#biochemistryReceptorNominal').val(gene_obj.SpecialiazedObj.Nominal);
+        $('#biochemistryReceptorNominal').change();
+        $('#biochemistryReceptorGain').val(gene_obj.SpecialiazedObj.Gain);
+        $('#biochemistryReceptorGain').change();
+        if (gene_obj.SpecialiazedObj.Inverted) {
+            $('#biochemistryReceptorFlags1').prop('checked', true);
+        } else {
+            $('#biochemistryReceptorFlags1').prop('checked', false);
+        }
+        if (gene_obj.SpecialiazedObj.Digital) {
+            $('#biochemistryReceptorFlags2').prop('checked', true);
+        } else {
+            $('#biochemistryReceptorFlags2').prop('checked', false);
+        }
     }
 
     edited_gene = gene_obj;
@@ -467,13 +505,13 @@ function saveGeneModal() {
             //SVRules
             saveSVRuleFromUI("lobe_input", edited_gene.SpecialiazedObj.InitSVRule);
             saveSVRuleFromUI("lobe_update", edited_gene.SpecialiazedObj.UpdateSVRule);
-        } else if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 1) {
-            //Brain Organ
-            edited_gene.SpecialiazedObj.ClockRate = $('#brainOrganClockRate').val();
-            edited_gene.SpecialiazedObj.RepairRate = $('#brainOrganRepairRate').val();
-            edited_gene.SpecialiazedObj.LifeForce = $('#brainOrganLifeForce').val();
-            edited_gene.SpecialiazedObj.BioTickStart= $('#brainOrganBioTickStart').val();
-            edited_gene.SpecialiazedObj.ATPDamageCoEff = $('#brainOrganATPDamageCoeff').val();
+        } else if ((edited_gene.GeneType == 0 && edited_gene.GeneSubType == 1) || (edited_gene.GeneType == 3 && edited_gene.GeneSubType == 0)) {
+            //Brain Organ or Organ
+            edited_gene.SpecialiazedObj.ClockRate = $('#organClockRate').val();
+            edited_gene.SpecialiazedObj.RepairRate = $('#organRepairRate').val();
+            edited_gene.SpecialiazedObj.LifeForce = $('#organLifeForce').val();
+            edited_gene.SpecialiazedObj.BioTickStart= $('#organBioTickStart').val();
+            edited_gene.SpecialiazedObj.ATPDamageCoEff = $('#organATPDamageCoeff').val();
         } else if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 2) {
             //Brain Tract
             edited_gene.SpecialiazedObj.UpdateTime = $('#lobetractUpdateTime').val();
@@ -499,6 +537,25 @@ function saveGeneModal() {
             }
             saveSVRuleFromUI("lobetract_input", edited_gene.SpecialiazedObj.InitSVRule);
             saveSVRuleFromUI("lobetract_update", edited_gene.SpecialiazedObj.UpdateSVRule);
+        } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 0) {
+            //Biochemistry Receptor
+            edited_gene.SpecialiazedObj.Organ = $('#biochemistryReceptorOrgan').val();
+            edited_gene.SpecialiazedObj.Tissue = $('#biochemistryReceptorTissue').val();
+            edited_gene.SpecialiazedObj.Locus = $('#biochemistryReceptorLocus').val();
+            edited_gene.SpecialiazedObj.Chemical = $('#biochemistryReceptorChemical').val();
+            edited_gene.SpecialiazedObj.Threshold = $('#biochemistryReceptorThreshold').val();
+            edited_gene.SpecialiazedObj.Nominal = $('#biochemistryReceptorNominal').val();
+            edited_gene.SpecialiazedObj.Gain= $('#biochemistryReceptorGain').val();
+            if ($('#biochemistryReceptorFlags1').prop('checked')) {
+                edited_gene.SpecialiazedObj.Inverted = true;
+            } else {
+                edited_gene.SpecialiazedObj.Inverted = false;
+            }
+            if ($('#biochemistryReceptorFlags2').prop('checked')) {
+                edited_gene.SpecialiazedObj.Digital = true;
+            } else {
+                edited_gene.SpecialiazedObj.Digital = false;
+            }
         }
     }
 

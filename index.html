@@ -594,19 +594,19 @@
     </div>
 
     <!-- Brain Organ -->
-    <div id="geneBrainOrgan">
+    <div id="geneOrgan">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title" name="brainOrganTitle">Brain organ details</h5>
+                <h5 class="card-title" name="organTitle">Organ details</h5>
                 <div class="row">
                     <div class="col-md-3 pull-left">
                         <label class="control-label">Clockrate</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganClockRate" gk-label="brainOrganClockRate_label" onChange="updateRangeLabel($(this))">
+                        <input type="range" class="custom-range" min="0" max="255" id="organClockRate" gk-label="organClockRate_label" onChange="updateRangeLabel($(this))">
                     </div>
                     <div class="col-md-3">
-                        <span id="brainOrganClockRate_label">0</span>
+                        <span id="organClockRate_label">0</span>
                     </div>
                 </div>
                 <div class="row">
@@ -614,10 +614,10 @@
                         <label class="control-label">Organ Vulnerability</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganRepairRate" gk-label="brainOrganRepairRate_label" onChange="updateRangeLabel($(this))">
+                        <input type="range" class="custom-range" min="0" max="255" id="organRepairRate" gk-label="organRepairRate_label" onChange="updateRangeLabel($(this))">
                     </div>
                     <div class="col-md-3">
-                        <span id="brainOrganRepairRate_label">0</span>
+                        <span id="organRepairRate_label">0</span>
                     </div>
                 </div>
                 <div class="row">
@@ -625,10 +625,10 @@
                         <label class="control-label">Lifeforce start value</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganLifeForce" gk-label="brainOrganLifeForce_label" onChange="updateRangeLabel($(this))">
+                        <input type="range" class="custom-range" min="0" max="255" id="organLifeForce" gk-label="organLifeForce_label" onChange="updateRangeLabel($(this))">
                     </div>
                     <div class="col-md-3">
-                        <span id="brainOrganLifeForce_label">0</span>
+                        <span id="organLifeForce_label">0</span>
                     </div>
                 </div>
                 <hr/>
@@ -637,10 +637,10 @@
                         <label class="control-label">Biotick start</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganBioTickStart" gk-label="brainOrganBioTickStart_label" onChange="updateRangeLabel($(this))">
+                        <input type="range" class="custom-range" min="0" max="255" id="organBioTickStart" gk-label="organBioTickStart_label" onChange="updateRangeLabel($(this))">
                     </div>
                     <div class="col-md-3">
-                        <span id="brainOrganBioTickStart_label">0</span>
+                        <span id="organBioTickStart_label">0</span>
                     </div>
                 </div>
                 <div class="row">
@@ -648,10 +648,111 @@
                         <label class="control-label">ATP Damage coeff</label>
                     </div>
                     <div class="col-md-3">
-                        <input type="range" class="custom-range" min="0" max="255" id="brainOrganATPDamageCoeff" gk-label="brainOrganATPDamageCoeff_label" onChange="updateRangeLabel($(this))">
+                        <input type="range" class="custom-range" min="0" max="255" id="organATPDamageCoeff" gk-label="organATPDamageCoeff_label" onChange="updateRangeLabel($(this))">
                     </div>
                     <div class="col-md-3">
-                        <span id="brainOrganATPDamageCoeff_label">0</span>
+                        <span id="organATPDamageCoeff_label">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brain Organ -->
+    <div id="geneBiochemistryReceptor">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="biochemistryReceptorAttachementTitle">Receptor Attachement</h5>
+                <div class="row">
+                    <div class="col-md-2">
+                        Organ
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" id="biochemistryReceptorOrgan">
+                            <option value="0">Brain</option>
+                            <option value="1">Creature</option>
+                            <option value="2">Current Organ</option>
+                            <option value="3">Current Reaction</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        Tissue (TODO)
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="biochemistryReceptorTissue"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        Locus (TODO)
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="biochemistryReceptorLocus"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="biochemistryReceptorChemicalTitle">Chemical Information</h5>
+                <div class="row">
+                    <div class="col-md-2">
+                        Chemical
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control" id="biochemistryReceptorChemical">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Threshold</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="biochemistryReceptorThreshold" gk-label="biochemistryReceptorThreshold_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="biochemistryReceptorThreshold_label">0</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Nominal</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="biochemistryReceptorNominal" gk-label="biochemistryReceptorNominal_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="biochemistryReceptorNominal_label">0</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 pull-left">
+                        <label class="control-label">Gain</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="range" class="custom-range" min="0" max="255" id="biochemistryReceptorGain" gk-label="biochemistryReceptorGain_label" onChange="updateRangeLabel($(this))">
+                    </div>
+                    <div class="col-md-3">
+                        <span id="biochemistryReceptorGain_label">0</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="biochemistryReceptorFlags1">
+                        <label class="form-check-label" for="biochemistryReceptorFlags1">
+                            Output REDUCES with increased stimulation
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-check mb-2">
+                        <input class="form-check-input" type="checkbox" id="biochemistryReceptorFlags2">
+                        <label class="form-check-label" for="biochemistryReceptorFlags2">
+                            Digital (o/p=nominal+/-gain if sig > threshold)
+                        </label>
                     </div>
                 </div>
             </div>
@@ -815,7 +916,9 @@
         for (var i = 0; i < sv_notes.length; i++) {
             var gene = getGene(sv_notes[i].GeneType, sv_notes[i].GeneSubType, sv_notes[i].UniqueId);
             if (gene && gene.SpecialiazedObj) {
-                gene.SpecialiazedObj.setSVNote(sv_notes[i]);
+                if (gene.SpecialiazedObj.setSVNote) {
+                    gene.SpecialiazedObj.setSVNote(sv_notes[i]);
+                }
             }
         }
         refreshDataTable();
