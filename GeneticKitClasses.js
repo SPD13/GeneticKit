@@ -52,13 +52,24 @@ class Gene {
             //Brain
             if (this.GeneSubType == 0) {
                 //Brain Lobe
-                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8, -1), this);
+                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8), this);
             } else if (this.GeneSubType == 1) {
                 //Brain Organ
-                this.SpecialiazedObj = new GeneBrainOrgan(bytes.slice(8, -1), this);
+                this.SpecialiazedObj = new GeneOrgan(bytes.slice(8), this);
             } else if (this.GeneSubType == 2) {
                 //Brain Tract
-                this.SpecialiazedObj = new GeneBrainTract(bytes.slice(8,-1), this);
+                this.SpecialiazedObj = new GeneBrainTract(bytes.slice(8), this);
+            }
+        } else if (this.GeneType == 1) {
+            //Chemical
+            if (this.GeneSubType == 0) {
+                this.SpecialiazedObj = new GeneBiochemistryReceptor(bytes.slice(8), this);
+            }
+        } else if (this.GeneType == 3) {
+            //Organ
+            if (this.GeneSubType == 0) {
+                //Organ
+                this.SpecialiazedObj = new GeneOrgan(bytes.slice(8), this);
             }
         }
     }
@@ -84,6 +95,7 @@ class Gene {
     }
 
     writeFlags() {
+        this.Flags = 0;
         this.Flags = updateBit(this.Flags, 0, this.Mutable);
         this.Flags = updateBit(this.Flags, 1, this.Duplicable);
         this.Flags = updateBit(this.Flags, 2, this.Deletable);
@@ -243,7 +255,7 @@ class GeneBrainLobe {
     }
 }
 
-class GeneBrainOrgan {
+class GeneOrgan {
     ClockRate = null;
     RepairRate = null;
     LifeForce = null;
@@ -334,6 +346,57 @@ class GeneBrainTract {
             //Update rule
             this.UpdateSVRule.setSVNote(SVNoteObj);
         }
+    }
+}
+
+class GeneBiochemistryReceptor {
+
+    Organ = null;
+    Tissue = null;
+    Locus = null;
+    Chemical = null;
+    Threshold = null;
+    Nominal = null;
+    Gain = null;
+    Flags = null; //1=Inverted; 2=Digital (Output = Nominal ± Gain If Signal>Threshold)
+    Inverted = false;
+    Digital = false;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Organ = bytes[0];
+        this.Tissue = bytes[1];
+        this.Locus = bytes[2];
+        this.Chemical = bytes[3];
+        this.Threshold = bytes[4];
+        this.Nominal = bytes[5];
+        this.Gain = bytes[6];
+        this.Flags = bytes[7];
+        this.readFlags();
+    }
+
+    getBytes() {
+        this.writeFlags();
+        var bytes = new Uint8Array([this.Organ, this.Tissue, this.Locus, this.Chemical, this.Threshold, this.Nominal, this.Gain, this.Flags]);
+        return bytes;
+    }
+
+    //Read flags based on the bits values
+    readFlags() {
+        this.Inverted = (this.Flags & (1 << 0));
+        this.Digital = (this.Flags & (1 << 1));
+    }
+
+    writeFlags() {
+        this.Flags = 0;
+        this.Flags = updateBit(this.Flags, 0, this.Inverted);
+        this.Flags = updateBit(this.Flags, 1, this.Digital);
     }
 }
 
