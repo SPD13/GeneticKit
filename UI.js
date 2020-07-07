@@ -297,6 +297,20 @@ function startGeneModal(gene_obj) {
     } else if (gene_obj.GeneType == 0 && gene_obj.GeneSubType == 2) {
         $('#geneModalSpecialized').append($('#geneLobeTract'));
         $('#lobetractUpdateTime').val(gene_obj.SpecialiazedObj.UpdateTime);
+        $('#lobetract_connection_start_lobeid').val(gene_obj.SpecialiazedObj.SourceLobeId);
+        $('#lobetract_connection_start_lobeid').change();
+        $('#lobetract_connection_start_startneuron').val(gene_obj.SpecialiazedObj.SourceLobeLowerBound);
+        $('#lobetract_connection_start_startneuron').change();
+        $('#lobetract_connection_start_endneuron').val(gene_obj.SpecialiazedObj.SourceLobeUpperBound);
+        $('#lobetract_connection_start_endneuron').change();
+        $('#lobetract_connection_start_nbconnections').val(gene_obj.SpecialiazedObj.SourceNBConnections);
+        $('#lobetract_connection_end_lobeid').val(gene_obj.SpecialiazedObj.DestinationLobeId);
+        $('#lobetract_connection_end_lobeid').change();
+        $('#lobetract_connection_end_startneuron').val(gene_obj.SpecialiazedObj.DestinationLobeLowerBound);
+        $('#lobetract_connection_end_startneuron').change();
+        $('#lobetract_connection_end_endneuron').val(gene_obj.SpecialiazedObj.DestinationLobeUpperBound);
+        $('#lobetract_connection_end_endneuron').change();
+        $('#lobetract_connection_end_nbconnections').val(gene_obj.SpecialiazedObj.DestinationNBConnections);
         //SVRules
         loadSVRuleIntoUI("lobetract_input", gene_obj.SpecialiazedObj.InitSVRule);
         loadSVRuleIntoUI("lobetract_update", gene_obj.SpecialiazedObj.UpdateSVRule);
@@ -417,6 +431,15 @@ function saveGeneModal() {
             saveSVRuleFromUI("lobe_input", edited_gene.SpecialiazedObj.InitSVRule);
             saveSVRuleFromUI("lobe_update", edited_gene.SpecialiazedObj.UpdateSVRule);
         } else if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 2) {
+            edited_gene.SpecialiazedObj.UpdateTime = $('#lobetractUpdateTime').val();
+            edited_gene.SpecialiazedObj.SourceLobeId = $('#lobetract_connection_start_lobeid').val();
+            edited_gene.SpecialiazedObj.SourceLobeLowerBound = $('#lobetract_connection_start_startneuron').val();
+            edited_gene.SpecialiazedObj.SourceLobeUpperBound = $('#lobetract_connection_start_endneuron').val();
+            edited_gene.SpecialiazedObj.SourceNBConnections = $('#lobetract_connection_start_nbconnections').val();
+            edited_gene.SpecialiazedObj.DestinationLobeId = $('#lobetract_connection_end_lobeid').val();
+            edited_gene.SpecialiazedObj.DestinationLobeLowerBound = $('#lobetract_connection_end_startneuron').val();
+            edited_gene.SpecialiazedObj.DestinationLobeUpperBound = $('#lobetract_connection_end_endneuron').val();
+            edited_gene.SpecialiazedObj.DestinationNBConnections = $('#lobetract_connection_end_nbconnections').val();
             saveSVRuleFromUI("lobetract_input", edited_gene.SpecialiazedObj.InitSVRule);
             saveSVRuleFromUI("lobetract_update", edited_gene.SpecialiazedObj.UpdateSVRule);
         }

@@ -32,7 +32,12 @@ LobeId_str = {
     situ: "Situation",
     forf: "Friends and Foes",
     attn: "Attention",
-    decn: "Decision"
+    decn: "Decision",
+    move: "Move",
+    comb: "Combinations",
+    stim: "Stimuli",
+    resp: "Response",
+    mood: "Mood"
 };
 NeuronVariable_str = [
     "State",

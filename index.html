@@ -829,7 +829,7 @@
                 if (genes[i].GeneType == 0 && genes[i].GeneSubType == 0) {
                     if (genes[i].SpecialiazedObj) {
                         if (genes[i].SpecialiazedObj.LobeId == lobeId) {
-                            return genes[i].SpecialiazedObj.Width * genes[i].SpecialiazedObj.Height;
+                            return genes[i].SpecialiazedObj.Width * genes[i].SpecialiazedObj.Height - 1; //TODO:Check why -1?
                         }
                     }
                 }
