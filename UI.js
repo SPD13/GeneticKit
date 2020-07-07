@@ -241,6 +241,14 @@ function refreshLobeLabel() {
     }
 }
 
+//Move all specialized Gene UI panels back into the hidden DIV
+function clearSpecializedPanels() {
+    $('#hiddenPanel').append($('#geneLobe'));
+    $('#hiddenPanel').append($('#geneOrgan'));
+    $('#hiddenPanel').append($('#geneLobeTract'));
+    $('#hiddenPanel').append($('#geneBiochemistryReceptor'));
+}
+
 function startGeneModal(gene_obj) {
     //Modal Label
     label = "(# " + gene_obj.EntryNumber + ")";
@@ -293,6 +301,7 @@ function startGeneModal(gene_obj) {
     }
 
     //Specialized UI
+    clearSpecializedPanels();
     if (gene_obj.GeneType == 0 && gene_obj.GeneSubType == 0) {
         //Brain Lobe
         $('#geneModalSpecialized').append($('#geneLobe'));
