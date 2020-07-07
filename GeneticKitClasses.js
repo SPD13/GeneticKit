@@ -52,7 +52,10 @@ class Gene {
             //Brain
             if (this.GeneSubType == 0) {
                 //Brain Lobe
-                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8,-1), this);
+                this.SpecialiazedObj = new GeneBrainLobe(bytes.slice(8, -1), this);
+            } else if (this.GeneSubType == 1) {
+                //Brain Organ
+                this.SpecialiazedObj = new GeneBrainOrgan(bytes.slice(8, -1), this);
             } else if (this.GeneSubType == 2) {
                 //Brain Tract
                 this.SpecialiazedObj = new GeneBrainTract(bytes.slice(8,-1), this);
@@ -240,6 +243,31 @@ class GeneBrainLobe {
     }
 }
 
+class GeneBrainOrgan {
+    ClockRate = null;
+    RepairRate = null;
+    LifeForce = null;
+    BioTickStart = null;
+    ATPDamageCoEff = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+
+        this.ClockRate = bytes[0];
+        this.RepairRate = bytes[1];
+        this.LifeForce = bytes[2];
+        this.BioTickStart = bytes[3];
+        this.ATPDamageCoEff = bytes[4];
+    }
+
+    getBytes() {
+        var bytes = new Uint8Array([this.ClockRate, this.RepairRate, this.LifeForce, this.BioTickStart, this.ATPDamageCoEff]);
+        return bytes;
+    }
+}
+
 class GeneBrainTract {
     UpdateTime = null;
     SourceLobeId = null;
@@ -296,6 +324,16 @@ class GeneBrainTract {
         bytes = mergeUint8Arrays(bytes, this.InitSVRule.getBytes());
         bytes = mergeUint8Arrays(bytes, this.UpdateSVRule.getBytes());
         return bytes;
+    }
+
+    setSVNote(SVNoteObj) {
+        if (SVNoteObj.RuleNumber == 0) {
+            //Init rule
+            this.InitSVRule.setSVNote(SVNoteObj);
+        } else if (SVNoteObj.RuleNumber == 1) {
+            //Update rule
+            this.UpdateSVRule.setSVNote(SVNoteObj);
+        }
     }
 }
 
