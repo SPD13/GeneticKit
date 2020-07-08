@@ -77,6 +77,9 @@ class Gene {
             } else if (this.GeneSubType == 4) {
                 //Initial Concentration
                 this.SpecialiazedObj = new GeneBiochemistryInitialConcentration(bytes.slice(8), this);
+            } else if (this.GeneSubType == 5) {
+                //Neuro Emitter
+                this.SpecialiazedObj = new GeneBiochemistryNeuroEmitter(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -499,6 +502,71 @@ class GeneBiochemistryInitialConcentration {
 
     getBytes() {
         return new Uint8Array([this.Chemical, this.Amount]);
+    }
+}
+
+class GeneBiochemistryNeuroEmitter {
+    Lobe1 = null;
+    Neuron1 = null;
+    Lobe2 = null;
+    Neuron2 = null;
+    Lobe3 = null;
+    Neuron3 = null;
+
+    SampleRate = 0;
+
+    Chemical1 = 0;
+    Amount1 = 0;
+    Chemical2 = 0;
+    Amount2 = 0;
+    Chemical3 = 0;
+    Amount3 = 0;
+    Chemical4 = 0;
+    Amount4 = 0;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Lobe1 = bytes[0];
+        this.Neuron1 = bytes[1];
+        this.Lobe2 = bytes[2];
+        this.Neuron2 = bytes[3];
+        this.Lobe3 = bytes[4];
+        this.Neuron3 = bytes[5];
+        this.SampleRate = bytes[6];
+        this.Chemical1 = bytes[7];
+        this.Amount1 = bytes[8];
+        this.Chemical2 = bytes[9];
+        this.Amount2 = bytes[10];
+        this.Chemical3 = bytes[11];
+        this.Amount3 = bytes[12];
+        this.Chemical4 = bytes[13];
+        this.Amount4 = bytes[14];
+    }
+
+    getBytes() {
+        return new Uint8Array([
+            this.Lobe1,
+            this.Neuron1,
+            this.Lobe2,
+            this.Neuron2,
+            this.Lobe3,
+            this.Neuron3,
+            this.SampleRate,
+            this.Chemical1,
+            this.Amount1,
+            this.Chemical2,
+            this.Amount2,
+            this.Chemical3,
+            this.Amount3,
+            this.Chemical4,
+            this.Amount4
+        ]);
     }
 }
 

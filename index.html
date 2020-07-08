@@ -189,7 +189,7 @@
     </div>
 
     <!-- Brain Lobe -->
-    <div id="geneLobe">
+    <div id="geneLobe" name="specializedPane">
         <ul class="nav nav-tabs" id="lobeTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="lobegeneral-tab" data-toggle="tab" href="#lobegeneral" role="tab"
@@ -365,7 +365,7 @@
     </div>
 
     <!-- Brain Lobe Tract -->
-    <div id="geneLobeTract">
+    <div id="geneLobeTract" name="specializedPane">
         <ul class="nav nav-tabs" id="lobetractTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="lobetractgeneral-tab" data-toggle="tab" href="#lobetractgeneral" role="tab"
@@ -593,8 +593,8 @@
         </div>
     </div>
 
-    <!-- Brain Organ -->
-    <div id="geneOrgan">
+    <!-- Organ -->
+    <div id="geneOrgan" name="specializedPane">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title" name="organTitle">Organ details</h5>
@@ -659,7 +659,7 @@
     </div>
 
     <!-- Biochemistry Receptor -->
-    <div id="geneBiochemistryReceptor">
+    <div id="geneBiochemistryReceptor" name="specializedPane">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title" name="biochemistryReceptorAttachementTitle">Receptor Attachement</h5>
@@ -788,7 +788,7 @@
     </div>
 
     <!-- Biochemistry Reaction -->
-    <div id="geneBiochemistryReaction">
+    <div id="geneBiochemistryReaction" name="specializedPane">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title" name="biochemistryReactionDetailsTitle">Reaction Details</h5>
@@ -867,7 +867,7 @@
     </div>
 
     <!-- Biochemistry Half Lives -->
-    <div id="geneBiochemistryHalfLives">
+    <div id="geneBiochemistryHalfLives" name="specializedPane">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title" name="biochemistryHalfLivesTitle">Half Lives</h5>
@@ -898,7 +898,7 @@
     </div>
 
     <!-- Biochemistry Initial Concentration -->
-    <div id="geneBiochemistryInitialConcentration">
+    <div id="geneBiochemistryInitialConcentration" name="specializedPane">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title" name="geneBiochemistryInitialConcentrationTitle">Chemical Information</h5>
@@ -922,6 +922,120 @@
         </div>
     </div>
 
+    <!-- Biochemistry Neuro Emitter -->
+    <div id="geneBiochemistryNeuroEmitter" name="specializedPane">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="geneBiochemistryNeuroEmitterTitle">When this is true: (Lobe/Cell)</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Tissue (TODO)
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneBiochemistryNeuroEmitterLobe1"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneBiochemistryNeuroEmitterNeuron1"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Tissue (TODO)
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneBiochemistryNeuroEmitterLobe2"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneBiochemistryNeuroEmitterNeuron2"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Tissue (TODO)
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneBiochemistryNeuroEmitterLobe3"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneBiochemistryNeuroEmitterNeuron3"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="geneBiochemistryNeuroEmitterTitle2">Chemicals Emitted</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneBiochemistryNeuroEmitterChemical1">
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <input type="range" class="custom-range" min="0" max="255" id="geneBiochemistryNeuroEmitterChemicalAmount1" gk-label="geneBiochemistryNeuroEmitterChemicalAmount1_label" onChange="updateRangeLabel($(this))">
+                            </div>
+                            <div class="col-md-2">
+                                <span id="geneBiochemistryNeuroEmitterChemicalAmount1_label">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneBiochemistryNeuroEmitterChemical2">
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <input type="range" class="custom-range" min="0" max="255" id="geneBiochemistryNeuroEmitterChemicalAmount2" gk-label="geneBiochemistryNeuroEmitterChemicalAmount2_label" onChange="updateRangeLabel($(this))">
+                            </div>
+                            <div class="col-md-2">
+                                <span id="geneBiochemistryNeuroEmitterChemicalAmount2_label">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneBiochemistryNeuroEmitterChemical3">
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <input type="range" class="custom-range" min="0" max="255" id="geneBiochemistryNeuroEmitterChemicalAmount3" gk-label="geneBiochemistryNeuroEmitterChemicalAmount3_label" onChange="updateRangeLabel($(this))">
+                            </div>
+                            <div class="col-md-2">
+                                <span id="geneBiochemistryNeuroEmitterChemicalAmount3_label">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneBiochemistryNeuroEmitterChemical4">
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <input type="range" class="custom-range" min="0" max="255" id="geneBiochemistryNeuroEmitterChemicalAmount4" gk-label="geneBiochemistryNeuroEmitterChemicalAmount4_label" onChange="updateRangeLabel($(this))">
+                            </div>
+                            <div class="col-md-2">
+                                <span id="geneBiochemistryNeuroEmitterChemicalAmount4_label">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneBiochemistryNeuroEmitterSampleRate" gk-label="geneBiochemistryNeuroEmitterSampleRate_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneBiochemistryNeuroEmitterSampleRate_label">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
