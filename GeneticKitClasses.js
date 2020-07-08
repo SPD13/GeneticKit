@@ -71,6 +71,9 @@ class Gene {
             } else if (this.GeneSubType == 2) {
                 //Reaction
                 this.SpecialiazedObj = new GeneBiochemistryReaction(bytes.slice(8), this);
+            } else if (this.GeneSubType == 3) {
+                //Half Lives
+                this.SpecialiazedObj = new GeneBiochemistryHalfLives(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -450,6 +453,28 @@ class GeneBiochemistryReaction {
     getBytes() {
         var bytes = new Uint8Array([this.Reactant0, this.Quantity0, this.Reactant1, this.Quantity1, this.Product2, this.Quantity2, this.Product3, this.Quantity3, this.ReactionRate]);
         return bytes;
+    }
+}
+
+class GeneBiochemistryHalfLives {
+    HalfLife = [] //These are the decay rates of all of the chemicals within the creature's Biochemical Sea. They are arranged in the same way as the reaction rate.
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        for (var i=0; i<256; i++)
+        {
+            this.HalfLife.push(bytes[i]);
+        }
+    }
+
+    getBytes() {
+        return new Uint8Array(this.HalfLife);
     }
 }
 

@@ -864,7 +864,67 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Biochemistry Half Lives -->
+    <div id="geneBiochemistryHalfLives">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="biochemistryHalfLivesTitle">Half Lives</h5>
+                <div class="container" id="biochemistryHalfLivesList">
+                    <div class="row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">Extremely slow</div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-2">Instant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="geneBiochemistryHalfLivesOld">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="biochemistryHalfLivesTitle">Half Lives</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-auto">
+                            <select class="form-control" id="biochemistryHalfLivesChemical" onChange="updateHalfLivesRange()">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">Half life of selected chemical</div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="range" class="custom-range" min="0" max="255" id="biochemistryHalfLivesVal" gk-label="biochemistryHalfLivesVal_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="biochemistryHalfLivesVal_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Extremely slow</div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-2">Instant</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biochemistry Half Lives -->
+    <div id="geneBiochemistryHalfLivesRow">
+        <div class="row">
+            <div class="col-md-4" name="biochemistryHalfLivesName">
+            </div>
+            <div class="col-md-6">
+                <input type="range" class="custom-range" min="0" max="255" name="biochemistryHalfLivesVal" gk-label="biochemistryHalfLivesVal_label" onChange="updateRangeLabel($(this))">
+            </div>
+            <div class="col-md-2">
+                <span name="biochemistryHalfLivesVal_label">0</span>
+            </div>
+        </div>
     </div>
 
 </div>
