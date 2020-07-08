@@ -375,8 +375,8 @@ function startGeneModal(gene_obj) {
         //SVRules
         loadSVRuleIntoUI("lobetract_input", gene_obj.SpecialiazedObj.InitSVRule);
         loadSVRuleIntoUI("lobetract_update", gene_obj.SpecialiazedObj.UpdateSVRule);
-    } else if (gene_obj.GeneType == 1 && gene_obj.GeneSubType == 0) {
-        //Biochemistry Receptor
+    } else if (gene_obj.GeneType == 1 && (gene_obj.GeneSubType == 0 || gene_obj.GeneSubType == 1)) {
+        //Biochemistry Receptor and Emitter
         $('#geneModalSpecialized').append($('#geneBiochemistryReceptor'));
         $('#biochemistryReceptorOrgan').val(gene_obj.SpecialiazedObj.Organ);
         $('#biochemistryReceptorTissue').val(gene_obj.SpecialiazedObj.Tissue);
@@ -388,15 +388,39 @@ function startGeneModal(gene_obj) {
         $('#biochemistryReceptorNominal').change();
         $('#biochemistryReceptorGain').val(gene_obj.SpecialiazedObj.Gain);
         $('#biochemistryReceptorGain').change();
-        if (gene_obj.SpecialiazedObj.Inverted) {
-            $('#biochemistryReceptorFlags1').prop('checked', true);
+        if (gene_obj.GeneSubType == 0) {
+            //Receptor
+            if (gene_obj.SpecialiazedObj.Inverted) {
+                $('#biochemistryReceptorFlags1').prop('checked', true);
+            } else {
+                $('#biochemistryReceptorFlags1').prop('checked', false);
+            }
+            if (gene_obj.SpecialiazedObj.Digital) {
+                $('#biochemistryReceptorFlags2').prop('checked', true);
+            } else {
+                $('#biochemistryReceptorFlags2').prop('checked', false);
+            }
+            $('#biochemistryReceptorCheckboxes').show();
+            $('#biochemistryEmitterCheckboxes').hide();
         } else {
-            $('#biochemistryReceptorFlags1').prop('checked', false);
-        }
-        if (gene_obj.SpecialiazedObj.Digital) {
-            $('#biochemistryReceptorFlags2').prop('checked', true);
-        } else {
-            $('#biochemistryReceptorFlags2').prop('checked', false);
+            //Emitter
+            if (gene_obj.SpecialiazedObj.Inverted) {
+                $('#biochemistryEmitterFlags1').prop('checked', true);
+            } else {
+                $('#biochemistryEmitterFlags1').prop('checked', false);
+            }
+            if (gene_obj.SpecialiazedObj.Digital) {
+                $('#biochemistryEmitterFlags2').prop('checked', true);
+            } else {
+                $('#biochemistryEmitterFlags2').prop('checked', false);
+            }
+            if (gene_obj.SpecialiazedObj.ClearSource) {
+                $('#biochemistryEmitterFlags3').prop('checked', true);
+            } else {
+                $('#biochemistryEmitterFlags3').prop('checked', false);
+            }
+            $('#biochemistryReceptorCheckboxes').hide();
+            $('#biochemistryEmitterCheckboxes').show();
         }
     }
 
@@ -546,8 +570,8 @@ function saveGeneModal() {
             }
             saveSVRuleFromUI("lobetract_input", edited_gene.SpecialiazedObj.InitSVRule);
             saveSVRuleFromUI("lobetract_update", edited_gene.SpecialiazedObj.UpdateSVRule);
-        } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 0) {
-            //Biochemistry Receptor
+        } else if (edited_gene.GeneType == 1 && (edited_gene.GeneSubType == 0 || edited_gene.GeneSubType == 1)) {
+            //Biochemistry Receptor and Emitter
             edited_gene.SpecialiazedObj.Organ = $('#biochemistryReceptorOrgan').val();
             edited_gene.SpecialiazedObj.Tissue = $('#biochemistryReceptorTissue').val();
             edited_gene.SpecialiazedObj.Locus = $('#biochemistryReceptorLocus').val();
@@ -555,15 +579,35 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.Threshold = $('#biochemistryReceptorThreshold').val();
             edited_gene.SpecialiazedObj.Nominal = $('#biochemistryReceptorNominal').val();
             edited_gene.SpecialiazedObj.Gain= $('#biochemistryReceptorGain').val();
-            if ($('#biochemistryReceptorFlags1').prop('checked')) {
-                edited_gene.SpecialiazedObj.Inverted = true;
+            if (edited_gene.GeneSubType == 0) {
+                //Receptor
+                if ($('#biochemistryReceptorFlags1').prop('checked')) {
+                    edited_gene.SpecialiazedObj.Inverted = true;
+                } else {
+                    edited_gene.SpecialiazedObj.Inverted = false;
+                }
+                if ($('#biochemistryReceptorFlags2').prop('checked')) {
+                    edited_gene.SpecialiazedObj.Digital = true;
+                } else {
+                    edited_gene.SpecialiazedObj.Digital = false;
+                }
             } else {
-                edited_gene.SpecialiazedObj.Inverted = false;
-            }
-            if ($('#biochemistryReceptorFlags2').prop('checked')) {
-                edited_gene.SpecialiazedObj.Digital = true;
-            } else {
-                edited_gene.SpecialiazedObj.Digital = false;
+                //Emitter
+                if ($('#biochemistryEmitterFlags1').prop('checked')) {
+                    edited_gene.SpecialiazedObj.Inverted = true;
+                } else {
+                    edited_gene.SpecialiazedObj.Inverted = false;
+                }
+                if ($('#biochemistryEmitterFlags2').prop('checked')) {
+                    edited_gene.SpecialiazedObj.Digital = true;
+                } else {
+                    edited_gene.SpecialiazedObj.Digital = false;
+                }
+                if ($('#biochemistryEmitterFlags3').prop('checked')) {
+                    edited_gene.SpecialiazedObj.ClearSource = true;
+                } else {
+                    edited_gene.SpecialiazedObj.ClearSource = false;
+                }
             }
         }
     }

@@ -63,7 +63,11 @@ class Gene {
         } else if (this.GeneType == 1) {
             //Chemical
             if (this.GeneSubType == 0) {
-                this.SpecialiazedObj = new GeneBiochemistryReceptor(bytes.slice(8), this);
+                //Receptor
+                this.SpecialiazedObj = new GeneBiochemistryReceptorEmitter(bytes.slice(8), this, 0);
+            } else if (this.GeneSubType == 1) {
+                //Emitter
+                this.SpecialiazedObj = new GeneBiochemistryReceptorEmitter(bytes.slice(8), this, 1);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -86,12 +90,12 @@ class Gene {
 
     //Read flags based on the bits values
     readFlags() {
-        this.Mutable = (this.Flags & (1 << 0));
-        this.Duplicable = (this.Flags & (1 << 1));
-        this.Deletable = (this.Flags & (1 << 2));
-        this.MaleOnly = (this.Flags & (1 << 3));
-        this.FemaleOnly = (this.Flags & (1 << 4));
-        this.NotExpressed = (this.Flags & (1 << 5));
+        this.Mutable = checkBitValue(this.Flags, 0);
+        this.Duplicable = checkBitValue(this.Flags, 1);
+        this.Deletable = checkBitValue(this.Flags, 2);
+        this.MaleOnly = checkBitValue(this.Flags, 3);
+        this.FemaleOnly = checkBitValue(this.Flags, 4);
+        this.NotExpressed = checkBitValue(this.Flags, 5);
     }
 
     writeFlags() {
@@ -349,7 +353,9 @@ class GeneBrainTract {
     }
 }
 
-class GeneBiochemistryReceptor {
+class GeneBiochemistryReceptorEmitter {
+
+    type = 0; //0=Receptor, 1=Emitter
 
     Organ = null;
     Tissue = null;
@@ -361,10 +367,12 @@ class GeneBiochemistryReceptor {
     Flags = null; //1=Inverted; 2=Digital (Output = Nominal ± Gain If Signal>Threshold)
     Inverted = false;
     Digital = false;
+    ClearSource = false;
 
     ParentObj = null;
 
-    constructor(bytes, parent_obj) {
+    constructor(bytes, parent_obj, type) {
+        this.type = type;
         this.ParentObj = parent_obj;
         this.readFromBytes(bytes);
     }
@@ -389,14 +397,20 @@ class GeneBiochemistryReceptor {
 
     //Read flags based on the bits values
     readFlags() {
-        this.Inverted = (this.Flags & (1 << 0));
-        this.Digital = (this.Flags & (1 << 1));
+        this.Inverted = checkBitValue(this.Flags, 0);
+        this.Digital = checkBitValue(this.Flags, 1);
+        if (this.type == 1) {
+            this.ClearSource = checkBitValue(this.Flags, 2);
+        }
     }
 
     writeFlags() {
         this.Flags = 0;
         this.Flags = updateBit(this.Flags, 0, this.Inverted);
         this.Flags = updateBit(this.Flags, 1, this.Digital);
+        if (this.type == 1) {
+            this.Flags = updateBit(this.Flags, 2, this.ClearSource);
+        }
     }
 }
 

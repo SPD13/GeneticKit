@@ -71,6 +71,15 @@ function mergeUint8Arrays(a, b) {
     return c;
 }
 
+function checkBitValue(number, bitPosition) {
+    var mask = 1 << bitPosition; // gets the nth bit
+    if ((number & mask) != 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function updateBit(number, bitPosition, bitValue) {
     const bitValueNormalized = bitValue ? 1 : 0;
     const clearMask = ~(1 << bitPosition);
