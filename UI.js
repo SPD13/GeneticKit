@@ -24,6 +24,21 @@ function initUI() {
     fillSelectWithChemicals($('#biochemistryReactionReactant1'));
     fillSelectWithChemicals($('#biochemistryReactionProduct2'));
     fillSelectWithChemicals($('#biochemistryReactionProduct3'));
+    //Biochemistry Half lives
+    for (var i=0; i<256; i++) {
+        var halflife_row = $("#geneBiochemistryHalfLivesRow").clone();
+        var chemical_name = "Unknown Chemical "+i;
+        if (i<Chemicals_str.length) {
+            if (Chemicals_str[i] != "") {
+                chemical_name = Chemicals_str[i];
+            }
+        }
+        halflife_row.find('div[name=biochemistryHalfLivesName]').html(chemical_name);
+        halflife_row.find('input[name=biochemistryHalfLivesVal]').attr("id","biochemistryHalfLivesVal_" + i);
+        halflife_row.find('span[name=biochemistryHalfLivesVal_label]').attr("id","biochemistryHalfLivesVal_label_" + i);
+        halflife_row.find('input[name=biochemistryHalfLivesVal]').attr("gk-label","biochemistryHalfLivesVal_label_" + i);
+        $('#biochemistryHalfLivesList').append(halflife_row);
+    }
 }
 
 function initUISVRule(prefix) {
@@ -440,6 +455,15 @@ function startGeneModal(gene_obj) {
         $('#biochemistryReactionProduct3Qty').val(gene_obj.SpecialiazedObj.Quantity3);
         $('#biochemistryReactionRate').val(gene_obj.SpecialiazedObj.ReactionRate);
         $('#biochemistryReactionRate').change();
+    } else if (gene_obj.GeneType == 1 && gene_obj.GeneSubType == 3) {
+        //Biochemistry Half Lives
+        $('#geneModalSpecialized').append($('#geneBiochemistryHalfLives'));
+        for (var i=0; i<256; i++) {
+            if (i<gene_obj.SpecialiazedObj.HalfLife.length) {
+                $('#biochemistryHalfLivesVal_' + i).val(gene_obj.SpecialiazedObj.HalfLife[i]);
+                $('#biochemistryHalfLivesVal_' + i).change();
+            }
+        }
     }
 
     edited_gene = gene_obj;
@@ -628,6 +652,7 @@ function saveGeneModal() {
                 }
             }
         } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 2) {
+            //Biochemistry Reaction
             edited_gene.SpecialiazedObj.Reactant0 = $('#biochemistryReactionReactant0').val();
             edited_gene.SpecialiazedObj.Quantity0 = $('#biochemistryReactionReactant0Qty').val();
             edited_gene.SpecialiazedObj.Reactant1 = $('#biochemistryReactionReactant1').val();
@@ -637,6 +662,14 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.Product3 = $('#biochemistryReactionProduct3').val();
             edited_gene.SpecialiazedObj.Quantity3 = $('#biochemistryReactionProduct3Qty').val();
             edited_gene.SpecialiazedObj.ReactionRate = $('#biochemistryReactionRate').val();
+        } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 3) {
+            //Biochemistry Half Lives
+            if (edited_gene.SpecialiazedObj.HalfLife.length<255) {
+                edited_gene.SpecialiazedObj.HalfLife = [255];
+            }
+            for (var i=0; i<256; i++) {
+                edited_gene.SpecialiazedObj.HalfLife[i] = $('#biochemistryHalfLivesVal_' + i).val();
+            }
         }
     }
 
