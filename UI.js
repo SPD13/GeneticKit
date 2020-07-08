@@ -39,6 +39,8 @@ function initUI() {
         halflife_row.find('input[name=biochemistryHalfLivesVal]').attr("gk-label","biochemistryHalfLivesVal_label_" + i);
         $('#biochemistryHalfLivesList').append(halflife_row);
     }
+    //Biochemistry Initial Concentration
+    fillSelectWithChemicals($("#geneBiochemistryInitialConcentrationChemical"));
 }
 
 function initUISVRule(prefix) {
@@ -464,6 +466,12 @@ function startGeneModal(gene_obj) {
                 $('#biochemistryHalfLivesVal_' + i).change();
             }
         }
+    } else if (gene_obj.GeneType == 1 && gene_obj.GeneSubType == 4) {
+        //Biochemistry Initial Concentration
+        $('#geneModalSpecialized').append($('#geneBiochemistryInitialConcentration'));
+        $('#geneBiochemistryInitialConcentrationChemical').val(gene_obj.SpecialiazedObj.Chemical);
+        $('#geneBiochemistryInitialConcentrationAmount').val(gene_obj.SpecialiazedObj.Amount);
+        $('#geneBiochemistryInitialConcentrationAmount').change();
     }
 
     edited_gene = gene_obj;
@@ -670,6 +678,10 @@ function saveGeneModal() {
             for (var i=0; i<256; i++) {
                 edited_gene.SpecialiazedObj.HalfLife[i] = $('#biochemistryHalfLivesVal_' + i).val();
             }
+        } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 4) {
+            //Biochemistry Initial Concentration
+            edited_gene.SpecialiazedObj.Chemical = $('#geneBiochemistryInitialConcentrationChemical').val();
+            edited_gene.SpecialiazedObj.Amount = $('#geneBiochemistryInitialConcentrationAmount').val();
         }
     }
 
