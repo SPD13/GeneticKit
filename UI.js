@@ -26,7 +26,7 @@ function initUI() {
     fillSelectWithChemicals($('#biochemistryReactionProduct3'));
     //Biochemistry Half lives
     for (var i=0; i<256; i++) {
-        var halflife_row = $("#geneBiochemistryHalfLivesRow").clone();
+        var halflife_row = $('#geneBiochemistryHalfLivesRow').clone();
         var chemical_name = "Unknown Chemical "+i;
         if (i<Chemicals_str.length) {
             if (Chemicals_str[i] != "") {
@@ -40,7 +40,12 @@ function initUI() {
         $('#biochemistryHalfLivesList').append(halflife_row);
     }
     //Biochemistry Initial Concentration
-    fillSelectWithChemicals($("#geneBiochemistryInitialConcentrationChemical"));
+    fillSelectWithChemicals($('#geneBiochemistryInitialConcentrationChemical'));
+    //Biochemistry Neuro Emitters
+    fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical1'));
+    fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical2'));
+    fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical3'));
+    fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical4'));
 }
 
 function initUISVRule(prefix) {
@@ -265,10 +270,7 @@ function refreshLobeLabel() {
 
 //Move all specialized Gene UI panels back into the hidden DIV
 function clearSpecializedPanels() {
-    $('#hiddenPanel').append($('#geneLobe'));
-    $('#hiddenPanel').append($('#geneOrgan'));
-    $('#hiddenPanel').append($('#geneLobeTract'));
-    $('#hiddenPanel').append($('#geneBiochemistryReceptor'));
+    $('#hiddenPanel').append($('div[name ="specializedPane"]'));
 }
 
 function startGeneModal(gene_obj) {
@@ -472,6 +474,29 @@ function startGeneModal(gene_obj) {
         $('#geneBiochemistryInitialConcentrationChemical').val(gene_obj.SpecialiazedObj.Chemical);
         $('#geneBiochemistryInitialConcentrationAmount').val(gene_obj.SpecialiazedObj.Amount);
         $('#geneBiochemistryInitialConcentrationAmount').change();
+    } else if (gene_obj.GeneType == 1 && gene_obj.GeneSubType == 5) {
+        //Biochemistry Neuro Emitter
+        $('#geneModalSpecialized').append($('#geneBiochemistryNeuroEmitter'));
+        $('#geneBiochemistryNeuroEmitterLobe1').val(gene_obj.SpecialiazedObj.Lobe1);
+        $('#geneBiochemistryNeuroEmitterNeuron1').val(gene_obj.SpecialiazedObj.Neuron1);
+        $('#geneBiochemistryNeuroEmitterLobe2').val(gene_obj.SpecialiazedObj.Lobe2);
+        $('#geneBiochemistryNeuroEmitterNeuron2').val(gene_obj.SpecialiazedObj.Neuron2);
+        $('#geneBiochemistryNeuroEmitterLobe3').val(gene_obj.SpecialiazedObj.Lobe3);
+        $('#geneBiochemistryNeuroEmitterNeuron3').val(gene_obj.SpecialiazedObj.Neuron3);
+        $('#geneBiochemistryNeuroEmitterChemical1').val(gene_obj.SpecialiazedObj.Chemical1);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount1').val(gene_obj.SpecialiazedObj.Amount1);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount1').change();
+        $('#geneBiochemistryNeuroEmitterChemical2').val(gene_obj.SpecialiazedObj.Chemical2);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount2').val(gene_obj.SpecialiazedObj.Amount2);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount2').change();
+        $('#geneBiochemistryNeuroEmitterChemical3').val(gene_obj.SpecialiazedObj.Chemical3);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount3').val(gene_obj.SpecialiazedObj.Amount3);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount3').change();
+        $('#geneBiochemistryNeuroEmitterChemical4').val(gene_obj.SpecialiazedObj.Chemical4);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount4').val(gene_obj.SpecialiazedObj.Amount4);
+        $('#geneBiochemistryNeuroEmitterChemicalAmount4').change();
+        $('#geneBiochemistryNeuroEmitterSampleRate').val(gene_obj.SpecialiazedObj.SampleRate);
+        $('#geneBiochemistryNeuroEmitterSampleRate').change();
     }
 
     edited_gene = gene_obj;
@@ -682,6 +707,23 @@ function saveGeneModal() {
             //Biochemistry Initial Concentration
             edited_gene.SpecialiazedObj.Chemical = $('#geneBiochemistryInitialConcentrationChemical').val();
             edited_gene.SpecialiazedObj.Amount = $('#geneBiochemistryInitialConcentrationAmount').val();
+        } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 5) {
+            //Biochemistry Neuro Emitter
+            edited_gene.SpecialiazedObj.Lobe1 = $('#geneBiochemistryNeuroEmitterLobe1').val();
+            edited_gene.SpecialiazedObj.Neuron1 = $('#geneBiochemistryNeuroEmitterNeuron1').val();
+            edited_gene.SpecialiazedObj.Lobe2 = $('#geneBiochemistryNeuroEmitterLobe2').val();
+            edited_gene.SpecialiazedObj.Neuron2 = $('#geneBiochemistryNeuroEmitterNeuron2').val();
+            edited_gene.SpecialiazedObj.Lobe3 = $('#geneBiochemistryNeuroEmitterLobe3').val();
+            edited_gene.SpecialiazedObj.Neuron3 = $('#geneBiochemistryNeuroEmitterNeuron3').val();
+            edited_gene.SpecialiazedObj.Chemical1 = $('#geneBiochemistryNeuroEmitterChemical1').val();
+            edited_gene.SpecialiazedObj.Amount1 = $('#geneBiochemistryNeuroEmitterChemicalAmount1').val();
+            edited_gene.SpecialiazedObj.Chemical2 = $('#geneBiochemistryNeuroEmitterChemical2').val();
+            edited_gene.SpecialiazedObj.Amount2 = $('#geneBiochemistryNeuroEmitterChemicalAmount2').val();
+            edited_gene.SpecialiazedObj.Chemical3 = $('#geneBiochemistryNeuroEmitterChemical3').val();
+            edited_gene.SpecialiazedObj.Amount3 = $('#geneBiochemistryNeuroEmitterChemicalAmount3').val();
+            edited_gene.SpecialiazedObj.Chemical4 = $('#geneBiochemistryNeuroEmitterChemical4').val();
+            edited_gene.SpecialiazedObj.Amount4 = $('#geneBiochemistryNeuroEmitterChemicalAmount4').val();
+            edited_gene.SpecialiazedObj.SampleRate = $('#geneBiochemistryNeuroEmitterSampleRate').val();
         }
     }
 
