@@ -68,6 +68,9 @@ class Gene {
             } else if (this.GeneSubType == 1) {
                 //Emitter
                 this.SpecialiazedObj = new GeneBiochemistryReceptorEmitter(bytes.slice(8), this, 1);
+            } else if (this.GeneSubType == 2) {
+                //Reaction
+                this.SpecialiazedObj = new GeneBiochemistryReaction(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -411,6 +414,42 @@ class GeneBiochemistryReceptorEmitter {
         if (this.type == 1) {
             this.Flags = updateBit(this.Flags, 2, this.ClearSource);
         }
+    }
+}
+
+class GeneBiochemistryReaction {
+    Reactant0 = null;
+    Quantity0 = null;
+    Reactant1 = null;
+    Quantity1 = null;
+    Product2 = null;
+    Quantity2 = null;
+    Product3 = null;
+    Quantity3 = null;
+    ReactionRate = 0; //The Reaction rate is such that 0=instant, 255=52 years
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Reactant0 = bytes[0];
+        this.Quantity0 = bytes[1];
+        this.Reactant1 = bytes[2];
+        this.Quantity1 = bytes[3];
+        this.Product2 = bytes[4];
+        this.Quantity2 = bytes[5];
+        this.Product3 = bytes[6];
+        this.Quantity3 = bytes[7];
+        this.ReactionRate = bytes[8];
+    }
+
+    getBytes() {
+        var bytes = new Uint8Array([this.Reactant0, this.Quantity0, this.Reactant1, this.Quantity1, this.Product2, this.Quantity2, this.Product3, this.Quantity3, this.ReactionRate]);
+        return bytes;
     }
 }
 
