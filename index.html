@@ -739,20 +739,48 @@
                         <span id="biochemistryReceptorGain_label">0</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="biochemistryReceptorFlags1">
-                        <label class="form-check-label" for="biochemistryReceptorFlags1">
-                            Output REDUCES with increased stimulation
-                        </label>
+                <div id="biochemistryReceptorCheckboxes">
+                    <div class="row">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="biochemistryReceptorFlags1">
+                            <label class="form-check-label" for="biochemistryReceptorFlags1">
+                                Output REDUCES with increased stimulation
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="biochemistryReceptorFlags2">
+                            <label class="form-check-label" for="biochemistryReceptorFlags2">
+                                Digital (o/p=nominal+/-gain if sig > threshold)
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="biochemistryReceptorFlags2">
-                        <label class="form-check-label" for="biochemistryReceptorFlags2">
-                            Digital (o/p=nominal+/-gain if sig > threshold)
-                        </label>
+                <div id="biochemistryEmitterCheckboxes">
+                    <div class="row">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="biochemistryEmitterFlags1">
+                            <label class="form-check-label" for="biochemistryEmitterFlags1">
+                                Invert input signal (s=1-s)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="biochemistryEmitterFlags2">
+                            <label class="form-check-label" for="biochemistryEmitterFlags2">
+                                Digital (o/p=gain if sig > threshold)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="biochemistryEmitterFlags3">
+                            <label class="form-check-label" for="biochemistryEmitterFlags3">
+                                Clear source byte after reading
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
