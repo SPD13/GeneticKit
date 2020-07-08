@@ -19,6 +19,11 @@ function initUI() {
     $('#lobetract-update-svrule').append(initUISVRule("lobetract_update"));
     //Chemical Receptor
     fillSelectWithChemicals($('#biochemistryReceptorChemical'));
+    //Chemical reaction
+    fillSelectWithChemicals($('#biochemistryReactionReactant0'));
+    fillSelectWithChemicals($('#biochemistryReactionReactant1'));
+    fillSelectWithChemicals($('#biochemistryReactionProduct2'));
+    fillSelectWithChemicals($('#biochemistryReactionProduct3'));
 }
 
 function initUISVRule(prefix) {
@@ -422,6 +427,19 @@ function startGeneModal(gene_obj) {
             $('#biochemistryReceptorCheckboxes').hide();
             $('#biochemistryEmitterCheckboxes').show();
         }
+    } else if (gene_obj.GeneType == 1 && gene_obj.GeneSubType == 2) {
+        //Biochemistry Reaction
+        $('#geneModalSpecialized').append($('#geneBiochemistryReaction'));
+        $('#biochemistryReactionReactant0').val(gene_obj.SpecialiazedObj.Reactant0);
+        $('#biochemistryReactionReactant0Qty').val(gene_obj.SpecialiazedObj.Quantity0);
+        $('#biochemistryReactionReactant1').val(gene_obj.SpecialiazedObj.Reactant1);
+        $('#biochemistryReactionReactant1Qty').val(gene_obj.SpecialiazedObj.Quantity1);
+        $('#biochemistryReactionProduct2').val(gene_obj.SpecialiazedObj.Product2);
+        $('#biochemistryReactionProduct2Qty').val(gene_obj.SpecialiazedObj.Quantity2);
+        $('#biochemistryReactionProduct3').val(gene_obj.SpecialiazedObj.Product3);
+        $('#biochemistryReactionProduct3Qty').val(gene_obj.SpecialiazedObj.Quantity3);
+        $('#biochemistryReactionRate').val(gene_obj.SpecialiazedObj.ReactionRate);
+        $('#biochemistryReactionRate').change();
     }
 
     edited_gene = gene_obj;
@@ -609,6 +627,16 @@ function saveGeneModal() {
                     edited_gene.SpecialiazedObj.ClearSource = false;
                 }
             }
+        } else if (edited_gene.GeneType == 1 && edited_gene.GeneSubType == 2) {
+            edited_gene.SpecialiazedObj.Reactant0 = $('#biochemistryReactionReactant0').val();
+            edited_gene.SpecialiazedObj.Quantity0 = $('#biochemistryReactionReactant0Qty').val();
+            edited_gene.SpecialiazedObj.Reactant1 = $('#biochemistryReactionReactant1').val();
+            edited_gene.SpecialiazedObj.Quantity1 = $('#biochemistryReactionReactant1Qty').val();
+            edited_gene.SpecialiazedObj.Product2 = $('#biochemistryReactionProduct2').val();
+            edited_gene.SpecialiazedObj.Quantity2 = $('#biochemistryReactionProduct2Qty').val();
+            edited_gene.SpecialiazedObj.Product3 = $('#biochemistryReactionProduct3').val();
+            edited_gene.SpecialiazedObj.Quantity3 = $('#biochemistryReactionProduct3Qty').val();
+            edited_gene.SpecialiazedObj.ReactionRate = $('#biochemistryReactionRate').val();
         }
     }
 

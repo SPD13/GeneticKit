@@ -658,7 +658,7 @@
         </div>
     </div>
 
-    <!-- Brain Organ -->
+    <!-- Biochemistry Receptor -->
     <div id="geneBiochemistryReceptor">
         <div class="card">
             <div class="card-body">
@@ -785,6 +785,86 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Biochemistry Reaction -->
+    <div id="geneBiochemistryReaction">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="biochemistryReactionDetailsTitle">Reaction Details</h5>
+                <div class="container">
+                    <div class="row">Reactants</div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" id="biochemistryReactionReactant0Qty"/>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="biochemistryReactionReactant0">
+                            </select>
+                        </div>
+                        <div class="col-md-1">+</div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" id="biochemistryReactionReactant1Qty"/>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="biochemistryReactionReactant1">
+                            </select>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">Product(s)</div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" id="biochemistryReactionProduct2Qty"/>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="biochemistryReactionProduct2">
+                            </select>
+                        </div>
+                        <div class="col-md-1">+</div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" id="biochemistryReactionProduct3Qty"/>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" id="biochemistryReactionProduct3">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title" name="biochemistryReactionRateTitle">Reaction Rate</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Instant
+                        </div>
+                        <div class="col-md-2">
+                            Fast
+                        </div>
+                        <div class="col-md-2">
+                            Slow
+                        </div>
+                        <div class="col-md-2">
+                            Extremely Slow
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="range" class="custom-range" min="0" max="255" id="biochemistryReactionRate" gk-label="biochemistryReactionRate_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="biochemistryReactionRate_label">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
