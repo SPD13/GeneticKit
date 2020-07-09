@@ -86,6 +86,9 @@ class Gene {
             if (this.GeneSubType == 0) {
                 //Stimulus
                 this.SpecialiazedObj = new GeneCreatureStimulus(bytes.slice(8), this);
+            } else if (this.GeneSubType == 1) {
+                //Genus
+                this.SpecialiazedObj = new GeneCreatureGenus(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -677,6 +680,49 @@ class GeneCreatureStimulus {
     }
 }
 
+class GeneCreatureGenus {
+    Genus = null;
+    MumMoniker = null;
+    DadMoniker = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Genus = bytes[0];
+        this.MumMoniker = String.fromCharCode.apply(null, bytes.slice(1, 33));
+        this.DadMoniker = String.fromCharCode.apply(null, bytes.slice(33, 65));
+    }
+
+    getBytes() {
+        var bytes = new Uint8Array([this.Genus]);
+        var mumBytesArray = string2Bin(this.MumMoniker);
+        if (mumBytesArray.length>32) {
+            mumBytesArray = mumBytesArray.slice(0, 32);
+        }
+        if (mumBytesArray.length<32) {
+            var additional = new Uint8Array([32-mumBytesArray.length]);
+            mumBytesArray = mergeUint8Arrays(mumBytesArray, additional);
+        }
+        bytes = mergeUint8Arrays(bytes, mumBytesArray);
+        var dadBytesArray = string2Bin(this.DadMoniker);
+        if (dadBytesArray.length>32) {
+            dadBytesArray = dadBytesArray.slice(0, 32);
+        }
+        if (dadBytesArray.length<32) {
+            var additional = new Uint8Array([32-dadBytesArray.length]);
+            dadBytesArray = mergeUint8Arrays(dadBytesArray, additional);
+        }
+        bytes = mergeUint8Arrays(bytes, dadBytesArray);
+
+        return bytes;
+    }
+}
+
 class SVNote {
     GeneType = null;
     GeneSubType = null;
@@ -768,5 +814,9 @@ class GeneNote {
         /*if (len>0) {
                 console.log("GN RichText("+len+"):" + this.GeneType + "|" + this.GeneSubType + "|" + this.UniqueId + "|" + this.Caption);
             }*/
+    }
+
+    getBytes() {
+
     }
 }
