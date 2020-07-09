@@ -95,6 +95,9 @@ class Gene {
             } else if (this.GeneSubType == 3) {
                 //Pose
                 this.SpecialiazedObj = new GeneCreaturePose(bytes.slice(8), this);
+            } else if (this.GeneSubType == 4) {
+                //Gait
+                this.SpecialiazedObj = new GeneCreatureGait(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -758,6 +761,30 @@ class GeneCreaturePose {
     getBytes() {
         var bytes = new Uint8Array([this.PoseNumber]);
         bytes = mergeUint8Arrays(bytes, fixedLengtharray(string2Bin(this.PoseString), 16));
+
+        return bytes;
+    }
+}
+
+class GeneCreatureGait {
+    GaitNumber = null;
+    PoseSequence = [];
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.GaitNumber = bytes[0];
+        this.PoseSequence = bytes.slice(1, 9);
+    }
+
+    getBytes() {
+        var bytes = new Uint8Array([this.GaitNumber]);
+        bytes = mergeUint8Arrays(bytes, fixedLengtharray(this.PoseSequence, 8));
 
         return bytes;
     }

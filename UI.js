@@ -54,7 +54,16 @@ function initUI() {
     //Creature Appearance
     fillSelectWithBodyVariants($('#geneCreatureAppearanceVariant'));
     //Creature Pose
-    fillSelectWithPoses($('#geneCreaturePoseID'));
+    fillSelectWithPoses($('#geneCreaturePoseID'), false);
+    //Creature Gait
+    fillSelectWithPoses($('#geneCreatureGaitPose1'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose2'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose3'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose4'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose5'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose6'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose7'), true);
+    fillSelectWithPoses($('#geneCreatureGaitPose8'), true);
 }
 
 function initUISVRule(prefix) {
@@ -153,15 +162,32 @@ function fillSelectWithChemicals(select_obj) {
         $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
         select_obj.append(o);
     }
+    //Complete the list
+    for (var i=Chemicals_str.length; i<255; i++) {
+        str = "Unused Chemical "+i;
+        var o = new Option(str, i);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
 }
 
-function fillSelectWithPoses(select_obj) {
+function fillSelectWithPoses(select_obj, erase_first) {
     select_obj.empty();
     for (var i=0; i< Pose_str.length; i++) {
         var str = Pose_str[i];
         if (str == "") {
             str = "Unused Pose "+i;
         }
+        if (erase_first && i==0) {
+            str = "-Empty-"; //Don't know why, but in Gaits, pose[0] "Reach low near" is replaced by the placeholder value
+        }
+        var o = new Option(str, i);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
+    //Complete the list
+    for (var i=Pose_str.length; i<255; i++) {
+        str = "Unused Pose "+i;
         var o = new Option(str, i);
         $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
         select_obj.append(o);
@@ -613,6 +639,18 @@ function startGeneModal(gene_obj) {
         $('#geneModalSpecialized').append($('#geneCreaturePose'));
         $('#geneCreaturePoseID').val(gene_obj.SpecialiazedObj.PoseNumber);
         $('#geneCreaturePoseString').val(gene_obj.SpecialiazedObj.PoseString);
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 4) {
+        //Creature Gait
+        $('#geneModalSpecialized').append($('#geneCreatureGait'));
+        $('#geneCreatureGaitID').val(gene_obj.SpecialiazedObj.GaitNumber);
+        $('#geneCreatureGaitPose1').val(gene_obj.SpecialiazedObj.PoseSequence[0]);
+        $('#geneCreatureGaitPose2').val(gene_obj.SpecialiazedObj.PoseSequence[1]);
+        $('#geneCreatureGaitPose3').val(gene_obj.SpecialiazedObj.PoseSequence[2]);
+        $('#geneCreatureGaitPose4').val(gene_obj.SpecialiazedObj.PoseSequence[3]);
+        $('#geneCreatureGaitPose5').val(gene_obj.SpecialiazedObj.PoseSequence[4]);
+        $('#geneCreatureGaitPose6').val(gene_obj.SpecialiazedObj.PoseSequence[5]);
+        $('#geneCreatureGaitPose7').val(gene_obj.SpecialiazedObj.PoseSequence[6]);
+        $('#geneCreatureGaitPose8').val(gene_obj.SpecialiazedObj.PoseSequence[7]);
     }
 
     edited_gene = gene_obj;
@@ -898,6 +936,17 @@ function saveGeneModal() {
             //Creature Pose
             edited_gene.SpecialiazedObj.PoseNumber = $('#geneCreaturePoseID').val();
             edited_gene.SpecialiazedObj.PoseString = $('#geneCreaturePoseString').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 4) {
+            //Creature Gait
+            edited_gene.SpecialiazedObj.GaitNumber = $('#geneCreatureGaitID').val();
+            edited_gene.SpecialiazedObj.PoseSequence[0] = $('#geneCreatureGaitPose1').val();
+            edited_gene.SpecialiazedObj.PoseSequence[1] = $('#geneCreatureGaitPose2').val();
+            edited_gene.SpecialiazedObj.PoseSequence[2] = $('#geneCreatureGaitPose3').val();
+            edited_gene.SpecialiazedObj.PoseSequence[3] = $('#geneCreatureGaitPose4').val();
+            edited_gene.SpecialiazedObj.PoseSequence[4] = $('#geneCreatureGaitPose5').val();
+            edited_gene.SpecialiazedObj.PoseSequence[5] = $('#geneCreatureGaitPose6').val();
+            edited_gene.SpecialiazedObj.PoseSequence[6] = $('#geneCreatureGaitPose7').val();
+            edited_gene.SpecialiazedObj.PoseSequence[7] = $('#geneCreatureGaitPose8').val();
         }
     }
 
