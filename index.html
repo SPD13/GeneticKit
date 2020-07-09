@@ -1530,7 +1530,7 @@
                 <h5 class="card-title">Colour Information</h5>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-2">Reaction</div>
+                        <div class="col-md-2">Colour</div>
                         <div class="col-md-4">
                             <select class="form-control" id="geneCreaturePigmentColour">
                                 <option value="0">Red</option>
@@ -1558,6 +1558,39 @@
                         </div>
                         <div class="col-md-2">
                             <span id="geneCreaturePigmentColourAmountOfColour_label">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Creature Pigment Bleed -->
+    <div id="geneCreaturePigmentBleed" name="specializedPane">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Colour Information</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Rotation
+                        </div>
+                        <div class="col-md-8">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneCreaturePigmentBleedRotation" gk-label="geneCreaturePigmentBleedRotation_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreaturePigmentBleedRotation_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Swap
+                        </div>
+                        <div class="col-md-8">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneCreaturePigmentBleedSwap" gk-label="geneCreaturePigmentBleedSwap_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreaturePigmentBleedSwap_label">0</span>
                         </div>
                     </div>
                 </div>
