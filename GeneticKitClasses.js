@@ -98,6 +98,9 @@ class Gene {
             } else if (this.GeneSubType == 4) {
                 //Gait
                 this.SpecialiazedObj = new GeneCreatureGait(bytes.slice(8), this);
+            } else if (this.GeneSubType == 5) {
+                //Instinct
+                this.SpecialiazedObj = new GeneCreatureInstinct(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -785,6 +788,43 @@ class GeneCreatureGait {
     getBytes() {
         var bytes = new Uint8Array([this.GaitNumber]);
         bytes = mergeUint8Arrays(bytes, fixedLengtharray(this.PoseSequence, 8));
+
+        return bytes;
+    }
+}
+
+class GeneCreatureInstinct {
+    Lobe0 = null;
+    Neuron0 = null;
+    Lobe1 = null;
+    Neuron1 = null;
+    Lobe2 = null;
+    Neuron2 = null;
+    Action = null;
+    ReinforcementDrive = null;
+    ReinforcementLevel = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Lobe0 = bytes[0];
+        this.Neuron0 = bytes[1];
+        this.Lobe1 = bytes[2];
+        this.Neuron1 = bytes[3];
+        this.Lobe2 = bytes[4];
+        this.Neuron2 = bytes[5];
+        this.Action = bytes[6];
+        this.ReinforcementDrive = bytes[7];
+        this.ReinforcementLevel = bytes[8];
+    }
+
+    getBytes() {
+        return new Uint8Array([this.Lobe0, this.Neuron0, this.Lobe1, this.Neuron1, this.Lobe2, this.Neuron2, this.Action, this.ReinforcementDrive, this.ReinforcementLevel]);
 
         return bytes;
     }
