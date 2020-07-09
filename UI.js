@@ -64,6 +64,8 @@ function initUI() {
     fillSelectWithPoses($('#geneCreatureGaitPose6'), true);
     fillSelectWithPoses($('#geneCreatureGaitPose7'), true);
     fillSelectWithPoses($('#geneCreatureGaitPose8'), true);
+    //Creature Instincts
+    fillSelectWithChemicalsDrive($('#geneCreatureInstictReinforcementDrive'));
 }
 
 function initUISVRule(prefix) {
@@ -171,6 +173,23 @@ function fillSelectWithChemicals(select_obj) {
     }
 }
 
+function fillSelectWithChemicalsDrive(select_obj) {
+    //Chemicals drive for Stimulus is organizedd in a weird way, there is a 148 offset in the table and "Unused" = 255
+    select_obj.empty();
+    var o = new Option("-Unused-", 255);
+    $(o).html("-Unused-");// jquerify the DOM object 'o' so we can use the html method
+    select_obj.append(o);
+    for (var i=148; i < Chemicals_str.length; i++) {
+        var str = Chemicals_str[i];
+        if (str == "") {
+            str = "Unused Chemical "+i;
+        }
+        var o = new Option(str, i-148);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
+}
+
 function fillSelectWithPoses(select_obj, erase_first) {
     select_obj.empty();
     for (var i=0; i< Pose_str.length; i++) {
@@ -189,23 +208,6 @@ function fillSelectWithPoses(select_obj, erase_first) {
     for (var i=Pose_str.length; i<255; i++) {
         str = "Unused Pose "+i;
         var o = new Option(str, i);
-        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
-        select_obj.append(o);
-    }
-}
-
-function fillSelectWithChemicalsDrive(select_obj) {
-    //Chemicals drive for Stimulus is organizedd in a weird way, there is a 148 offset in the table and "Unused" = 255
-    select_obj.empty();
-    var o = new Option("-Unused-", 255);
-    $(o).html("-Unused-");// jquerify the DOM object 'o' so we can use the html method
-    select_obj.append(o);
-    for (var i=148; i < Chemicals_str.length; i++) {
-        var str = Chemicals_str[i];
-        if (str == "") {
-            str = "Unused Chemical "+i;
-        }
-        var o = new Option(str, i-148);
         $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
         select_obj.append(o);
     }
@@ -651,6 +653,19 @@ function startGeneModal(gene_obj) {
         $('#geneCreatureGaitPose6').val(gene_obj.SpecialiazedObj.PoseSequence[5]);
         $('#geneCreatureGaitPose7').val(gene_obj.SpecialiazedObj.PoseSequence[6]);
         $('#geneCreatureGaitPose8').val(gene_obj.SpecialiazedObj.PoseSequence[7]);
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 5) {
+        //Creature Gait
+        $('#geneModalSpecialized').append($('#geneCreatureInstict'));
+        $('#geneCreatureInstictLobe0').val(gene_obj.SpecialiazedObj.Lobe0);
+        $('#geneCreatureInstictNeuron0').val(gene_obj.SpecialiazedObj.Neuron0);
+        $('#geneCreatureInstictLobe1').val(gene_obj.SpecialiazedObj.Lobe1);
+        $('#geneCreatureInstictNeuron1').val(gene_obj.SpecialiazedObj.Neuron1);
+        $('#geneCreatureInstictLobe2').val(gene_obj.SpecialiazedObj.Lobe2);
+        $('#geneCreatureInstictNeuron2').val(gene_obj.SpecialiazedObj.Neuron2);
+        $('#geneCreatureInstictAction').val(gene_obj.SpecialiazedObj.Action);
+        $('#geneCreatureInstictReinforcementDrive').val(gene_obj.SpecialiazedObj.ReinforcementDrive);
+        $('#geneCreatureInstictReinforcementLevel').val(gene_obj.SpecialiazedObj.ReinforcementLevel);
+        $('#geneCreatureInstictReinforcementLevel').change();
     }
 
     edited_gene = gene_obj;
@@ -947,6 +962,17 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.PoseSequence[5] = $('#geneCreatureGaitPose6').val();
             edited_gene.SpecialiazedObj.PoseSequence[6] = $('#geneCreatureGaitPose7').val();
             edited_gene.SpecialiazedObj.PoseSequence[7] = $('#geneCreatureGaitPose8').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 5) {
+            //Creature Gait
+            edited_gene.SpecialiazedObj.Lobe0 = $('#geneCreatureInstictLobe0').val();
+            edited_gene.SpecialiazedObj.Neuron0 = $('#geneCreatureInstictNeuron0').val();
+            edited_gene.SpecialiazedObj.Lobe1 = $('#geneCreatureInstictLobe1').val();
+            edited_gene.SpecialiazedObj.Neuron1 = $('#geneCreatureInstictNeuron1').val();
+            edited_gene.SpecialiazedObj.Lobe2 = $('#geneCreatureInstictLobe2').val();
+            edited_gene.SpecialiazedObj.Neuron2 = $('#geneCreatureInstictNeuron2').val();
+            edited_gene.SpecialiazedObj.Action = $('#geneCreatureInstictAction').val();
+            edited_gene.SpecialiazedObj.ReinforcementDrive = $('#geneCreatureInstictReinforcementDrive').val();
+            edited_gene.SpecialiazedObj.ReinforcementLevel = $('#geneCreatureInstictReinforcementLevel').val();
         }
     }
 

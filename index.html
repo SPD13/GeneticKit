@@ -1426,6 +1426,103 @@
         </div>
     </div>
 
+    <!-- Creature Instinct -->
+    <div id="geneCreatureInstict" name="specializedPane">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">When this is true (lobe/cell)</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Tissue (TODO)
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneCreatureInstictLobe0"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneCreatureInstictNeuron0"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Tissue (TODO)
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneCreatureInstictLobe1"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneCreatureInstictNeuron1"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Tissue (TODO)
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneCreatureInstictLobe2"/>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="geneCreatureInstictNeuron2"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">...and you do this</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">Reaction</div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureInstictAction">
+                                <option value="0">Default (quiescent)</option>
+                                <option value="1">Activate 1 it</option>
+                                <option value="2">Activate 2 it</option>
+                                <option value="3">Deactivate it</option>
+                                <option value="4">Approach it</option>
+                                <option value="5">Retreat from it</option>
+                                <option value="6">Get it</option>
+                                <option value="7">Drop all</option>
+                                <option value="8">Say what you need</option>
+                                <option value="9">Rest</option>
+                                <option value="10">Travel West</option>
+                                <option value="11">Travel East</option>
+                                <option value="12">Eat it</option>
+                                <option value="13">Hit it</option>
+                                <option value="14">-Unallocated 1-</option>
+                                <option value="15">-Unallocated 2-</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">...reward/punish like this</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">Chemical</div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureInstictReinforcementDrive">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Level</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneCreatureInstictReinforcementLevel" gk-label="geneCreatureInstictReinforcementLevel_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureInstictReinforcementLevel_label">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Optional JavaScript -->
