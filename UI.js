@@ -569,6 +569,12 @@ function startGeneModal(gene_obj) {
         $('#geneCreatureStimulusChemical3').val(gene_obj.SpecialiazedObj.Drive3);
         $('#geneCreatureStimulusAmount3').val(gene_obj.SpecialiazedObj.Amount3);
         $('#geneCreatureStimulusAmount3').change();
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 1) {
+        //Creature Genus
+        $('#geneModalSpecialized').append($('#geneCreatureGenus'));
+        $('#geneCreatureGenusGenus').val(gene_obj.SpecialiazedObj.Genus);
+        $('#geneCreatureGenusMotherMoniker').val(gene_obj.SpecialiazedObj.MumMoniker);
+        $('#geneCreatureGenusFatherMoniker').val(gene_obj.SpecialiazedObj.DadMoniker);
     }
 
     edited_gene = gene_obj;
@@ -840,6 +846,11 @@ function saveGeneModal() {
             }
             edited_gene.SpecialiazedObj.Drive3 = $('#geneCreatureStimulusChemical3').val();
             edited_gene.SpecialiazedObj.Amount3 = $('#geneCreatureStimulusAmount3').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 1) {
+            //Creature Genus
+            edited_gene.SpecialiazedObj.Genus = $('#geneCreatureGenusGenus').val();
+            edited_gene.SpecialiazedObj.MumMoniker = $('#geneCreatureGenusMotherMoniker').val();
+            edited_gene.SpecialiazedObj.DadMoniker = $('#geneCreatureGenusFatherMoniker').val();
         }
     }
 
