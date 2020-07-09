@@ -618,7 +618,6 @@ class GeneCreatureStimulus {
         this.Amount2 = bytes[10];
         this.Drive3 = bytes[11];
         this.readFlags();
-        console.log(this.Drive0);
     }
 
     getBytes() {
