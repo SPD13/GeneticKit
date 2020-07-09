@@ -51,6 +51,8 @@ function initUI() {
     fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical1'));
     fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical2'));
     fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical3'));
+    //Creature Appearance
+    fillSelectWithBodyVariants($('#geneCreatureAppearanceVariant'));
 }
 
 function initUISVRule(prefix) {
@@ -157,12 +159,22 @@ function fillSelectWithChemicalsDrive(select_obj) {
     var o = new Option("-Unused-", 255);
     $(o).html("-Unused-");// jquerify the DOM object 'o' so we can use the html method
     select_obj.append(o);
-    for (var i=148; i< Chemicals_str.length; i++) {
+    for (var i=148; i < Chemicals_str.length; i++) {
         var str = Chemicals_str[i];
         if (str == "") {
             str = "Unused Chemical "+i;
         }
         var o = new Option(str, i-148);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
+}
+
+function fillSelectWithBodyVariants(select_obj) {
+    select_obj.empty();
+    for (var i=0; i < 26; i++) {
+        var str = String.fromCharCode( 65 + i);
+        var o = new Option(str, i);
         $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
         select_obj.append(o);
     }
@@ -575,6 +587,12 @@ function startGeneModal(gene_obj) {
         $('#geneCreatureGenusGenus').val(gene_obj.SpecialiazedObj.Genus);
         $('#geneCreatureGenusMotherMoniker').val(gene_obj.SpecialiazedObj.MumMoniker);
         $('#geneCreatureGenusFatherMoniker').val(gene_obj.SpecialiazedObj.DadMoniker);
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 2) {
+        //Creature Appearance
+        $('#geneModalSpecialized').append($('#geneCreatureAppearance'));
+        $('#geneCreatureAppearanceBodyPart').val(gene_obj.SpecialiazedObj.BodyPart);
+        $('#geneCreatureAppearanceVariant').val(gene_obj.SpecialiazedObj.Variant);
+        $('#geneCreatureAppearanceGenusOfDonor').val(gene_obj.SpecialiazedObj.GenusOfDonor);
     }
 
     edited_gene = gene_obj;
@@ -851,6 +869,11 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.Genus = $('#geneCreatureGenusGenus').val();
             edited_gene.SpecialiazedObj.MumMoniker = $('#geneCreatureGenusMotherMoniker').val();
             edited_gene.SpecialiazedObj.DadMoniker = $('#geneCreatureGenusFatherMoniker').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 2) {
+            //Creature Appearance
+            edited_gene.SpecialiazedObj.BodyPart = $('#geneCreatureAppearanceBodyPart').val();
+            edited_gene.SpecialiazedObj.Variant = $('#geneCreatureAppearanceVariant').val();
+            edited_gene.SpecialiazedObj.GenusOfDonor = $('#geneCreatureAppearanceGenusOfDonor').val();
         }
     }
 
