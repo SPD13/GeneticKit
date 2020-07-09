@@ -89,6 +89,9 @@ class Gene {
             } else if (this.GeneSubType == 1) {
                 //Genus
                 this.SpecialiazedObj = new GeneCreatureGenus(bytes.slice(8), this);
+            } else if (this.GeneSubType == 2) {
+                //Appearance
+                this.SpecialiazedObj = new GeneCreatureAppearance(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -720,6 +723,29 @@ class GeneCreatureGenus {
         bytes = mergeUint8Arrays(bytes, dadBytesArray);
 
         return bytes;
+    }
+}
+
+class GeneCreatureAppearance {
+    BodyPart = null;
+    Variant = null;
+    GenusOfDonor = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.BodyPart = bytes[0];
+        this.Variant = bytes[1];
+        this.GenusOfDonor = bytes[2];
+    }
+
+    getBytes() {
+        return new Uint8Array([this.BodyPart, this.Variant, this.GenusOfDonor]);
     }
 }
 
