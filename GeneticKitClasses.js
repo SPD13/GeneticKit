@@ -101,6 +101,12 @@ class Gene {
             } else if (this.GeneSubType == 5) {
                 //Instinct
                 this.SpecialiazedObj = new GeneCreatureInstinct(bytes.slice(8), this);
+            } else if (this.GeneSubType == 6) {
+                //Pigment
+                this.SpecialiazedObj = new GeneCreaturePigment(bytes.slice(8), this);
+            } else if (this.GeneSubType == 7) {
+                //Pigment bleed
+                this.SpecialiazedObj = new GeneCreaturePigmentBleed(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -825,6 +831,52 @@ class GeneCreatureInstinct {
 
     getBytes() {
         return new Uint8Array([this.Lobe0, this.Neuron0, this.Lobe1, this.Neuron1, this.Lobe2, this.Neuron2, this.Action, this.ReinforcementDrive, this.ReinforcementLevel]);
+
+        return bytes;
+    }
+}
+
+class GeneCreaturePigment {
+    PigmentColour = null;
+    AmountOfColour = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.PigmentColour = bytes[0];
+        this.AmountOfColour = bytes[1];
+    }
+
+    getBytes() {
+        return new Uint8Array([this.PigmentColour, this.AmountOfColour]);
+
+        return bytes;
+    }
+}
+
+class GeneCreaturePigmentBleed {
+    Rotation = null;
+    Swap = null;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Rotation = bytes[0];
+        this.Swap = bytes[1];
+    }
+
+    getBytes() {
+        return new Uint8Array([this.Rotation, this.Swap]);
 
         return bytes;
     }
