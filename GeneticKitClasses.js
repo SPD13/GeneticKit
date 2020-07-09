@@ -31,8 +31,8 @@ class Gene {
     Variant = 0; //Don't know where it's coming from...
 
     constructor(bytes, entry_number) {
-        this.readFromBytes(bytes);
         this.EntryNumber = entry_number;
+        this.readFromBytes(bytes);
     }
 
     readFromBytes(bytes) {
@@ -80,6 +80,12 @@ class Gene {
             } else if (this.GeneSubType == 5) {
                 //Neuro Emitter
                 this.SpecialiazedObj = new GeneBiochemistryNeuroEmitter(bytes.slice(8), this);
+            }
+        } else if (this.GeneType == 2) {
+            //Creature
+            if (this.GeneSubType == 0) {
+                //Stimulus
+                this.SpecialiazedObj = new GeneCreatureStimulus(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -567,6 +573,108 @@ class GeneBiochemistryNeuroEmitter {
             this.Chemical4,
             this.Amount4
         ]);
+    }
+}
+
+class GeneCreatureStimulus {
+    StimulusNumber = null;
+    Significance = null;
+    SensoryNeuron = null;
+    Features = null;
+    Drive0 = null;
+    Amount0 = null;
+    Silent0 = false;
+    Drive1 = null;
+    Amount1 = null;
+    Silent1 = false;
+    Drive2 = null;
+    Amount2 = null;
+    Silent2 = false;
+    Drive3 = null;
+    Amount3 = null;
+    Silent3 = false;
+    Flags = 0;
+    Modulate = false;
+    Detected = false;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.StimulusNumber = bytes[0];
+        this.Significance = bytes[1];
+        this.SensoryNeuron = bytes[2];
+        this.Features = bytes[3];
+        this.Flags = bytes[4]; //Undocumented
+        this.Drive0 = bytes[5];
+        this.Amount0 = bytes[6];
+        this.Drive1 = bytes[7];
+        this.Amount1 = bytes[8];
+        this.Drive2 = bytes[9];
+        this.Amount2 = bytes[10];
+        this.Drive3 = bytes[11];
+        this.readFlags();
+        console.log(this.Drive0);
+    }
+
+    getBytes() {
+        this.writeFlags();
+        return new Uint8Array([
+            this.StimulusNumber,
+            this.Significance,
+            this.SensoryNeuron,
+            this.Features,
+            this.Drive0,
+            this.Amount0,
+            this.Drive1,
+            this.Amount1,
+            this.Drive2,
+            this.Amount2,
+            this.Drive3,
+            this.Amount3
+        ]);
+    }
+
+    //Read flags based on the bits values
+    readFlags() {
+        //Don't know what the other flags are doing...#0 and #3
+        this.Modulate = checkBitValue(this.Flags, 1);
+        this.Detected = checkBitValue(this.Flags, 2);
+        this.Silent0 = checkBitValue(this.Flags, 4);
+        this.Silent1 = checkBitValue(this.Flags, 5);
+        this.Silent2 = checkBitValue(this.Flags, 6);
+        this.Silent3 = checkBitValue(this.Flags, 7);
+        /*console.log("#"+this.ParentObj.EntryNumber+" | "+this.Flags);
+        var f1 = checkBitValue(this.Flags, 0);
+        console.log("f1:"+f1);
+        var f2 = checkBitValue(this.Flags, 1);
+        console.log("f2:"+f2);
+        var f3 = checkBitValue(this.Flags, 2);
+        console.log("f3:"+f3);
+        var f4 = checkBitValue(this.Flags, 3);
+        console.log("f4:"+f4);
+        var f5 = checkBitValue(this.Flags, 4);
+        console.log("f5:"+f5);
+        var f6 = checkBitValue(this.Flags, 5);
+        console.log("f6:"+f6);
+        var f7 = checkBitValue(this.Flags, 6);
+        console.log("f7:"+f7);
+        var f8 = checkBitValue(this.Flags, 7);
+        console.log("f8:"+f8);*/
+    }
+
+    writeFlags() {
+        this.Flags = 0;
+        this.Flags = updateBit(this.Flags, 1, this.Modulate);
+        this.Flags = updateBit(this.Flags, 2, this.Detected);
+        this.Flags = updateBit(this.Flags, 4, this.Silent0);
+        this.Flags = updateBit(this.Flags, 5, this.Silent1);
+        this.Flags = updateBit(this.Flags, 6, this.Silent2);
+        this.Flags = updateBit(this.Flags, 7, this.Silent3);
     }
 }
 

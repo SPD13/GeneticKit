@@ -1037,6 +1037,173 @@
         </div>
     </div>
 
+    <!-- Creature Stimulus -->
+    <div id="geneCreatureStimulus" name="specializedPane">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Stimulus</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3">
+                            Stimulus (TODO)
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="geneCreatureStimulusID"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Stimulus</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneCreatureStimulusSignificance" gk-label="geneCreatureStimulusSignificance_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureStimulusSignificance_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Reaction</div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureStimulusReaction">
+                                <option value="0">Default (quiescent)</option>
+                                <option value="1">Activate 1 it</option>
+                                <option value="2">Activate 2 it</option>
+                                <option value="3">Deactivate it</option>
+                                <option value="4">Approach it</option>
+                                <option value="5">Retreat from it</option>
+                                <option value="6">Get it</option>
+                                <option value="7">Drop all</option>
+                                <option value="8">Say what you need</option>
+                                <option value="9">Rest</option>
+                                <option value="10">Travel West</option>
+                                <option value="11">Travel East</option>
+                                <option value="12">Eat it</option>
+                                <option value="13">Hit it</option>
+                                <option value="14">-Unallocated 1-</option>
+                                <option value="15">-Unallocated 2-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Intensity</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneCreatureStimulusIntensity" gk-label="geneCreatureStimulusIntensity_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureStimulusIntensity_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check col-auto">
+                            <input class="form-check-input" type="checkbox" id="geneCreatureStimulusModulate">
+                            <label class="form-check-label" for="geneCreatureStimulusModulate">
+                                Modulate using sensory signal
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check col-auto">
+                            <input class="form-check-input" type="checkbox" id="geneCreatureStimulusDetected">
+                            <label class="form-check-label" for="geneCreatureStimulusDetected">
+                                Detected even if asleep
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Chemicals Stimulated</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="form-check md-2">
+                            <input class="form-check-input" type="checkbox" id="geneCreatureStimulusSilent0">
+                            <label class="form-check-label" for="geneCreatureStimulusSilent0">
+                                Silent
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureStimulusChemical0">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Amount</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="-1" max="1" id="geneCreatureStimulusAmount0" gk-label="geneCreatureStimulusAmount0_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureStimulusAmount0_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check md-2">
+                            <input class="form-check-input" type="checkbox" id="geneCreatureStimulusSilent1">
+                            <label class="form-check-label" for="geneCreatureStimulusSilent1">
+                                Silent
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureStimulusChemical1">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Amount</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="-1" max="1" id="geneCreatureStimulusAmount1" gk-label="geneCreatureStimulusAmount1_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureStimulusAmount1_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check md-2">
+                            <input class="form-check-input" type="checkbox" id="geneCreatureStimulusSilent2">
+                            <label class="form-check-label" for="geneCreatureStimulusSilent2">
+                                Silent
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureStimulusChemical2">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Amount</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="-1" max="1" id="geneCreatureStimulusAmount2" gk-label="geneCreatureStimulusAmount2_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureStimulusAmount2_label">0</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check md-2">
+                            <input class="form-check-input" type="checkbox" id="geneCreatureStimulusSilent3">
+                            <label class="form-check-label" for="geneCreatureStimulusSilent3">
+                                Silent
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreatureStimulusChemical3">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Amount</div>
+                        <div class="col-md-6">
+                            <input type="range" class="custom-range" min="-1" max="1" id="geneCreatureStimulusAmount3" gk-label="geneCreatureStimulusAmount3_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreatureStimulusAmount3_label">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Optional JavaScript -->
