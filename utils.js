@@ -71,6 +71,17 @@ function mergeUint8Arrays(a, b) {
     return c;
 }
 
+function fixedLengtharray(array, length) {
+    if (array.length>length) {
+        array = array.slice(0, length);
+    }
+    if (array.length<length) {
+        var additional = new Uint8Array([length-array.length]);
+        array = mergeUint8Arrays(array, additional);
+    }
+    return array;
+}
+
 function checkBitValue(number, bitPosition) {
     var mask = 1 << bitPosition; // gets the nth bit
     if ((number & mask) != 0) {
