@@ -53,6 +53,8 @@ function initUI() {
     fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical3'));
     //Creature Appearance
     fillSelectWithBodyVariants($('#geneCreatureAppearanceVariant'));
+    //Creature Pose
+    fillSelectWithPoses($('#geneCreaturePoseID'));
 }
 
 function initUISVRule(prefix) {
@@ -146,6 +148,19 @@ function fillSelectWithChemicals(select_obj) {
         var str = Chemicals_str[i];
         if (str == "") {
             str = "Unused Chemical "+i;
+        }
+        var o = new Option(str, i);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
+}
+
+function fillSelectWithPoses(select_obj) {
+    select_obj.empty();
+    for (var i=0; i< Pose_str.length; i++) {
+        var str = Pose_str[i];
+        if (str == "") {
+            str = "Unused Pose "+i;
         }
         var o = new Option(str, i);
         $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
@@ -593,6 +608,11 @@ function startGeneModal(gene_obj) {
         $('#geneCreatureAppearanceBodyPart').val(gene_obj.SpecialiazedObj.BodyPart);
         $('#geneCreatureAppearanceVariant').val(gene_obj.SpecialiazedObj.Variant);
         $('#geneCreatureAppearanceGenusOfDonor').val(gene_obj.SpecialiazedObj.GenusOfDonor);
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 3) {
+        //Creature Pose
+        $('#geneModalSpecialized').append($('#geneCreaturePose'));
+        $('#geneCreaturePoseID').val(gene_obj.SpecialiazedObj.PoseNumber);
+        $('#geneCreaturePoseString').val(gene_obj.SpecialiazedObj.PoseString);
     }
 
     edited_gene = gene_obj;
@@ -874,6 +894,10 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.BodyPart = $('#geneCreatureAppearanceBodyPart').val();
             edited_gene.SpecialiazedObj.Variant = $('#geneCreatureAppearanceVariant').val();
             edited_gene.SpecialiazedObj.GenusOfDonor = $('#geneCreatureAppearanceGenusOfDonor').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 3) {
+            //Creature Pose
+            edited_gene.SpecialiazedObj.PoseNumber = $('#geneCreaturePoseID').val();
+            edited_gene.SpecialiazedObj.PoseString = $('#geneCreaturePoseString').val();
         }
     }
 

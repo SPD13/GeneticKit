@@ -92,6 +92,9 @@ class Gene {
             } else if (this.GeneSubType == 2) {
                 //Appearance
                 this.SpecialiazedObj = new GeneCreatureAppearance(bytes.slice(8), this);
+            } else if (this.GeneSubType == 3) {
+                //Pose
+                this.SpecialiazedObj = new GeneCreaturePose(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -602,6 +605,7 @@ class GeneCreatureStimulus {
     Flags = 0;
     Modulate = false;
     Detected = false;
+    Spare = 0;
 
     ParentObj = null;
 
@@ -623,6 +627,7 @@ class GeneCreatureStimulus {
         this.Drive2 = bytes[9];
         this.Amount2 = bytes[10];
         this.Drive3 = bytes[11];
+        this.Spare = bytes[12];
         this.readFlags();
     }
 
@@ -640,7 +645,8 @@ class GeneCreatureStimulus {
             this.Drive2,
             this.Amount2,
             this.Drive3,
-            this.Amount3
+            this.Amount3,
+            this.Spare
         ]);
     }
 
@@ -703,24 +709,8 @@ class GeneCreatureGenus {
 
     getBytes() {
         var bytes = new Uint8Array([this.Genus]);
-        var mumBytesArray = string2Bin(this.MumMoniker);
-        if (mumBytesArray.length>32) {
-            mumBytesArray = mumBytesArray.slice(0, 32);
-        }
-        if (mumBytesArray.length<32) {
-            var additional = new Uint8Array([32-mumBytesArray.length]);
-            mumBytesArray = mergeUint8Arrays(mumBytesArray, additional);
-        }
-        bytes = mergeUint8Arrays(bytes, mumBytesArray);
-        var dadBytesArray = string2Bin(this.DadMoniker);
-        if (dadBytesArray.length>32) {
-            dadBytesArray = dadBytesArray.slice(0, 32);
-        }
-        if (dadBytesArray.length<32) {
-            var additional = new Uint8Array([32-dadBytesArray.length]);
-            dadBytesArray = mergeUint8Arrays(dadBytesArray, additional);
-        }
-        bytes = mergeUint8Arrays(bytes, dadBytesArray);
+        bytes = mergeUint8Arrays(bytes, fixedLengtharray(string2Bin(this.MumMoniker), 32));
+        bytes = mergeUint8Arrays(bytes, fixedLengtharray(string2Bin(this.DadMoniker), 32));
 
         return bytes;
     }
@@ -746,6 +736,30 @@ class GeneCreatureAppearance {
 
     getBytes() {
         return new Uint8Array([this.BodyPart, this.Variant, this.GenusOfDonor]);
+    }
+}
+
+class GeneCreaturePose {
+    PoseNumber = null;
+    PoseString = "";
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.PoseNumber = bytes[0];
+        this.PoseString = String.fromCharCode.apply(null, bytes.slice(1, 17));
+    }
+
+    getBytes() {
+        var bytes = new Uint8Array([this.PoseNumber]);
+        bytes = mergeUint8Arrays(bytes, fixedLengtharray(string2Bin(this.PoseString), 16));
+
+        return bytes;
     }
 }
 
