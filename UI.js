@@ -46,6 +46,11 @@ function initUI() {
     fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical2'));
     fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical3'));
     fillSelectWithChemicals($('#geneBiochemistryNeuroEmitterChemical4'));
+    //Creature Stimulus
+    fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical0'));
+    fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical1'));
+    fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical2'));
+    fillSelectWithChemicalsDrive($('#geneCreatureStimulusChemical3'));
 }
 
 function initUISVRule(prefix) {
@@ -141,6 +146,23 @@ function fillSelectWithChemicals(select_obj) {
             str = "Unused Chemical "+i;
         }
         var o = new Option(str, i);
+        $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
+        select_obj.append(o);
+    }
+}
+
+function fillSelectWithChemicalsDrive(select_obj) {
+    //Chemicals drive for Stimulus is organizedd in a weird way, there is a 148 offset in the table and "Unused" = 255
+    select_obj.empty();
+    var o = new Option("-Unused-", 255);
+    $(o).html("-Unused-");// jquerify the DOM object 'o' so we can use the html method
+    select_obj.append(o);
+    for (var i=148; i< Chemicals_str.length; i++) {
+        var str = Chemicals_str[i];
+        if (str == "") {
+            str = "Unused Chemical "+i;
+        }
+        var o = new Option(str, i-148);
         $(o).html(str);// jquerify the DOM object 'o' so we can use the html method
         select_obj.append(o);
     }
@@ -497,6 +519,56 @@ function startGeneModal(gene_obj) {
         $('#geneBiochemistryNeuroEmitterChemicalAmount4').change();
         $('#geneBiochemistryNeuroEmitterSampleRate').val(gene_obj.SpecialiazedObj.SampleRate);
         $('#geneBiochemistryNeuroEmitterSampleRate').change();
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 0) {
+        //Creature Stimulus
+        $('#geneModalSpecialized').append($('#geneCreatureStimulus'));
+        $('#geneCreatureStimulusID').val(gene_obj.SpecialiazedObj.StimulusNumber);
+        $('#geneCreatureStimulusSignificance').val(gene_obj.SpecialiazedObj.Significance);
+        $('#geneCreatureStimulusSignificance').change();
+        $('#geneCreatureStimulusReaction').val(gene_obj.SpecialiazedObj.SensoryNeuron);
+        $('#geneCreatureStimulusIntensity').val(gene_obj.SpecialiazedObj.Features);
+        if (gene_obj.SpecialiazedObj.Modulate) {
+            $('#geneCreatureStimulusModulate').prop('checked', true);
+        } else {
+            $('#geneCreatureStimulusModulate').prop('checked', false);
+        }
+        if (gene_obj.SpecialiazedObj.Detected) {
+            $('#geneCreatureStimulusDetected').prop('checked', true);
+        } else {
+            $('#geneCreatureStimulusDetected').prop('checked', false);
+        }
+        if (gene_obj.SpecialiazedObj.Silent0) {
+            $('#geneCreatureStimulusSilent0').prop('checked', true);
+        } else {
+            $('#geneCreatureStimulusSilent0').prop('checked', false);
+        }
+        $('#geneCreatureStimulusChemical0').val(gene_obj.SpecialiazedObj.Drive0);
+        $('#geneCreatureStimulusAmount0').val(gene_obj.SpecialiazedObj.Amount0);
+        $('#geneCreatureStimulusAmount0').change();
+        if (gene_obj.SpecialiazedObj.Silent1) {
+            $('#geneCreatureStimulusSilent1').prop('checked', true);
+        } else {
+            $('#geneCreatureStimulusSilent1').prop('checked', false);
+        }
+        $('#geneCreatureStimulusChemical1').val(gene_obj.SpecialiazedObj.Drive1);
+        $('#geneCreatureStimulusAmount1').val(gene_obj.SpecialiazedObj.Amount1);
+        $('#geneCreatureStimulusAmount1').change();
+        if (gene_obj.SpecialiazedObj.Silent2) {
+            $('#geneCreatureStimulusSilent2').prop('checked', true);
+        } else {
+            $('#geneCreatureStimulusSilent2').prop('checked', false);
+        }
+        $('#geneCreatureStimulusChemical2').val(gene_obj.SpecialiazedObj.Drive2);
+        $('#geneCreatureStimulusAmount2').val(gene_obj.SpecialiazedObj.Amount2);
+        $('#geneCreatureStimulusAmount2').change();
+        if (gene_obj.SpecialiazedObj.Silent3) {
+            $('#geneCreatureStimulusSilent3').prop('checked', true);
+        } else {
+            $('#geneCreatureStimulusSilent3').prop('checked', false);
+        }
+        $('#geneCreatureStimulusChemical3').val(gene_obj.SpecialiazedObj.Drive3);
+        $('#geneCreatureStimulusAmount3').val(gene_obj.SpecialiazedObj.Amount3);
+        $('#geneCreatureStimulusAmount3').change();
     }
 
     edited_gene = gene_obj;
@@ -724,6 +796,50 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.Chemical4 = $('#geneBiochemistryNeuroEmitterChemical4').val();
             edited_gene.SpecialiazedObj.Amount4 = $('#geneBiochemistryNeuroEmitterChemicalAmount4').val();
             edited_gene.SpecialiazedObj.SampleRate = $('#geneBiochemistryNeuroEmitterSampleRate').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 0) {
+            //Creature Stimulus
+            edited_gene.SpecialiazedObj.StimulusNumber = $('#geneCreatureStimulusID').val();
+            edited_gene.SpecialiazedObj.Significance = $('#geneCreatureStimulusSignificance').val();
+            edited_gene.SpecialiazedObj.SensoryNeuron = $('#geneCreatureStimulusReaction').val();
+            edited_gene.SpecialiazedObj.Features = $('#geneCreatureStimulusIntensity').val();
+            if ($('#geneCreatureStimulusModulate').prop('checked')) {
+                edited_gene.SpecialiazedObj.Modulate = true;
+            } else {
+                edited_gene.SpecialiazedObj.Modulate = false;
+            }
+            if ($('#geneCreatureStimulusDetected').prop('checked')) {
+                edited_gene.SpecialiazedObj.Detected = true;
+            } else {
+                edited_gene.SpecialiazedObj.Detected = false;
+            }
+            if ($('#geneCreatureStimulusSilent0').prop('checked')) {
+                edited_gene.SpecialiazedObj.Silent0 = true;
+            } else {
+                edited_gene.SpecialiazedObj.Silent0 = false;
+            }
+            edited_gene.SpecialiazedObj.Drive0 = $('#geneCreatureStimulusChemical0').val();
+            edited_gene.SpecialiazedObj.Amount0 = $('#geneCreatureStimulusAmount0').val();
+            if ($('#geneCreatureStimulusSilent1').prop('checked')) {
+                edited_gene.SpecialiazedObj.Silent1 = true;
+            } else {
+                edited_gene.SpecialiazedObj.Silent1 = false;
+            }
+            edited_gene.SpecialiazedObj.Drive1 = $('#geneCreatureStimulusChemical1').val();
+            edited_gene.SpecialiazedObj.Amount1 = $('#geneCreatureStimulusAmount1').val();
+            if ($('#geneCreatureStimulusSilent2').prop('checked')) {
+                edited_gene.SpecialiazedObj.Silent2 = true;
+            } else {
+                edited_gene.SpecialiazedObj.Silent2 = false;
+            }
+            edited_gene.SpecialiazedObj.Drive2 = $('#geneCreatureStimulusChemical2').val();
+            edited_gene.SpecialiazedObj.Amount2 = $('#geneCreatureStimulusAmount2').val();
+            if ($('#geneCreatureStimulusSilent3').prop('checked')) {
+                edited_gene.SpecialiazedObj.Silent3 = true;
+            } else {
+                edited_gene.SpecialiazedObj.Silent3 = false;
+            }
+            edited_gene.SpecialiazedObj.Drive3 = $('#geneCreatureStimulusChemical3').val();
+            edited_gene.SpecialiazedObj.Amount3 = $('#geneCreatureStimulusAmount3').val();
         }
     }
 
