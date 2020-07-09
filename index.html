@@ -1523,6 +1523,48 @@
         </div>
     </div>
 
+    <!-- Creature Pigment -->
+    <div id="geneCreaturePigment" name="specializedPane">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Colour Information</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">Reaction</div>
+                        <div class="col-md-4">
+                            <select class="form-control" id="geneCreaturePigmentColour">
+                                <option value="0">Red</option>
+                                <option value="1">Green</option>
+                                <option value="2">Blue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            Muted
+                        </div>
+                        <div class="col-md-4 text-center">
+                            Normal
+                        </div>
+                        <div class="col-md-2">
+                            Bright
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="range" class="custom-range" min="0" max="255" id="geneCreaturePigmentColourAmountOfColour" gk-label="geneCreaturePigmentColourAmountOfColour_label" onChange="updateRangeLabel($(this))">
+                        </div>
+                        <div class="col-md-2">
+                            <span id="geneCreaturePigmentColourAmountOfColour_label">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Optional JavaScript -->

@@ -666,6 +666,12 @@ function startGeneModal(gene_obj) {
         $('#geneCreatureInstictReinforcementDrive').val(gene_obj.SpecialiazedObj.ReinforcementDrive);
         $('#geneCreatureInstictReinforcementLevel').val(gene_obj.SpecialiazedObj.ReinforcementLevel);
         $('#geneCreatureInstictReinforcementLevel').change();
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 6) {
+        //Creature Pigment
+        $('#geneModalSpecialized').append($('#geneCreaturePigment'));
+        $('#geneCreaturePigmentColour').val(gene_obj.SpecialiazedObj.PigmentColour);
+        $('#geneCreaturePigmentColourAmountOfColour').val(gene_obj.SpecialiazedObj.AmountOfColour);
+        $('#geneCreaturePigmentColourAmountOfColour').change();
     }
 
     edited_gene = gene_obj;
@@ -973,6 +979,10 @@ function saveGeneModal() {
             edited_gene.SpecialiazedObj.Action = $('#geneCreatureInstictAction').val();
             edited_gene.SpecialiazedObj.ReinforcementDrive = $('#geneCreatureInstictReinforcementDrive').val();
             edited_gene.SpecialiazedObj.ReinforcementLevel = $('#geneCreatureInstictReinforcementLevel').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 6) {
+            //Creature Pigment
+            edited_gene.SpecialiazedObj.PigmentColour = $('#geneCreaturePigmentColour').val();
+            edited_gene.SpecialiazedObj.AmountOfColour = $('#geneCreaturePigmentColourAmountOfColour').val();
         }
     }
 
