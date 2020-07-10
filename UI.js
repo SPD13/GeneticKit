@@ -1228,3 +1228,33 @@ function updateVariablesTable() {
 
     $('#variablesMessage').html("");
 }
+
+function moveGeneUp(cnt) {
+    if (table) {
+        selected_rows_index = table.row('.selected').index();
+        if (selected_rows_index>0) {
+            gene1 = genes[selected_rows_index-1];
+            genes[selected_rows_index-1] = genes[selected_rows_index];
+            genes[selected_rows_index] = gene1;
+            genes[selected_rows_index-1].EntryNumber = selected_rows_index - 1;
+            genes[selected_rows_index].EntryNumber = selected_rows_index;
+            refreshDataTable();
+            table.row(selected_rows_index-1).select();
+        }
+    }
+}
+
+function moveGeneDown(cnt) {
+    if (table) {
+        selected_rows_index = table.row('.selected').index();
+        if (selected_rows_index<genes.length) {
+            gene1 = genes[selected_rows_index+1];
+            genes[selected_rows_index+1] = genes[selected_rows_index];
+            genes[selected_rows_index] = gene1;
+            genes[selected_rows_index+1].EntryNumber = selected_rows_index + 1;
+            genes[selected_rows_index].EntryNumber = selected_rows_index;
+            refreshDataTable();
+            table.row(selected_rows_index+1).select();
+        }
+    }
+}
