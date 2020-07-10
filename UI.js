@@ -6,6 +6,8 @@ $( document ).ready(function() {
 });
 
 function initUI() {
+    //Update fixed tables
+    updateBiochemistryTable();
     //Gene header
     $('#geneModalGeneHeader').append($('#geneHeader'));
     //Programmatically replicate SVRules controls
@@ -1129,4 +1131,38 @@ function updateBrainMap(){
     $('#brainMapTractSummary').html(nTracts + " Tracts");
 
     $('#brainMapMessage').html("");
+}
+
+function updateBiochemistryTable() {
+    $('#biochemistryMessage').html("Loading Data...please wait...");
+    var nUsed = 0;
+    for (var i=0; i<Chemicals_str.length; i++) {
+        var str = Chemicals_str[i];
+        if (str != "") {
+            nUsed++;
+        } else {
+            str = "Unused Chemical "+i;
+        }
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td>' + i + '</td>';
+        cols += '<td>' + str + '</td>';
+        cols += '<td>' + ChemicalsDescription_str[i] + '</td>';
+        newRow.append(cols);
+        $("#biochemistryTable").append(newRow);
+    }
+    //Supplement
+    for (var i=Chemicals_str.length; i<256; i++) {
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td>' + i + '</td>';
+        cols += '<td>Unused Chemical ' + i + '</td>';
+        cols += '<td></td>';
+        newRow.append(cols);
+        $("#biochemistryTable").append(newRow);
+    }
+
+    $('#biochemistrySummary').html(nUsed + " Chemicals in use, "+(256-nUsed)+" slots free");
+
+    $('#biochemistryMessage').html("");
 }
