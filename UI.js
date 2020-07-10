@@ -1071,3 +1071,62 @@ function updateGenotype() {
     output += '<hr><div class="row"><div class="col-auto">'+genes.length+' genes total</b></div></div>';
     $('#genotypeStats').html(output);
 }
+
+function updateBrainMap(){
+    $('#brainMapMessage').html("Loading Data...please wait...");
+    //Lobes
+    var nbNeurons = 0;
+    var nLobes = 0;
+    for (var i=0; i<genes.length; i++) {
+        if (genes[i].GeneType == 0 && genes[i].GeneSubType == 0) {
+            nLobes++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td>'+genes[i].SpecialiazedObj.LobeId+'</td>';
+            cols += '<td>' + genes[i].descriptionString() + '</td>';
+            cols += '<td>?</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.UpdateTime+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.Tissue+'</td>';
+            var cnt = genes[i].SpecialiazedObj.getNeuronsCount();
+            nbNeurons += cnt;
+            cols += '<td>'+cnt+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.X+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.Y+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.Width+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.Height+'</td>';
+            newRow.append(cols);
+            $("#brainTable").append(newRow);
+        }
+    }
+    $('#brainMapSummary').html(nbNeurons + " Neurons in " + nLobes + " Lobes");
+
+    //Tract
+    var nTracts = 0;
+    for (var i=0; i<genes.length; i++) {
+        if (genes[i].GeneType == 0 && genes[i].GeneSubType == 2) {
+            nTracts++;
+            var newRow = $("<tr>");
+            var cols = "";
+            cols += '<td>'+genes[i].SpecialiazedObj.getPathString()+'</td>';
+            cols += '<td>?</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.UpdateTime+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.SourceLobeLowerBound+' to '+genes[i].SpecialiazedObj.SourceLobeUpperBound+'</td>';
+            cols += '<td>'+genes[i].SpecialiazedObj.DestinationLobeLowerBound+' to '+genes[i].SpecialiazedObj.DestinationLobeUpperBound+'</td>';
+            if (genes[i].SpecialiazedObj.UseRandom) {
+                cols += '<td>Yes</td>';
+            } else {
+                cols += '<td>No</td>';
+            }
+            if (genes[i].SpecialiazedObj.NoConnectionsIsRandom) {
+                cols += '<td>Random</td>';
+            } else {
+                cols += '<td>Specified</td>';
+            }
+            newRow.append(cols);
+            $("#brainTractTable").append(newRow);
+        }
+    }
+    $('#brainMapTractSummary').html(nTracts + " Tracts");
+
+    $('#brainMapMessage').html("");
+}

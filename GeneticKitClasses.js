@@ -299,6 +299,13 @@ class GeneBrainLobe {
             this.UpdateSVRule.setSVNote(SVNoteObj);
         }
     }
+
+    getNeuronsCount() {
+        if (this.Width != null && this.Height != null) {
+            return this.Width * this.Height;
+        }
+        return 0;
+    }
 }
 
 class GeneOrgan {
@@ -392,6 +399,13 @@ class GeneBrainTract {
             //Update rule
             this.UpdateSVRule.setSVNote(SVNoteObj);
         }
+    }
+
+    getPathString() {
+        if (this.SourceLobeId != null && this.DestinationLobeId != null) {
+           return  this.SourceLobeId + "->" + this.DestinationLobeId;
+        }
+        return "Unknown";
     }
 }
 

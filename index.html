@@ -28,6 +28,10 @@
                aria-selected="false" onclick="updateGenotype()">Genotype</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="brain-tab" data-toggle="tab" href="#brain" role="tab" aria-controls="brain"
+               aria-selected="false" onclick="updateBrainMap()">Brain</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="editor-tab" data-toggle="tab" href="#editor" role="tab" aria-controls="editor"
                aria-selected="false">Gene Editor</a>
         </li>
@@ -45,6 +49,47 @@
         </div>
         <div class="tab-pane fade" id="genotype" role="tabpanel" aria-labelledby="genotype-tab">
             <div class="container" id="genotypeStats">
+            </div>
+        </div>
+        <div class="tab-pane fade" id="brain" role="tabpanel" aria-labelledby="brain-tab">
+            <div class="container" id="brainMapMessage">
+            </div>
+            <div style="height: 300px;overflow: auto">
+                <table class="table table-striped table-bordered table-sm" id="brainTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">LobeId</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Clone</th>
+                            <th scope="col">Update Time</th>
+                            <th scope="col">Tissue</th>
+                            <th scope="col">Neurons</th>
+                            <th scope="col">X</th>
+                            <th scope="col">Y</th>
+                            <th scope="col">Width</th>
+                            <th scope="col">Height</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="container" id="brainMapSummary">
+            </div>
+            <div style="height: 300px;overflow: auto">
+                <table class="table table-striped table-bordered table-sm" id="brainTractTable">
+                    <thead>
+                    <tr>
+                        <th scope="col">Tract</th>
+                        <th scope="col">Clone</th>
+                        <th scope="col">Update Time</th>
+                        <th scope="col">Source Bound</th>
+                        <th scope="col">Destination Bound</th>
+                        <th scope="col">Migrates</th>
+                        <th scope="col">No Connections</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="container" id="brainMapTractSummary">
             </div>
         </div>
         <div class="tab-pane fade" id="editor" role="tabpanel" aria-labelledby="editor-tab">
