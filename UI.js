@@ -8,6 +8,7 @@ $( document ).ready(function() {
 function initUI() {
     //Update fixed tables
     updateBiochemistryTable();
+    updatePosesTable();
     //Gene header
     $('#geneModalGeneHeader').append($('#geneHeader'));
     //Programmatically replicate SVRules controls
@@ -1165,4 +1166,38 @@ function updateBiochemistryTable() {
     $('#biochemistrySummary').html(nUsed + " Chemicals in use, "+(256-nUsed)+" slots free");
 
     $('#biochemistryMessage').html("");
+}
+
+function updatePosesTable() {
+    $('#posesMessage').html("Loading Data...please wait...");
+    var nUsed = 0;
+    for (var i=0; i<Pose_str.length; i++) {
+        var str = Pose_str[i];
+        if (str != "") {
+            nUsed++;
+        } else {
+            str = "Unused Pose "+i;
+        }
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td>' + i + '</td>';
+        cols += '<td>' + str + '</td>';
+        cols += '<td></td>'; //Don't know where the description could be coming from...
+        newRow.append(cols);
+        $("#posesTable").append(newRow);
+    }
+    //Supplement
+    for (var i=Pose_str.length; i<256; i++) {
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td>' + i + '</td>';
+        cols += '<td>Unused Pose ' + i + '</td>';
+        cols += '<td></td>';
+        newRow.append(cols);
+        $("#posesTable").append(newRow);
+    }
+
+    $('#posesSummary').html(nUsed + " Poses in use, "+(256-nUsed)+" slots free");
+
+    $('#posesMessage').html("");
 }
