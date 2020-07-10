@@ -10,7 +10,7 @@ GeneTypes_str = [
 GeneSubTypes_str = [
     ["Brain Lobe", "Brain Organ", "Brain Tract"],
     ["Receptor", "Emitter", "Reaction", "Half-Life", "Initial Concentration", "Neuro Emitter"],
-    ["Stimulus", "Genus", "Appearance", "Pose", "Gait", "Instinct", "Pigment", "Pigment Bleed"],
+    ["Stimulus", "Genus", "Appearance", "Pose", "Gait", "Instinct", "Pigment", "Pigment Bleed", "Facial Expression"],
     ["Organ"]
 ];
 SwitchOn_str = [
