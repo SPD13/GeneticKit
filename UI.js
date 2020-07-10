@@ -9,6 +9,7 @@ function initUI() {
     //Update fixed tables
     updateBiochemistryTable();
     updatePosesTable();
+    updateVariablesTable();
     //Gene header
     $('#geneModalGeneHeader').append($('#geneHeader'));
     //Programmatically replicate SVRules controls
@@ -1200,4 +1201,30 @@ function updatePosesTable() {
     $('#posesSummary').html(nUsed + " Poses in use, "+(256-nUsed)+" slots free");
 
     $('#posesMessage').html("");
+}
+
+function updateVariablesTable() {
+    $('#variablesMessage').html("Loading Data...please wait...");
+    //Neuron Variables
+    for (var i=0; i<NeuronVariable_str.length; i++) {
+        var str = NeuronVariable_str[i];
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td>Neuron Variable ' + i + '</td>';
+        cols += '<td>' + str + '</td>';
+        newRow.append(cols);
+        $("#variablesTable").append(newRow);
+    }
+    //Dendrites Variables
+    for (var i=0; i<DendriteVariable_str.length; i++) {
+        var str = DendriteVariable_str[i];
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td>Dendrite Variable ' + i + '</td>';
+        cols += '<td>' + str + '</td>';
+        newRow.append(cols);
+        $("#variablesTable").append(newRow);
+    }
+
+    $('#variablesMessage').html("");
 }
