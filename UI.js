@@ -403,6 +403,7 @@ function startGeneModal(gene_obj) {
     $('#headerVariant').val(gene_obj.ExpressionVariant);
     //Gene notes
     if (gene_obj.GeneNoteObj) {
+        $('#headerGeneCaption').val(gene_obj.GeneNoteObj.Caption);
         $('#geneNotes').val(gene_obj.GeneNoteObj.RichText);
     }
 
@@ -795,6 +796,7 @@ function saveGeneModal() {
             note_obj = new GeneNote(null);
             edited_gene.GeneNoteObj = note_obj;
         }
+        note_obj.Caption = $('#headerGeneCaption').val();
         note_obj.RichText = $('#geneNotes').val();
 
         if (edited_gene.GeneType == 0 && edited_gene.GeneSubType == 0) {
@@ -1034,4 +1036,37 @@ function saveGeneModal() {
 
     refreshDataTable();
     $('#geneModal').modal('hide');
+}
+
+function updateGenotype() {
+    $('#genotypeStats').html("Loading... Please wait...");
+    genesCount = [[0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],[0]];
+    nMale = 0;
+    nFemale = 0;
+    nCarry = 0;
+
+    for (var i=0; i<genes.length; i++) {
+        genesCount[genes[i].GeneType][genes[i].GeneSubType]++;
+        if (genes[i].MaleOnly) {
+            nMale++;
+        }
+        if (genes[i].FemaleOnly) {
+            nFemale++;
+        }
+        if (genes[i].Carry) {
+            nCarry++;
+        }
+    }
+
+    output = '<div class="row"><div class="col-md-6"><b>Type</b></div><div class="col-md-3"><b>Total</b></div><div class="col-md-3"><b>Mutations</b></div></div>';
+    for (i=0; i<genesCount.length; i++) {
+        for (var j=0; j<genesCount[i].length; j++) {
+            output += '<div class="row"><div class="col-md-6">'+GeneSubTypes_str[i][j]+'</div><div class="col-md-3">'+genesCount[i][j]+'</div><div class="col-md-3">?</div></div>';
+        }
+    }
+    //Addditional stats
+    output += '<div class="row"><div class="col-md-6">Total Male Specific Genes</div><div class="col-md-3">'+nMale+'</div><div class="col-md-3">?</div></div>';
+    output += '<div class="row"><div class="col-md-6">Total Female Specific Genes</div><div class="col-md-3">'+nFemale+'</div><div class="col-md-3">?</div></div>';
+    output += '<div class="row"><div class="col-md-6">Total not expressed (Carried)</div><div class="col-md-3">'+nCarry+'</div><div class="col-md-3">-</div></div>';
+    $('#genotypeStats').html(output);
 }

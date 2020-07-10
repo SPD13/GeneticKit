@@ -24,6 +24,10 @@
                aria-selected="true">Cover</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" id="genotype-tab" data-toggle="tab" href="#genotype" role="tab" aria-controls="genotype"
+               aria-selected="false" onclick="updateGenotype()">Genotype</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" id="editor-tab" data-toggle="tab" href="#editor" role="tab" aria-controls="editor"
                aria-selected="false">Gene Editor</a>
         </li>
@@ -38,6 +42,10 @@
             <br>
             <input type="file" name="inputgnofile" id="inputgnofile">
             <pre id="file_loading_output"></pre>
+        </div>
+        <div class="tab-pane fade" id="genotype" role="tabpanel" aria-labelledby="genotype-tab">
+            <div class="container" id="genotypeStats">
+            </div>
         </div>
         <div class="tab-pane fade" id="editor" role="tabpanel" aria-labelledby="editor-tab">
             <pre id="output"></pre>
@@ -170,7 +178,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto container">
                     <div class="row">
                         <div class="col-auto pull-left">
                             <label class="control-label">Variant</label>
@@ -181,9 +189,21 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-2">
+                    Caption
+                </div>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="headerGeneCaption"/>
+                </div>
+            </div>
             <div class="form-row align-items-center">
-                <textarea class="form-control" name="geneNotes">
-                </textarea>
+                <div class="col-md-2">
+                    Notes
+                </div>
+                <div class="col-md-10">
+                    <textarea class="form-control" name="geneNotes"></textarea>
+                </div>
             </div>
         </div>
     </div>
