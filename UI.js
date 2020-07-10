@@ -1068,5 +1068,6 @@ function updateGenotype() {
     output += '<div class="row"><div class="col-md-6">Total Male Specific Genes</div><div class="col-md-3">'+nMale+'</div><div class="col-md-3">?</div></div>';
     output += '<div class="row"><div class="col-md-6">Total Female Specific Genes</div><div class="col-md-3">'+nFemale+'</div><div class="col-md-3">?</div></div>';
     output += '<div class="row"><div class="col-md-6">Total not expressed (Carried)</div><div class="col-md-3">'+nCarry+'</div><div class="col-md-3">-</div></div>';
+    output += '<hr><div class="row"><div class="col-auto">'+genes.length+' genes total</b></div></div>';
     $('#genotypeStats').html(output);
 }
