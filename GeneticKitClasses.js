@@ -107,6 +107,9 @@ class Gene {
             } else if (this.GeneSubType == 7) {
                 //Pigment bleed
                 this.SpecialiazedObj = new GeneCreaturePigmentBleed(bytes.slice(8), this);
+            } else if (this.GeneSubType == 8) {
+                //Facial Expression
+                this.SpecialiazedObj = new GeneCreatureFacialExpression(bytes.slice(8), this);
             }
         } else if (this.GeneType == 3) {
             //Organ
@@ -877,6 +880,47 @@ class GeneCreaturePigmentBleed {
 
     getBytes() {
         return new Uint8Array([this.Rotation, this.Swap]);
+
+        return bytes;
+    }
+}
+
+class GeneCreatureFacialExpression {
+    Expression = null;
+    Weight = null;
+    Drive0 = null;
+    Amount0 = null;
+    Drive1 = null;
+    Amount1 = null;
+    Drive2 = null;
+    Amount2 = null;
+    Drive3 = null;
+    Amount3 = null;
+    Spare = 0;
+
+    ParentObj = null;
+
+    constructor(bytes, parent_obj) {
+        this.ParentObj = parent_obj;
+        this.readFromBytes(bytes);
+    }
+
+    readFromBytes(bytes) {
+        this.Expression = bytes[0];
+        this.Spare = bytes[1];
+        this.Weight = bytes[2];
+        this.Drive0 = bytes[3];
+        this.Amount0 = bytes[4];
+        this.Drive1 = bytes[5];
+        this.Amount1 = bytes[6];
+        this.Drive2 = bytes[7];
+        this.Amount2 = bytes[8];
+        this.Drive3 = bytes[9];
+        this.Amount3 = bytes[10];
+    }
+
+    getBytes() {
+        return new Uint8Array([this.Expression, this.Spare, this.Weight, this.Drive0, this.Amount0, this.Drive1, this.Amount1, this.Drive2, this.Amount2,, this.Drive3, this.Amount3]);
 
         return bytes;
     }

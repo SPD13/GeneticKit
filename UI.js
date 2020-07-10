@@ -66,6 +66,11 @@ function initUI() {
     fillSelectWithPoses($('#geneCreatureGaitPose8'), true);
     //Creature Instincts
     fillSelectWithChemicalsDrive($('#geneCreatureInstictReinforcementDrive'));
+    //Creature Facial Expression
+    fillSelectWithChemicalsDrive($('#geneCreatureFacialExpressionDrive0'));
+    fillSelectWithChemicalsDrive($('#geneCreatureFacialExpressionDrive1'));
+    fillSelectWithChemicalsDrive($('#geneCreatureFacialExpressionDrive2'));
+    fillSelectWithChemicalsDrive($('#geneCreatureFacialExpressionDrive3'));
 }
 
 function initUISVRule(prefix) {
@@ -679,6 +684,24 @@ function startGeneModal(gene_obj) {
         $('#geneCreaturePigmentBleedRotation').change();
         $('#geneCreaturePigmentBleedSwap').val(gene_obj.SpecialiazedObj.Swap);
         $('#geneCreaturePigmentBleedSwap').change();
+    } else if (gene_obj.GeneType == 2 && gene_obj.GeneSubType == 8) {
+        //Creature Facial Expression
+        $('#geneModalSpecialized').append($('#geneCreatureFacialExpression'));
+        $('#geneCreatureFacialExpressionExpressionID').val(gene_obj.SpecialiazedObj.Expression);
+        $('#geneCreatureFacialExpressionWeight').val(gene_obj.SpecialiazedObj.Weight);
+        $('#geneCreatureFacialExpressionWeight').change();
+        $('#geneCreatureFacialExpressionDrive0').val(gene_obj.SpecialiazedObj.Drive0);
+        $('#geneCreatureFacialExpressionAmount0').val(gene_obj.SpecialiazedObj.Amount0);
+        $('#geneCreatureFacialExpressionAmount0').change();
+        $('#geneCreatureFacialExpressionDrive1').val(gene_obj.SpecialiazedObj.Drive1);
+        $('#geneCreatureFacialExpressionAmount1').val(gene_obj.SpecialiazedObj.Amount1);
+        $('#geneCreatureFacialExpressionAmount1').change();
+        $('#geneCreatureFacialExpressionDrive2').val(gene_obj.SpecialiazedObj.Drive2);
+        $('#geneCreatureFacialExpressionAmount2').val(gene_obj.SpecialiazedObj.Amount2);
+        $('#geneCreatureFacialExpressionAmount2').change();
+        $('#geneCreatureFacialExpressionDrive3').val(gene_obj.SpecialiazedObj.Drive3);
+        $('#geneCreatureFacialExpressionAmount3').val(gene_obj.SpecialiazedObj.Amount3);
+        $('#geneCreatureFacialExpressionAmount3').change();
     }
 
     edited_gene = gene_obj;
@@ -994,6 +1017,18 @@ function saveGeneModal() {
             //Creature Pigment Bleed
             edited_gene.SpecialiazedObj.Rotation = $('#geneCreaturePigmentBleedRotation').val();
             edited_gene.SpecialiazedObj.Swap = $('#geneCreaturePigmentBleedSwap').val();
+        } else if (edited_gene.GeneType == 2 && edited_gene.GeneSubType == 8) {
+            //Creature Facial Expression
+            edited_gene.SpecialiazedObj.Expression = $('#geneCreatureFacialExpressionExpressionID').val();
+            edited_gene.SpecialiazedObj.Weight = $('#geneCreatureFacialExpressionWeight').val();
+            edited_gene.SpecialiazedObj.Drive0 = $('#geneCreatureFacialExpressionDrive0').val();
+            edited_gene.SpecialiazedObj.Amount0 = $('#geneCreatureFacialExpressionAmount0').val();
+            edited_gene.SpecialiazedObj.Drive1 = $('#geneCreatureFacialExpressionDrive1').val();
+            edited_gene.SpecialiazedObj.Amount1 = $('#geneCreatureFacialExpressionAmount1').val();
+            edited_gene.SpecialiazedObj.Drive2 = $('#geneCreatureFacialExpressionDrive2').val();
+            edited_gene.SpecialiazedObj.Amount2 = $('#geneCreatureFacialExpressionAmount2').val();
+            edited_gene.SpecialiazedObj.Drive3 = $('#geneCreatureFacialExpressionDrive3').val();
+            edited_gene.SpecialiazedObj.Amount3 = $('#geneCreatureFacialExpressionAmount3').val();
         }
     }
 
